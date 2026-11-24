@@ -1,3 +1,4 @@
-# Offline tools only (tools/iq_pack.py, mtp_*.py, make_profile*.py, ...). Not needed to build or run the engines.
-numpy
-regex
+# Optional offline conversion only: CPython 3.11, Linux x86-64, glibc >= 2.28.
+# Wheel identities verified against PyPI release JSON; no serving dependency.
+numpy==2.3.4 --hash=sha256:a7b2f9a18b5ff9824a6af80de4f37f4ec3c2aab05ef08f51c77a093f5b89adda
+regex==2025.11.3 --hash=sha256:10483eefbfb0adb18ee9474498c9a32fcf4e594fbca0543bb94c48bac6183e2e

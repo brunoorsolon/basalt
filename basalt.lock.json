@@ -1,0 +1,18 @@
+{
+  "unbiased_strata": {
+    "url": "https://github.com/robertkarl/UnbiasedStrata",
+    "ref": "refs/heads/main",
+    "commit": "9f75192287c2abf88c77da3b4b6f54ccee01db83"
+  },
+  "llama_cpp": {
+    "url": "https://github.com/robertkarl/llama.cpp.git",
+    "commit": "db1f382bb25f9cc481893105dbead09c86a52f01"
+  },
+  "rdna4_comparison": {
+    "url": "https://github.com/vectorweft/strata-rdna4",
+    "ref": "refs/heads/main",
+    "commit": "e128da05bb493796a51cab0c30aa331ba6648db1",
+    "development_base": "a79080535d1b2a71a3419a0d97d8e7dca194b0f1",
+    "imported_commits": []
+  }
+}
