@@ -1,10 +1,10 @@
-# Basalt upstream record
+# Redrock upstream record
 
-Contents: [Baselines](#basalt-baselines-and-review-boundaries) · [RDNA4 assessment](#initial-rdna4-dispositions) · [Updates](#repeatable-update-procedure) · [Inherited sources](#inherited-unbiasedstrata-provenance) · [Inherited engine changes](#engine-source-src-include) · [Inherited removals](#removed).
+Contents: [Baselines](#redrock-baselines-and-review-boundaries) · [RDNA4 assessment](#initial-rdna4-dispositions) · [Updates](#repeatable-update-procedure) · [Inherited sources](#inherited-unbiasedstrata-provenance) · [Inherited engine changes](#engine-source-src-include) · [Inherited removals](#removed).
 
-## Basalt baselines and review boundaries
+## Redrock baselines and review boundaries
 
-Basalt owns its downstream changes and eventual releases. Upstream authors own their contributions; their notices and ancestry remain intact. Source identity comes from the Basalt release commit and its dependency pins, not a review bookmark. There is no Basalt release or hardware-qualified configuration yet.
+Redrock owns its downstream changes and eventual releases. Upstream authors own their contributions; their notices and ancestry remain intact. Source identity comes from the Redrock release commit and its dependency pins, not a review bookmark. There is no Redrock release or hardware-qualified configuration yet.
 
 | Source | Canonical URL / tracked ref | Frozen initial head |
 | --- | --- | --- |
@@ -12,9 +12,9 @@ Basalt owns its downstream changes and eventual releases. Upstream authors own t
 | AMD comparison | https://github.com/vectorweft/strata-rdna4 / `refs/heads/main` | `e128da05bb493796a51cab0c30aa331ba6648db1` |
 | Actual llama.cpp/ggml dependency | https://github.com/robertkarl/llama.cpp.git / committed gitlink, not a tracked branch | `db1f382bb25f9cc481893105dbead09c86a52f01` |
 
-Import method: merge UnbiasedStrata's unrelated history into Basalt's feature branch, retaining Basalt's initial commit `a0d0f20159d9cc2e551acf3aec792bf954c2cd91`. The import commit is `02d73945c4e8221aced960b119b35ecb546e4a94`; both parents are retained. No `.git` replacement, origin change, history rewrite or RDNA4-tree merge was used. The Basalt license notice was restored alongside the retained Strata notice in the downstream commit. `src/`, `include/` and the upstream CMake build remain unchanged from the selected baseline.
+The project was named Basalt at import. Import method: merge UnbiasedStrata's unrelated history into Basalt's feature branch, retaining Basalt's initial commit `a0d0f20159d9cc2e551acf3aec792bf954c2cd91`. The import commit is `02d73945c4e8221aced960b119b35ecb546e4a94`; both parents are retained. No `.git` replacement, origin change, history rewrite or RDNA4-tree merge was used. The Basalt license notice was restored alongside the retained Strata notice in the downstream commit. `src/`, `include/` and the upstream CMake build remain unchanged from the selected baseline.
 
-The inherited record below is retained as historical provenance, not silently rewritten as Basalt validation. In particular, its earlier submodule versions describe earlier imports: the actual current dependency is the gitlink/lock above. Vendored components are frozen by the Basalt commit's tree; their upstream origins remain documented below. The selected entry point builds only `strata` or `strata-poly`; it neither builds the other vendored engines nor fetches their prerequisites.
+The inherited record below is retained as historical provenance, not silently rewritten as Redrock validation. In particular, its earlier submodule versions describe earlier imports: the actual current dependency is the gitlink/lock above. Vendored components are frozen by the Redrock commit's tree; their upstream origins remain documented below. The selected entry point builds only `strata` or `strata-poly`; it neither builds the other vendored engines nor fetches their prerequisites.
 
 ### Review bookmarks
 
@@ -41,7 +41,7 @@ The inherited record below is retained as historical provenance, not silently re
 | Helper caches, layer split, adaptive/pinned RAM tier, tensor-parallel prototype: `19d3bf5592379c542bf727fd6d96f5f77d465fc5`, `bba0d25abe1d2501f38031f44de94912c34bb687`, `911bdeb64641e6f5b330117b4e551b3e556f89e1`, `390dd9d0f56fa5460cff2c296910135b6e8d6cdc`, `2c4f312aa2034b472dc45b4f4e21282457bc3895`, `5a179cac43766f5bab6e7894921fc6d33c1c874d`, `3cf89dd3251f72ca041799797c244714bd114694`, `ecfc0a9f90a75db1fc2f056b1de0fb7a7d5c0917`, `e3edf93d02deb37d1acdb9fda5779599c54004de`, `558aecbea9f7e45dbcc4a24cb2e179adc657868a` | **Deferred / outside first qualification.** Additional devices change peer access, memory ownership, streams, pinned-pool sizing and model state. Start with a single R9700. Revisit only for an explicitly approved homogeneous multi-GPU target after that baseline, preserving existing capabilities rather than enabling a new helper policy globally. Mixed-vendor execution is not authorized. |
 | Long-session changes: `957dbf4aaf524322e726fb02560b4fe02f1eeff4` | **Split disposition.** Python server sampling/thinking continuation is **out of scope**, not an AMD kernel requirement. Helper-buffer growth fix and POSIX stack-reporting diagnostics are **deferred**: the former depends on the helper-compute code above, the latter changes signal/thread behavior. Revisit with a concrete equivalent failure in the newer baseline; do not import a broad server behavior change to obtain a buffer fix. |
 | Broad upstream merge: `f1c4d045488c11e539f69a23a8101669950c4c07` | **No merge; full internal review deferred.** It brings Strata 0.1.30, conversation-cache work, Docker/setup/server/UI changes and earlier RDNA4 integration into the fork. It is not a cohesive AMD optimization. The newer UnbiasedStrata snapshot is authoritative here. Revisit individual missing fixes only after reconciling each merged source against that baseline; no full-review bookmark is claimed for this merge. |
-| Benchmark records and deployment prose: `5578af5de98e9d479033b6d13dc7b727e9314f0c`, `ed3612f7c6e74ae8af31b64fefced1c4260e2ab8`, `3a996f2c5cbfd029dbfcd2fac7b473bbe3fee9e6`, `e128da05bb493796a51cab0c30aa331ba6648db1` | **Reference only; out of package.** They document the fork's own two-R9700/UD-Q4_K_XL setup and attribution. They do not qualify Basalt or justify importing its setup/download/UI machinery. Preserve the source links and credit, not private run artifacts or deployment assumptions. |
+| Benchmark records and deployment prose: `5578af5de98e9d479033b6d13dc7b727e9314f0c`, `ed3612f7c6e74ae8af31b64fefced1c4260e2ab8`, `3a996f2c5cbfd029dbfcd2fac7b473bbe3fee9e6`, `e128da05bb493796a51cab0c30aa331ba6648db1` | **Reference only; out of package.** They document the fork's own two-R9700/UD-Q4_K_XL setup and attribution. They do not qualify Redrock or justify importing its setup/download/UI machinery. Preserve the source links and credit, not private run artifacts or deployment assumptions. |
 
 ### Open prerequisites retained across future reviews
 
@@ -53,7 +53,7 @@ The intended existing headless interface is UnbiasedStrata's C++ `unbiased-strat
 
 ## Repeatable update procedure
 
-1. Read this record, including the open prerequisites and every deferred family. Start a feature branch from the maintained Basalt branch; preserve existing work. Completion: the update scope and unresolved dependencies are explicit.
+1. Read this record, including the open prerequisites and every deferred family. Start a feature branch from the maintained Redrock branch; preserve existing work. Completion: the update scope and unresolved dependencies are explicit.
 2. Resolve the tracked upstream refs to full immutable hashes and fetch those objects. Verify ancestry from the applicable baseline/bookmark with `git merge-base --is-ancestor`. Missing or rewritten history requires reconciliation with the human, not a guessed diff. Completion: frozen heads and an ancestry-supported bounded range are recorded.
 3. Assess every change in the bounded range, separating engine behavior, dependency/build changes, model/pack contracts and server/installer/UI work. Check whether the maintained baseline already contains the behavior, including connected callers and tests. Advance a reviewed-through bookmark only for a completely assessed range; retain deferred items even when the bookmark advances. Completion: each change has a disposition and a revisit condition where needed.
 4. Import only justified work in cohesive commits. Use `git cherry-pick -x` where ancestry and code permit; a manual adaptation's commit message must name the canonical repository, full source commit hashes and changed assumptions. Dependency changes belong in reviewed source commits/pinned forks and gitlinks, never configuration-time patch/copy substitution. Completion: the maintained delta and its provenance are reviewable.
