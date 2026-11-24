@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import platform
 import shutil
@@ -14,8 +15,8 @@ DEPENDENCY = Path("third_party/llama.cpp")
 TARGETS = {"hip": ("gfx1201", "gfx1101"), "cuda": ("86",)}
 
 
-def run(args, cwd=ROOT):
-    return subprocess.check_output([str(a) for a in args], cwd=cwd, text=True)
+def run(args, cwd=ROOT, env=None):
+    return subprocess.check_output([str(a) for a in args], cwd=cwd, env=env, text=True)
 
 
 def require(condition, message):
@@ -64,6 +65,18 @@ def executable(value):
     return str(Path(path).resolve())
 
 
+def build_environment():
+    overrides = sorted(name for name, value in os.environ.items() if value and (
+        name.startswith(("CMAKE_", "NVCC_")) or name in {
+            "CC", "CXX", "CUDACXX", "CUDAHOSTCXX", "HIPCXX", "HIPHOSTCXX",
+            "CFLAGS", "CXXFLAGS", "CUDAFLAGS", "HIPFLAGS", "CPPFLAGS", "LDFLAGS"}))
+    require(not overrides,
+            f"Unset ambient build overrides: {', '.join(overrides)}. Select compilers with --cc, --cxx and --gpu-compiler.")
+    # Preserve only platform discovery/loading inputs; never pass compiler or build-system injection variables.
+    return {name: value for name, value in os.environ.items() if name in {
+        "PATH", "HOME", "TMPDIR", "LD_LIBRARY_PATH", "CUDA_PATH", "ROCM_PATH", "HIP_PATH"}} | {"LC_ALL": "C"}
+
+
 def configure_args(args, build, compilers):
     flags = {
         "CMAKE_BUILD_TYPE": "Release", "CMAKE_C_COMPILER": compilers["cc"],
@@ -109,6 +122,7 @@ def build_candidate(args):
     require(not candidate.is_relative_to(ROOT) and not ROOT.is_relative_to(candidate),
             "Candidate must be outside the source checkout and must not contain it.")
     require(not candidate.exists(), "Candidate already exists; choose a new path. Existing installations are never replaced.")
+    environment = build_environment()
     provenance = identity()
     cmake = executable("cmake")
     compilers = {"cc": executable(args.cc), "cxx": executable(args.cxx),
@@ -121,9 +135,10 @@ def build_candidate(args):
     flags = configure_args(args, build, compilers)
     targets = [args.engine] + (["strata_kq"] if args.backend == "cuda" else [])
     try:
-        subprocess.run([cmake, "-S", str(ROOT), "-B", str(build), *flags], check=True)
+        subprocess.run([cmake, "-S", str(ROOT), "-B", str(build), *flags], env=environment, check=True)
         require(identity() == provenance, "Source identity changed during configuration.")
-        subprocess.run([cmake, "--build", str(build), "--parallel", str(args.jobs), "--target", *targets], check=True)
+        subprocess.run([cmake, "--build", str(build), "--parallel", str(args.jobs), "--target", *targets],
+                       env=environment, check=True)
         require(identity() == provenance, "Source identity changed during compilation.")
         package = candidate / "runtime"
         binary = package / "bin"
@@ -138,9 +153,9 @@ def build_candidate(args):
             shutil.copy2(ROOT / name, metadata / name)
         require(identity() == provenance, "Source identity changed during packaging.")
         record = dict(provenance, backend=args.backend, architecture=args.arch, engine=args.engine,
-                          cmake_version=run([cmake, "--version"]).splitlines()[0],
-                          compiler_versions={k: run([v, "--version"]) for k, v in compilers.items()},
-                          cmake_flags=flags, hardware_qualification="unqualified",
+                          cmake_version=run([cmake, "--version"], env=environment).splitlines()[0],
+                          compiler_versions={k: run([v, "--version"], env=environment) for k, v in compilers.items()},
+                          cmake_flags=flags, build_environment=environment, hardware_qualification="unqualified",
                           runtime_prerequisites="Linux/glibc, libstdc++, and the matching CUDA or ROCm toolkit and driver; see README.md")
         record["sha256"] = {name: hashlib.sha256((binary / name).read_bytes()).hexdigest() for name in outputs}
         (metadata / "build.json").write_text(json.dumps(record, indent=2) + "\n")

@@ -25,7 +25,7 @@ class CandidateTests(unittest.TestCase):
         self.addCleanup(self.root_patch.stop)
         # run's default cwd is bound at definition time; route it to the fixture.
         original_run = basalt.run
-        self.run_patch = patch.object(basalt, "run", lambda args, cwd=None: original_run(args, cwd or self.root))
+        self.run_patch = patch.object(basalt, "run", lambda args, cwd=None, env=None: original_run(args, cwd or self.root, env))
         self.run_patch.start()
         self.addCleanup(self.run_patch.stop)
         self.git(self.root, "init", "-b", "fixture")
@@ -45,7 +45,7 @@ class CandidateTests(unittest.TestCase):
         self.bin.mkdir()
         tool = self.bin / "cmake"
         tool.write_text('''#!/usr/bin/env python3
-import json, pathlib, sys
+import json, os, pathlib, sys
 args = sys.argv[1:]
 if args == ['--version']:
     print('Fixture toolchain, not a compiler')
@@ -53,11 +53,13 @@ elif '-S' in args:
     build = pathlib.Path(args[args.index('-B') + 1])
     build.mkdir(parents=True)
     (build / 'flags.json').write_text(json.dumps(args))
+    (build / 'configure-environment.json').write_text(json.dumps(dict(os.environ)))
     source = pathlib.Path(args[args.index('-S') + 1])
     if (source.parent / 'mutate').exists():
         (source / 'LICENSE').write_text('unexpected configure mutation')
 else:
     build = pathlib.Path(args[1])
+    (build / 'build-environment.json').write_text(json.dumps(dict(os.environ)))
     binary = build / 'bin'
     binary.mkdir()
     for target in args[args.index('--target') + 1:]:
@@ -103,6 +105,33 @@ else:
         self.assertIn("-DSTRATA_ENABLE_HIP=OFF", flags)
         self.assertIn("-DFETCHCONTENT_FULLY_DISCONNECTED=ON", flags)
         self.assertIn("-DGGML_CPU_KLEIDIAI=OFF", flags)
+
+    def test_build_environment_is_controlled_and_recorded(self):
+        overrides = (
+            "CMAKE_TOOLCHAIN_FILE", "CFLAGS", "CXXFLAGS", "CUDAFLAGS", "HIPFLAGS", "LDFLAGS", "CPPFLAGS",
+            "CMAKE_C_COMPILER_LAUNCHER", "CMAKE_CXX_COMPILER_LAUNCHER", "CMAKE_CUDA_COMPILER_LAUNCHER",
+            "CMAKE_HIP_COMPILER_LAUNCHER", "CMAKE_PREFIX_PATH", "NVCC_PREPEND_FLAGS", "NVCC_APPEND_FLAGS",
+            "CC", "CXX", "CUDACXX", "CUDAHOSTCXX", "HIPCXX", "HIPHOSTCXX",
+        )
+        for name in overrides:
+            with self.subTest(variable=name), patch.dict(os.environ, {name: f"override-payload-{name}"}):
+                self.args.candidate = self.base / name
+                with self.assertRaises(RuntimeError):
+                    basalt.build_candidate(self.args)
+                self.assertFalse(self.args.candidate.exists())
+        self.args.candidate = self.base / "controlled-candidate"
+        with patch.dict(os.environ, {"CPATH": "unreviewed-include-path", "BASH_ENV": "unreviewed-shell-script",
+                                     "ROCM_PATH": "explicit-platform-path", "LC_ALL": "C"}):
+            basalt.build_candidate(self.args)
+        record = json.loads((self.args.candidate / "runtime/share/basalt/build.json").read_text())
+        for stage in ("configure", "build"):
+            consumed = json.loads((self.args.candidate / f"build/{stage}-environment.json").read_text())
+            self.assertEqual(consumed, record["build_environment"])
+            self.assertEqual(consumed["ROCM_PATH"], "explicit-platform-path")
+            self.assertNotIn("CPATH", consumed)
+            self.assertNotIn("BASH_ENV", consumed)
+            self.assertTrue(set(overrides).isdisjoint(consumed))
+        self.assertFalse((self.args.candidate / "INCOMPLETE").exists())
 
     def test_existing_installation_and_rollback_remain_untouched(self):
         self.args.candidate.mkdir()
