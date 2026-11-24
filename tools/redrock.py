@@ -25,7 +25,7 @@ def require(condition, message):
 
 
 def pins():
-    lock = json.loads((ROOT / "basalt.lock.json").read_text())
+    lock = json.loads((ROOT / "redrock.lock.json").read_text())
     entry = run(["git", "ls-tree", "HEAD", "--", DEPENDENCY]).split()
     require(entry[:2] == ["160000", "commit"] and entry[2] == lock["llama_cpp"]["commit"],
             "Dependency lock differs from HEAD's gitlink; review and commit the pins together.")
@@ -40,12 +40,12 @@ def clean(repo):
 def identity():
     lock = pins()
     require((ROOT / DEPENDENCY / ".git").exists(),
-            "Dependency is missing; run python3 tools/basalt.py prepare explicitly (network required).")
+            "Dependency is missing; run python3 tools/redrock.py prepare explicitly (network required).")
     require(run(["git", "rev-parse", "HEAD"], ROOT / DEPENDENCY).strip() == lock["llama_cpp"]["commit"],
             "Dependency revision mismatch; preserve local work and check out the locked commit explicitly.")
     clean(ROOT / DEPENDENCY)
     clean(ROOT)
-    return {"basalt_commit": run(["git", "rev-parse", "HEAD"]).strip(), "sources": lock}
+    return {"redrock_commit": run(["git", "rev-parse", "HEAD"]).strip(), "sources": lock}
 
 
 def prepare():
@@ -61,7 +61,7 @@ def prepare():
 
 def executable(value):
     path = shutil.which(value)
-    require(path, f"Required tool '{value}' is missing. Provision it explicitly; Basalt installs nothing.")
+    require(path, f"Required tool '{value}' is missing. Provision it explicitly; Redrock installs nothing.")
     return str(Path(path).resolve())
 
 
@@ -116,7 +116,7 @@ def build_candidate(args):
     require(platform.system() == "Linux" and platform.machine() == "x86_64",
             "This bootstrap supports Linux x86-64 build recipes only.")
     require(args.arch in TARGETS[args.backend],
-            f"Architecture {args.arch!r} is not a Basalt {args.backend} target; choose {TARGETS[args.backend]}.")
+            f"Architecture {args.arch!r} is not a Redrock {args.backend} target; choose {TARGETS[args.backend]}.")
     require(args.jobs > 0, "--jobs must be positive.")
     candidate = args.candidate.expanduser().resolve()
     require(not candidate.is_relative_to(ROOT) and not ROOT.is_relative_to(candidate),
@@ -146,7 +146,7 @@ def build_candidate(args):
         outputs = [args.engine] + (["libstrata_kq.so"] if args.backend == "cuda" else [])
         for name in outputs:
             shutil.copy2(build / "bin" / name, binary / name)
-        metadata = package / "share" / "basalt"
+        metadata = package / "share" / "redrock"
         metadata.mkdir(parents=True)
         licenses(metadata / "licenses")
         for name in ("README.md", "UPSTREAM.md"):
@@ -190,7 +190,7 @@ def main():
         else:
             build_candidate(args)
     except (RuntimeError, OSError, subprocess.CalledProcessError) as error:
-        parser.exit(1, f"basalt: {error}\n")
+        parser.exit(1, f"redrock: {error}\n")
 
 
 if __name__ == "__main__":
