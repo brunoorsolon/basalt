@@ -8,7 +8,7 @@ This first candidate imports the real [UnbiasedStrata](https://github.com/robert
 
 ## Status and targets
 
-**Build recipes are implemented, not yet compilation- or hardware-qualified.** The bootstrap environment has Python and Git but no CMake, C++ compiler, CUDA or HIP compiler. The orchestration tests use fixture toolchains, not compiled engines. Upstream measurements and model-support claims in inherited documents are not Redrock qualification evidence. The downstream HIP EXPDEC alignment fix is recorded in [UPSTREAM.md](UPSTREAM.md#redrock-engine-fixes); a successful build still requires separate synthetic parity and attended model/consumer qualification.
+**The R9700 HIP engine and headless adapter have CPU-only compilation evidence; hardware/model qualification remains open.** The engine build uses the supported wrapper and the adapter is built separately from the same source/dependency combination. The retained fake-engine protocol and HTTP checks also pass without a GPU or model weights; neither those checks nor successful compilation establish GPU correctness, serving confinement or real-consumer qualification. Other targets remain compilation-unverified. Exact build/artifact and platform identities stay in private qualification evidence. The downstream HIP EXPDEC alignment fix is recorded in [UPSTREAM.md](UPSTREAM.md#redrock-engine-fixes). Upstream measurements and model-support claims in inherited documents are not Redrock qualification evidence.
 
 | Separate target | Explicit selection | Redrock qualification |
 | --- | --- | --- |
