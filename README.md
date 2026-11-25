@@ -8,7 +8,7 @@ This first candidate imports the real [UnbiasedStrata](https://github.com/robert
 
 ## Status and targets
 
-**Build recipes are implemented, not yet compilation- or hardware-qualified.** The bootstrap environment has Python and Git but no CMake, C++ compiler, CUDA or HIP compiler. The orchestration tests use fixture toolchains, not compiled engines. Upstream measurements and model-support claims in inherited documents are not Redrock qualification evidence.
+**Build recipes are implemented, not yet compilation- or hardware-qualified.** The bootstrap environment has Python and Git but no CMake, C++ compiler, CUDA or HIP compiler. The orchestration tests use fixture toolchains, not compiled engines. Upstream measurements and model-support claims in inherited documents are not Redrock qualification evidence. The downstream HIP EXPDEC alignment fix is recorded in [UPSTREAM.md](UPSTREAM.md#redrock-engine-fixes); a successful build still requires separate synthetic parity and attended model/consumer qualification.
 
 | Separate target | Explicit selection | Redrock qualification |
 | --- | --- | --- |

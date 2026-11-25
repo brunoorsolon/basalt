@@ -12,9 +12,13 @@ Redrock owns its downstream changes and eventual releases. Upstream authors own 
 | AMD comparison | https://github.com/vectorweft/strata-rdna4 / `refs/heads/main` | `e128da05bb493796a51cab0c30aa331ba6648db1` |
 | Actual llama.cpp/ggml dependency | https://github.com/robertkarl/llama.cpp.git / committed gitlink, not a tracked branch | `db1f382bb25f9cc481893105dbead09c86a52f01` |
 
-The project was named Basalt at import. Import method: merge UnbiasedStrata's unrelated history into Basalt's feature branch, retaining Basalt's initial commit `a0d0f20159d9cc2e551acf3aec792bf954c2cd91`. The import commit is `02d73945c4e8221aced960b119b35ecb546e4a94`; both parents are retained. No `.git` replacement, origin change, history rewrite or RDNA4-tree merge was used. The Basalt license notice was restored alongside the retained Strata notice in the downstream commit. `src/`, `include/` and the upstream CMake build remain unchanged from the selected baseline.
+The project was named Basalt at import. Import method: merge UnbiasedStrata's unrelated history into Basalt's feature branch, retaining Basalt's initial commit `a0d0f20159d9cc2e551acf3aec792bf954c2cd91`. The import commit is `02d73945c4e8221aced960b119b35ecb546e4a94`; both parents are retained. No `.git` replacement, origin change, history rewrite or RDNA4-tree merge was used. The Basalt license notice was restored alongside the retained Strata notice in the downstream commit. The imported baseline left `src/`, `include/` and the upstream CMake build unchanged; the bounded Redrock engine fixes below are additional downstream changes.
 
 The inherited record below is retained as historical provenance, not silently rewritten as Redrock validation. In particular, its earlier submodule versions describe earlier imports: the actual current dependency is the gitlink/lock above. Vendored components are frozen by the Redrock commit's tree; their upstream origins remain documented below. The selected entry point builds only `strata` or `strata-poly`; it neither builds the other vendored engines nor fetches their prerequisites.
+
+### Redrock engine fixes
+
+- **HIP EXPDEC shared alignment:** in `src/kernels/cuda/iq_kernels.cu`, remove redundant declaration-level `alignas(16)` from the gate/up and down `int4` shared-memory arrays inherited from UnbiasedStrata `9f75192287c2abf88c77da3b4b6f54ccee01db83`. ROCm Clang rejects that attribute placement. CUDA/HIP `int4` already provides the required alignment; a compile-time assertion preserves the 16-byte layout requirement. Array dimensions, staging/reduction code, dispatch, numerical operations and dependency pins are unchanged. This is a local adaptation of the canonical Redrock baseline, not an import from the deferred RDNA4 range. Compilation and hardware parity remain distinct evidence gates.
 
 ### Review bookmarks
 
