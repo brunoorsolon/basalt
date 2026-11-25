@@ -1745,6 +1745,7 @@ __global__ void __launch_bounds__(256) native_down_multi_kernel(const unsigned l
 constexpr int ED_NC = GRP_NC;   // entries staged at once
 constexpr int ED_XB = 80;       // q8_1 blocks of a gate/up row (n_embd 2560)
 constexpr int ED_HB = 20;       // q8_1 blocks of a down row (n_ff 640)
+static_assert(alignof(int4) >= 16, "EXPDEC shared staging requires 16-byte-aligned int4");
 
 // the codebook of a gate/up format in shared memory: words, and the copy (every thread of the block; sync after)
 template<int TG> struct EdGrid;
@@ -1855,7 +1856,7 @@ __global__ void __launch_bounds__(256, MINB) expdec_gu_kernel(const unsigned lon
                                                                             float* __restrict__ gate, float* __restrict__ up, int rb) {
     const int ng = *n_groups;
     if (blockIdx.y >= ng) return;
-    __shared__ alignas(16) int4 s_u[ED_NC * 2 * ED_XB];
+    __shared__ int4 s_u[ED_NC * 2 * ED_XB];
     __shared__ float s_ds[ED_NC * ED_XB];
     STRATA_SHARED_ALIGN16_U32(s_grid_buf, EdGrid<TG>::words);
     const int tid = threadIdx.x;
@@ -2042,7 +2043,7 @@ __global__ void __launch_bounds__(256, STRATA_EXPDEC_MINB) expdec_down_kernel(co
     if (blockIdx.y >= ng) return;
     constexpr int LANES = TD == 20 ? 8 : 16;
     constexpr int RPP = (256 / LANES) * R;   // rows per pass
-    __shared__ alignas(16) int4 s_u[ED_NC * 2 * ED_HB];
+    __shared__ int4 s_u[ED_NC * 2 * ED_HB];
     __shared__ float s_ds[ED_NC * ED_HB];
     const int tid = threadIdx.x;
     const int sw = tid / LANES, t = tid % LANES;
