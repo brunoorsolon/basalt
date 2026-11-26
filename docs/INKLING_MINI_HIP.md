@@ -104,6 +104,8 @@ This operation performs no acquisition. It checks candidate and model hashes bef
 
 ## Delivery evidence and remaining acceptance criteria
 
+[The retained build/evidence record](qualification/inkling-mini-hip-build.json) contains the actual compiled source commit, compiler/environment/CMake inputs, engine/adapter/operator-test hashes and check outcomes. The compiled source is `3c572df4bd6dbc8ba946b65e7707f546d29fa61c`; later evidence-only commits do not change that source identity. Binaries and raw logs under `/tmp` are scratch, not durable release assets. Reconstruction uses the recorded clean source and flags, not those temporary paths.
+
 Actual software observations from this implementation:
 
 - The R9700 HIP engine compiled and packaged successfully with the supported `tools/redrock.py` entry point, outside the checkout, using the observed ROCm compiler. Earlier incomplete attempts were retained; fixes are recorded in branch history rather than hidden source substitutions.
