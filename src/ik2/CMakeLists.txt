@@ -7,6 +7,9 @@ if(STRATA_ENABLE_HIP)
   if(NOT STRATA_HIP_ARCHS STREQUAL "gfx1201")
     message(FATAL_ERROR "strata-ik2 HIP candidates target only one R9700 (gfx1201)")
   endif()
+  # Source LANGUAGE properties are directory-scoped; the root HIP glob does not reach this subdirectory.
+  set_source_files_properties(ik2_kernels.cu ik2_main.cu ik2_draft.cu ../../tests/ik2_kernels_test.cu
+    PROPERTIES LANGUAGE HIP)
 else()
 set(ik2_archs)
 foreach(arch IN LISTS CMAKE_CUDA_ARCHITECTURES)
