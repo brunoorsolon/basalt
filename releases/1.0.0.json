@@ -1,0 +1,393 @@
+{
+  "version": "1.0.0",
+  "status": "accepted stable baseline",
+  "release_url": "https://github.com/brunoorsolon/redrock/releases/tag/v1.0.0",
+  "tested_source": "473a452caf3ef165009d0c07325fdc13d18f5ebb",
+  "dependencies": {
+    "unbiased_strata": {
+      "url": "https://github.com/robertkarl/UnbiasedStrata",
+      "ref": "refs/heads/main",
+      "commit": "9f75192287c2abf88c77da3b4b6f54ccee01db83",
+      "reviewed_through": "9f75192287c2abf88c77da3b4b6f54ccee01db83",
+      "imported_commits": []
+    },
+    "llama_cpp": {
+      "url": "https://github.com/robertkarl/llama.cpp.git",
+      "commit": "db1f382bb25f9cc481893105dbead09c86a52f01"
+    },
+    "rdna4_comparison": {
+      "url": "https://github.com/vectorweft/strata-rdna4",
+      "ref": "refs/heads/main",
+      "commit": "e128da05bb493796a51cab0c30aa331ba6648db1",
+      "development_base": "a79080535d1b2a71a3419a0d97d8e7dca194b0f1",
+      "reviewed_through": "7908212f1d06536d10a5077049d4cbb212beaee1",
+      "imported_commits": []
+    },
+    "rocr_r9700": {
+      "url": "https://github.com/ROCm/ROCR-Runtime",
+      "base": "4e4d7abeb786e903ac2a46815ae2565de331cbd4",
+      "commit": "f999715d0b28afdb4e9c3eb31317ff7789be54c9",
+      "tree": "bf1fdc210d330b2b4aba7178b6472605327629e7",
+      "patch": "releases/patches/rocr-filtered-gpu-memory-policy.patch"
+    }
+  },
+  "artifacts": [
+    {
+      "name": "strata",
+      "bytes": 36682136,
+      "sha256": "9dec82d4092a2bbf74279de3c04829df88334b7b8a1161f5ba1c82b0d9cbbeb4"
+    },
+    {
+      "name": "unbiased-strata",
+      "bytes": 14072672,
+      "sha256": "2e4eb9d06342f8065dbb9c9af35c641ff2231dd0bb796fea75d22e1d54aa330f"
+    },
+    {
+      "name": "libhsa-runtime64.so.1.18.0",
+      "bytes": 4088192,
+      "sha256": "63fa08fa9461d6f5e652fa50d232116b317091dbf0bbe2204799dfd705b564ca"
+    }
+  ],
+  "configuration": {
+    "platform": "Linux x86-64 Fedora 44",
+    "kernel": "7.3.3-200.fc44.x86_64",
+    "gpu": "Radeon AI PRO R9700",
+    "architecture": "gfx1201",
+    "engine": "strata",
+    "adapter": "unbiased-strata",
+    "model": "Qwen3.8-Flash-Next-GSQ-RCO",
+    "quantization": "IQ2_XS",
+    "context_tokens": 131072,
+    "mtp": [
+      "off",
+      "on"
+    ],
+    "expert_memory": "mmap",
+    "engine_environment": {
+      "STRATA_ROUTE_TAIL_SKIP": "0",
+      "STRATA_HC_Q8": "0"
+    },
+    "engine_arguments": {
+      "off": [
+        "--pack",
+        "${PACK}",
+        "--native",
+        "${MODEL}/Qwen3.8-Flash-Next-GSQ-RCO-IQ2_XS-00001-of-00002.gguf",
+        "--expert-cache",
+        "auto",
+        "--prefill",
+        "auto",
+        "--spec",
+        "4",
+        "--spec-min-p",
+        "0.5",
+        "--max-context",
+        "131072",
+        "--kv",
+        "int8",
+        "--vram-reserve-mib",
+        "5120",
+        "--suffix-draft",
+        "0",
+        "--lookup-chain",
+        "0",
+        "--prompt-cache",
+        "0",
+        "--prompt-cache-every",
+        "0",
+        "--conversation-cache-mib",
+        "0",
+        "--expert-profile",
+        "${SOURCE}/data/expert-profile.bin",
+        "--mmap-experts"
+      ],
+      "on": [
+        "--pack",
+        "${PACK}",
+        "--native",
+        "${MODEL}/Qwen3.8-Flash-Next-GSQ-RCO-IQ2_XS-00001-of-00002.gguf",
+        "--expert-cache",
+        "auto",
+        "--prefill",
+        "auto",
+        "--spec",
+        "4",
+        "--spec-min-p",
+        "0.5",
+        "--max-context",
+        "131072",
+        "--kv",
+        "int8",
+        "--vram-reserve-mib",
+        "5120",
+        "--suffix-draft",
+        "0",
+        "--lookup-chain",
+        "0",
+        "--prompt-cache",
+        "0",
+        "--prompt-cache-every",
+        "0",
+        "--conversation-cache-mib",
+        "0",
+        "--mtp",
+        "${MTP}",
+        "--expert-profile",
+        "${SOURCE}/data/expert-profile.bin",
+        "--mmap-experts"
+      ]
+    },
+    "sampling": {
+      "temperature": 0,
+      "top_k": 1,
+      "seed": 499
+    },
+    "safety_ceilings": {
+      "vram_bytes": 30000000000,
+      "available_ram_bytes": 8589934592,
+      "startup_seconds": 300,
+      "short_seconds": 120,
+      "long_seconds": 600,
+      "teardown_seconds": 15,
+      "sample_seconds": 0.2,
+      "cgroup_memory_max_bytes": 51539607552,
+      "cgroup_swap_max_bytes": 0,
+      "cpu_quota_percent": 800,
+      "swap_growth_max_bytes": 67108864
+    },
+    "device_policy": "selected render node and KFD only; no additional GPU exposure"
+  },
+  "model_and_derived_inputs": [
+    {
+      "path": "${MODEL}/Qwen3.8-Flash-Next-GSQ-RCO-IQ2_XS-00001-of-00002.gguf",
+      "bytes": 39225954592,
+      "sha256": "92cee27ae5bbadcd732416a0f7a7f0acc092399dbbe8f5a5efa707c2ec0a49d7"
+    },
+    {
+      "path": "${MODEL}/Qwen3.8-Flash-Next-GSQ-RCO-IQ2_XS-00002-of-00002.gguf",
+      "bytes": 28800138432,
+      "sha256": "316b46f3a2dbd68c900f43136ab9449f9dcc3725dfd8c794847c204bc161e113"
+    },
+    {
+      "path": "${MTP}/dense.bin",
+      "bytes": 116099072,
+      "sha256": "c724dc0b0822ada5d2977bf5bde821605feabaa64ea2e0045b67ca656329070a"
+    },
+    {
+      "path": "${MTP}/dense.txt",
+      "bytes": 1851,
+      "sha256": "991456cf4eb266eb8a888c349e548d11bc640f5dbd9149439aa9786af0f732fd"
+    },
+    {
+      "path": "${MTP}/experts.bin",
+      "bytes": 707788800,
+      "sha256": "09398406be61f1f54c93861f449e48b8df0bfccbc9ec9b2b7636775a6ea9244f"
+    },
+    {
+      "path": "${PACK}/conversions.json",
+      "bytes": 308,
+      "sha256": "b0908ca2ee3712d3734aaf778c38f75f4a8a8753edae5fb9429ba6a04fbb2c07"
+    },
+    {
+      "path": "${PACK}/dense.bin",
+      "bytes": 1538035200,
+      "sha256": "d2af3d8331e5c7a1985d1d589747230f9d56719a6d33c7cddc9ee6b81cde6b13"
+    },
+    {
+      "path": "${PACK}/experts.bin",
+      "bytes": 35454976000,
+      "sha256": "00cfaf10284a838e15e6f95277be7edac516909860d1d19074e77a375c4939c9"
+    },
+    {
+      "path": "${PACK}/experts.bin.src.json",
+      "bytes": 375,
+      "sha256": "7726d47597841341f93b7139114defbc63990210b687b114deba6922c2d06c73"
+    },
+    {
+      "path": "${PACK}/index.txt",
+      "bytes": 93686,
+      "sha256": "19e781af360ca3b83fd90fe09e757ac9aa2a9dcada26810ddc9e933bdb112091"
+    },
+    {
+      "path": "${PACK}/native_experts.txt",
+      "bytes": 3289,
+      "sha256": "48df605acb89c7e8c3176a51cec777c2ed344ea439e8f3a37e5ce4f9dcb6946c"
+    },
+    {
+      "path": "${PACK}/tokenizer/chat_template.jinja",
+      "bytes": 9993,
+      "sha256": "12827f24b742ea4e80cdc12dbcf9622227056b9f797252a3149263d4f9aaadce"
+    },
+    {
+      "path": "${PACK}/tokenizer/merges.txt",
+      "bytes": 3353258,
+      "sha256": "4ba698529766c7a2f5052083ea10cdf2485577f5237a332ee291054eb11e3332"
+    },
+    {
+      "path": "${PACK}/tokenizer/tokenizer.json",
+      "bytes": 541,
+      "sha256": "c0bd435efbc6c3b28964b47999afe16c4ad268c7c7c4e8cb3af410796a6f30bf"
+    },
+    {
+      "path": "${PACK}/tokenizer/token_type.json",
+      "bytes": 744960,
+      "sha256": "5088c8c298fc06af8382ddb3b76c888703ac2634e82263b97eedcc2ad202738b"
+    },
+    {
+      "path": "${PACK}/tokenizer/vocab.json",
+      "bytes": 5737005,
+      "sha256": "4ba64f0332abcfb0b600b7df1537d1e836e68009d5fb7cdb77339738dc6365c4"
+    },
+    {
+      "path": "${SOURCE}/data/expert-profile.bin",
+      "bytes": 196632,
+      "sha256": "8f59b4aa8873209dff11c11e37bcda9529a1335b724a1afeea37bf6388975baf"
+    }
+  ],
+  "build": {
+    "toolchain": {
+      "cc": {
+        "sha256": "f71c9b95b020cd56378a766e7f1cbfecc9818a4e12db831579ee0d0a5d148154",
+        "version": "gcc (GCC) 16.2.1 20261029 (Red Hat 16.2.1-3)"
+      },
+      "cxx": {
+        "sha256": "ca48a2d27d0796399adc3387225eec4be62974e26fa299710edfde0c1af5aa63",
+        "version": "g++ (GCC) 16.2.1 20261029 (Red Hat 16.2.1-3)"
+      },
+      "gpu": {
+        "sha256": "84f2c83509daa9f7c29ef19a420ba52907cba449d93cb7f2923396b79ce22588",
+        "version": "clang version 20.0.0.rocm"
+      }
+    },
+    "environment": {
+      "HOME": "/tmp",
+      "PATH": "/usr/bin:/bin",
+      "LC_ALL": "C"
+    },
+    "engine_command": [
+      "/usr/bin/python3",
+      "-B",
+      "${SOURCE}/tools/redrock.py",
+      "build",
+      "--engine",
+      "strata",
+      "--backend",
+      "hip",
+      "--arch",
+      "gfx1201",
+      "--cc",
+      "/usr/bin/gcc",
+      "--cxx",
+      "/usr/bin/g++",
+      "--gpu-compiler",
+      "/usr/lib64/rocm/llvm/bin/clang++",
+      "--jobs",
+      "2",
+      "--candidate",
+      "${ENGINE_CANDIDATE}"
+    ],
+    "adapter_configure_command": [
+      "/usr/bin/cmake",
+      "-S",
+      "${SOURCE}",
+      "-B",
+      "${ADAPTER_CANDIDATE}/build",
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DCMAKE_C_COMPILER=/usr/bin/gcc",
+      "-DCMAKE_CXX_COMPILER=/usr/bin/g++",
+      "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${ADAPTER_CANDIDATE}/build/bin",
+      "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=${ADAPTER_CANDIDATE}/build/bin",
+      "-DCMAKE_SKIP_RPATH=ON",
+      "-DSTRATA_GGML_DIR=${SOURCE}/third_party/llama.cpp",
+      "-DSTRATA_PORTABLE=ON",
+      "-DSTRATA_NATIVE_EXPERTS=ON",
+      "-DSTRATA_FRONTEND=ON",
+      "-DSTRATA_BUILD_TESTS=OFF",
+      "-DSTRATA_BUILD_DSV41=OFF",
+      "-DSTRATA_BUILD_IK2=OFF",
+      "-DSTRATA_ENABLE_CUDA=OFF",
+      "-DSTRATA_ENABLE_HIP=ON",
+      "-DSTRATA_PREFILL_MMQ=ON",
+      "-DSTRATA_MMQ_KQUANTS=ON",
+      "-DSTRATA_Q6K_EXPERTS=ON",
+      "-DGGML_CPU_KLEIDIAI=OFF",
+      "-DGGML_OPENMP_FETCH=OFF",
+      "-DGGML_CCACHE=OFF",
+      "-DFETCHCONTENT_FULLY_DISCONNECTED=ON",
+      "-DFETCHCONTENT_UPDATES_DISCONNECTED=ON",
+      "-DCMAKE_HIP_ARCHITECTURES=gfx1201",
+      "-DCMAKE_HIP_COMPILER=/usr/lib64/rocm/llvm/bin/clang++"
+    ],
+    "adapter_build_command": [
+      "cmake",
+      "--build",
+      "${ADAPTER_CANDIDATE}/build",
+      "--parallel",
+      "2",
+      "--target",
+      "unbiased-strata"
+    ],
+    "rocr_commands": [
+      [
+        "/usr/bin/cmake",
+        "-S",
+        "${ROCR_SOURCE}",
+        "-B",
+        "${ROCR_BUILD}",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_C_COMPILER=/usr/bin/gcc",
+        "-DCMAKE_CXX_COMPILER=/usr/bin/g++",
+        "-DClang_DIR=/usr/lib64/rocm/llvm/lib/cmake/clang",
+        "-DLLVM_DIR=/usr/lib64/rocm/llvm/lib/cmake/llvm",
+        "-DCMAKE_SKIP_RPATH=ON",
+        "-DEXPORT_TO_USER_PACKAGE_REGISTRY=OFF",
+        "-DNUMA=/usr/lib64/libnuma.so.1.0.0",
+        "-DCMAKE_C_FLAGS=-I${NUMA_HEADERS}/usr/include",
+        "-DCMAKE_CXX_FLAGS=-I${NUMA_HEADERS}/usr/include"
+      ],
+      [
+        "/usr/bin/cmake",
+        "--build",
+        "${ROCR_BUILD}",
+        "--parallel",
+        "2",
+        "--target",
+        "hsa-runtime64"
+      ]
+    ],
+    "rocr_patch_sha256": "d824149a9e6b34d73bcd603383d2a266cfe8e3be741c9fea95031e03d057e911",
+    "rocr_numa_headers": {
+      "package": "numactl-devel-2.0.19-4.fc44.x86_64.rpm",
+      "sha256": "b336a694554c281227e9795ac97eb993dd0ed56e05ba3ba7ffeaa5f6e86bb7bd"
+    }
+  },
+  "runtime_inventory": "1.0.0-runtime.json",
+  "evidence": {
+    "review_verdict": "PASS",
+    "records": {
+      "functional": {
+        "sha256": "fc29a6e94ac21d4baa087696ffa938847cb6c471c9d8bd56bbe883df9895fae1"
+      },
+      "return": {
+        "sha256": "46e50c6997865800490c787c8be39cd18234986c3bf5fc53c468f66e3e4b80cd"
+      },
+      "review": {
+        "sha256": "3e9ed02f8b03180df36e1dac04fad3e93221c2e512098c2c2d6187fdaf3bdff2"
+      },
+      "supplemental": {
+        "sha256": "8e8753cf50a113054444907524d858484ddf37cf67fd29b3b056069b3221802e"
+      }
+    }
+  },
+  "limitations": [
+    "Kernel 7.3.4 fault unresolved; no general AMD/Linux compatibility claim.",
+    "The matched thinking-disabled reasoning answer remains incorrect in both tested engines.",
+    "Whole-response/full-token determinism fails; accepted thinking variation requires identical correct final-message bytes and final-token suffix.",
+    "Literal-marker interior ASCII spacing is not an exact copy.",
+    "A single enclosing JSON fence may be removed for answer grading only.",
+    "Managed installation and serving integration need separate checks.",
+    "New builds and changed dependencies/configurations require affected qualification; not a bit-reproducible-build claim."
+  ]
+}

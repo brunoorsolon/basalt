@@ -1,0 +1,846 @@
+{
+  "scope": "Required runtime inventory for the tested combination; not a system installer or self-contained redistribution.",
+  "objects": [
+    {
+      "path": "/usr/lib64/ld-linux-x86-64.so.2",
+      "bytes": 1002600,
+      "sha256": "4e5d39355699e90fa29313d3100e82af4a23290028c58c364d6a249ef6a78e5e",
+      "dynamic": {
+        "needed": [],
+        "soname": "ld-linux-x86-64.so.2",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "glibc-2.43-9.fc44.x86_64"
+    },
+    {
+      "path": "/usr/lib64/libc.so.6",
+      "bytes": 2482096,
+      "sha256": "a5c5ad9d59d3c69eda93aa8f82930ba06cc4e893a113e66c85ad6e96243d53c8",
+      "dynamic": {
+        "needed": [
+          "ld-linux-x86-64.so.2"
+        ],
+        "soname": "libc.so.6",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "glibc-2.43-9.fc44.x86_64"
+    },
+    {
+      "path": "/usr/lib64/libm.so.6",
+      "bytes": 1153848,
+      "sha256": "16a03ce6d24c8a46742206d4a9c1d35bb6577ae2384f153dc6ef4a4b62b5357f",
+      "dynamic": {
+        "needed": [
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "soname": "libm.so.6",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "glibc-2.43-9.fc44.x86_64"
+    },
+    {
+      "path": "/usr/lib64/libstdc++.so.6.0.36",
+      "bytes": 2884552,
+      "sha256": "49811507d8fc0283d8f8023546613774c673f876fe823b1b99d0c8d46039deda",
+      "dynamic": {
+        "needed": [
+          "libm.so.6",
+          "libc.so.6",
+          "libgcc_s.so.1"
+        ],
+        "soname": "libstdc++.so.6",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "libstdc++-16.2.1-3.fc44.x86_64"
+    },
+    {
+      "path": "/usr/lib64/libgcc_s-16-20261029.so.1",
+      "bytes": 186520,
+      "sha256": "5a52ae4a6f1b119aa092aa1483c967e19d9ba036b1b0c2133236a8a2ce826ebf",
+      "dynamic": {
+        "needed": [
+          "libc.so.6"
+        ],
+        "soname": "libgcc_s.so.1",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "libgcc-16.2.1-3.fc44.x86_64"
+    },
+    {
+      "path": "/usr/lib64/libzstd.so.1.5.7",
+      "bytes": 959384,
+      "sha256": "70ec54d150f4052f28fb1e8f8a1c6ca35e1a499e4744c6f6d9d783537618f80b",
+      "dynamic": {
+        "needed": [
+          "libc.so.6"
+        ],
+        "soname": "libzstd.so.1",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "libzstd-1.5.7-5.fc44.x86_64"
+    },
+    {
+      "path": "/usr/lib64/libamdhip64.so.7.1.52802",
+      "bytes": 26962032,
+      "sha256": "c0eb1435da3ed743db5e65cb4d5c39df7c6d05f8b3ecff19a4372b44a55a3e56",
+      "dynamic": {
+        "needed": [
+          "libhsa-runtime64.so.1",
+          "libnuma.so.1",
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6"
+        ],
+        "soname": "libamdhip64.so.7",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "rocm-hip-7.1.1-4.fc44.x86_64"
+    },
+    {
+      "path": "/usr/lib64/libnuma.so.1.0.0",
+      "bytes": 58144,
+      "sha256": "6e2d8bbb7b5a35f45540a9bc38647ef43310818d36dcc99a1ac54aec8befb128",
+      "dynamic": {
+        "needed": [
+          "libc.so.6"
+        ],
+        "soname": "libnuma.so.1",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "numactl-libs-2.0.19-4.fc44.x86_64"
+    },
+    {
+      "path": "/usr/lib64/libhsa-runtime64.so.1.18.0",
+      "bytes": 4088192,
+      "sha256": "63fa08fa9461d6f5e652fa50d232116b317091dbf0bbe2204799dfd705b564ca",
+      "dynamic": {
+        "needed": [
+          "libdrm_amdgpu.so.1",
+          "libelf.so.1",
+          "libdrm.so.2",
+          "libnuma.so.1",
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libc.so.6",
+          "libgcc_s.so.1"
+        ],
+        "soname": "libhsa-runtime64.so.1",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": null,
+      "source": "f999715d0b28afdb4e9c3eb31317ff7789be54c9"
+    },
+    {
+      "path": "/usr/lib64/libdrm.so.2.134.0",
+      "bytes": 91056,
+      "sha256": "e2a416f7b7c9e9e46b5f96bf20be71f146426daa6e1e8438adce2ab8e4c0fc0e",
+      "dynamic": {
+        "needed": [
+          "libc.so.6"
+        ],
+        "soname": "libdrm.so.2",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "libdrm-2.4.134-1.fc44.x86_64"
+    },
+    {
+      "path": "/usr/lib64/libelf-0.197.so",
+      "bytes": 120160,
+      "sha256": "f707f064e0f055366cb5b99ab4e4b6e4fa7ba586bab890b059eddde1dc5a4129",
+      "dynamic": {
+        "needed": [
+          "libz.so.1",
+          "libzstd.so.1",
+          "libc.so.6"
+        ],
+        "soname": "libelf.so.1",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "elfutils-libelf-0.197-1.fc44.x86_64"
+    },
+    {
+      "path": "/usr/lib64/libz.so.1.3.1.zlib-ng",
+      "bytes": 169544,
+      "sha256": "bbde8faec092a7c67b8bd76bbba4a826e61b05c171b97004ce6b308c5a090351",
+      "dynamic": {
+        "needed": [
+          "libc.so.6"
+        ],
+        "soname": "libz.so.1",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "zlib-ng-compat-2.3.3-3.fc44.x86_64"
+    },
+    {
+      "path": "/usr/lib64/libdrm_amdgpu.so.1.134.0",
+      "bytes": 52696,
+      "sha256": "a28f07a5f69cd85d5a55b18f436cff5e0e33087181bdc3b8061ac2dec99d1322",
+      "dynamic": {
+        "needed": [
+          "libdrm.so.2",
+          "libc.so.6"
+        ],
+        "soname": "libdrm_amdgpu.so.1",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "libdrm-2.4.134-1.fc44.x86_64"
+    },
+    {
+      "path": "/usr/lib64/librocblas.so.5.1",
+      "bytes": 171340992,
+      "sha256": "53dead76b22ab36b31ea5206f9ae07f6c226c0098fa0bf08d136d6b8af6c29d1",
+      "dynamic": {
+        "needed": [
+          "libamdhip64.so.7",
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "soname": "librocblas.so.5",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "rocblas-7.1.1-7.fc44.x86_64"
+    },
+    {
+      "path": "/usr/lib64/libhipblas.so.3.1",
+      "bytes": 814688,
+      "sha256": "65c123569bddc6d660646fccd3cfbc7772b2f9bbc3f16421f3f7f05eedc14a0d",
+      "dynamic": {
+        "needed": [
+          "librocsolver.so.0",
+          "librocblas.so.5",
+          "libstdc++.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6"
+        ],
+        "soname": "libhipblas.so.3",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "hipblas-7.1.0-6.fc44.x86_64"
+    },
+    {
+      "path": "/usr/lib64/librocsolver.so.0.7",
+      "bytes": 988063856,
+      "sha256": "9d5cd46004fe767edac52b6670f2c0d415cd3adc597424ee2419d540adfc8899",
+      "dynamic": {
+        "needed": [
+          "librocblas.so.5",
+          "libamdhip64.so.7",
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6"
+        ],
+        "soname": "librocsolver.so.0",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "rocsolver-7.1.1-4.fc44.x86_64"
+    },
+    {
+      "path": "/usr/lib64/libamd_comgr.so.3.0",
+      "bytes": 137752768,
+      "sha256": "94b67e30a0f1a6010d69d1284c29201ec07eff13e471b4f6fa41ce4862d5df3c",
+      "dynamic": {
+        "needed": [
+          "libc.so.6",
+          "libz.so.1",
+          "libzstd.so.1",
+          "libm.so.6",
+          "libstdc++.so.6",
+          "libgcc_s.so.1"
+        ],
+        "soname": "libamd_comgr.so.3",
+        "rpath": [],
+        "runpath": []
+      },
+      "package": "rocm-comgr-20-14.rocm7.1.1.fc44.x86_64",
+      "purpose": "Observed HIP dlopen COMGR dependency closure"
+    }
+  ],
+  "rocblas_gfx1201_and_generic_data": [
+    {
+      "path": "/usr/lib64/rocblas/library/Kernels.so-000-gfx1201.hsaco",
+      "bytes": 931800,
+      "sha256": "7c889a4ede9ade764142963cf5f7365f236c6df5d53e0ce243801f06a0839bb0"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 49528,
+      "sha256": "64c1750e7624d30a2129f7d0de5c00e14a3124e015be5c9dbbf3f06f38c33cbe"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 261424,
+      "sha256": "81f3446706394414459d8a51105ca3193dc83521eba95a2de4c406fcd8845912"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 42250,
+      "sha256": "d1b8674c7880e68f69efbb48e2abd08bcb7c0f47912c1bdfc96cd33afa63fcac"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 218632,
+      "sha256": "1db6c1969eead7af6a6cf3ed6c7a6de821b1737ccfe80ad04fc852f5e59a19dd"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 49872,
+      "sha256": "5766c1c3bc55336a81cfae661cd7f543d5ccf11a21e1d2cff7372d1957f0f76d"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 261936,
+      "sha256": "de3b6431404d6d7e084c95120c42b5ce1841547ae9a9af17ce9da12ad882df18"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 42418,
+      "sha256": "1ba8ff7858d7956ac1e7ae1d980e9b9378ab780d06847a6aef01958ef0879de7"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 218632,
+      "sha256": "60e2ea1acee9fa02f0e3ed80c6b34806977ba0a4b0ce34e57dfa45707b3dc801"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 63651,
+      "sha256": "ab82e9303a2cab903851d3b82fca3ca380e7b44e071bb46a60f552b0ecf6bfe1"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 776280,
+      "sha256": "359a0825753e757db668b4a84d0f83990d4db28472ef1f52ccb7c4cf20784a30"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 60195,
+      "sha256": "a64409019a8b367d31f0f74d0d8bc89d523bcdc89468bca650b4f3c53dca8f95"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 695880,
+      "sha256": "4585ea16b063238228a649945038d74046fa6d6cae302ae1300880040b4109de"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 44562,
+      "sha256": "2021903e7c5c6fe99fcdd4bd3163af2b0ec0e407f71e71ec145168948a80f5a3"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 341736,
+      "sha256": "eb8e8075fa55349278a35ad0e159e95f8fa2c088d0c73af7d175b23143979941"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 60322,
+      "sha256": "9d2c2b5f75440b2e0a3d8cfc5866222d0768994f7fec0b59c5deab34742bc231"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 692808,
+      "sha256": "9093fa1adf19bc1c310814621ae07cb65e3214bb449e23b2f9ab3ea1a865a198"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 61384,
+      "sha256": "c351d71b1992e20db86ed7ec9973463c962e1bbc381bfe983a5cd40db300947e"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 724264,
+      "sha256": "b7bd8a2c6845d8b31ac0e70b167b6b929c7762cd3bd8aceb19889fdcb313cca6"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 36020,
+      "sha256": "0f5014448e128a8263d3424f5e9e91828ac1547fa9a7e9d021c27ba4cb4c910a"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 375168,
+      "sha256": "87e1ae54bf01fd20bd18ce3e4b901f110b3eb2cec499e779001b1f9af69d4c99"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 19094,
+      "sha256": "413178dce33fb4f729e4687f8f37c575f971fefc76e17fce08273cc267c980bc"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 142344,
+      "sha256": "9333aa4be1a919e3c3c34d61b5a1d85f50ff9a9a31a683f3aa60e6ee9a8fadfe"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 31831,
+      "sha256": "7653e4675b3b65998209aa1c4578aa5c99c2234aff4302afd4053f9a3a45c7e6"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 313392,
+      "sha256": "82fb0ecfce8a8a3812d8b1f24773aabc7556efa775ad07909495ed59404f5871"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Ailk_BjlkC_Cijk_Dijk_fallback.dat",
+      "bytes": 8302,
+      "sha256": "e3d1c2ddc63d0a30041864579017d03dd4fc2f860665b5c36ca51d0466eaaf64"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Ailk_BjlkC_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 74280,
+      "sha256": "6540685f2e03dafb3f622ee44aba54921af41abd530950a7bfdf9afafd6b7f9e"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 8290,
+      "sha256": "0f71e4b2aa63179c186987bc90c3feb996d24ccfef9598cfbd9f7b6b2fbc8c44"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 74240,
+      "sha256": "73b51385cb074c6a940651de22a210f93f2caaca22e16f7e0f20167fa1dfb14d"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 8306,
+      "sha256": "ec060a2082578adb01b51ce32102c0e1b96b0a972b231df1b675ec192b7c609b"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 74240,
+      "sha256": "4347823211c98ebf21aeeef6680dea80f099aff8f488caa112f32f5b13c15477"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_AlikC_BjlkC_Cijk_Dijk_fallback.dat",
+      "bytes": 8330,
+      "sha256": "263453ec7be54e4f736eedbe9274c864181005b04230869387425f27ba2d8a68"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_AlikC_BjlkC_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 76624,
+      "sha256": "24d11b939b390a4f98e0011ada5afc3dfe7e60542a817643f46becc44e6d6394"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_AlikC_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 8318,
+      "sha256": "5c8485fa71441d2251a6c498ef38c395af4f159d6165ec6372cf021f7ee0dffe"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_AlikC_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 74280,
+      "sha256": "0e34caf825af0974c82d2cacff7e34db316a4bedd5260f76bda104602b6e1856"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_AlikC_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 8318,
+      "sha256": "f95e0158a931e011c4e106bc8c6dbbb5f64c0543f8f7d9cc1414576376e0e244"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_AlikC_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 73512,
+      "sha256": "aeb1bae3f2309953f5bb75b44a53544649b1c456437433520820532bff6955b8"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Alik_BjlkC_Cijk_Dijk_fallback.dat",
+      "bytes": 8318,
+      "sha256": "430820b31e5ec18814b312203239949f4cf6e3965095f8c7dbea5034e8f54179"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Alik_BjlkC_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 74536,
+      "sha256": "2d035373cb1b120f5c74df003589df84d9fb92620fe9f207510876b1b0dcdf96"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 8306,
+      "sha256": "6ede1032e264abf6700489060f0ef7eece5a67c606a13f67e5438ea3ff4b26cb"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 74496,
+      "sha256": "fca1c8676cda529eba752b0a6dcb218bf2e024725835c3d7810a80bfd0c676ad"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 8306,
+      "sha256": "a79e21796cc811ed6a04428d63f35947c14a5b0596671fb9dd3ad4439e682810"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 73472,
+      "sha256": "85adff212f9509d06f530943099763f977ed47352a5609b370f90e329f806b33"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 8098,
+      "sha256": "e030f3c9fdc0418a4ef23997a81abc43baf6c4f79704fd2c12efdb2257189ad3"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 35216,
+      "sha256": "8e7f4e455e2ef7f006250eca8d81c0414ff262d9d567dae3d4bb52d15d79f59b"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 10057,
+      "sha256": "b7d4a8a6bc1c6b35321ebac99ffa6c86f8808e80286b505aa1e62bda6e15cd94"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 57040,
+      "sha256": "7d324a62c8f6be8e23ec3b17fcb57ce428093821c94752ba920e10696a1389bd"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 8114,
+      "sha256": "ac25e5b1587be46ce6f552470f1c491fb42228725068e026c8d71ef103082b48"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 35216,
+      "sha256": "8c052d377971497ebe3f5748aff18c052d1894db3ab1d48f2a1fd492033e639a"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 8114,
+      "sha256": "0e2948ecffc2424a653f71d4eee8cf9523d009806e9c214524405423bdc63a1c"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 34960,
+      "sha256": "4eebd114c64a1b89e9acd17aa4272e6710dd2c7b81615e8db62dcc50c46ff715"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 31680,
+      "sha256": "bb19b9e49fc0afaac35767a2d20f0745af2e159a3bdc888a625d67c06fc8a6f6"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 264568,
+      "sha256": "a8f4a4ffa5224826a2cc7750b5eb6ac1dee1e1436a63d3f2c7ac28a3ce342682"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 23988,
+      "sha256": "fdc5b0543a4416cb40a77636c8370ae0a1df9f18808c2ed4d488fee57ae6c665"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 143264,
+      "sha256": "5215018c1fd1b7196804a3e97c84fb78947a879bb4fcde136880cde3755b120b"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 23992,
+      "sha256": "8e5711f5fc5a98f9ebcccf31d258148b6c9e4b1df6c695a4bcbcf48cc3aa35ba"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 158896,
+      "sha256": "0e62902179ba93e1d126c12dcf4ba14b553eb4e356c62234456cde9b0175654c"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 23988,
+      "sha256": "4eaa056f5711c3317e96dc80b029b4f0822694a03475fc6c4f6be55b716d750a"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 142240,
+      "sha256": "ba83c93af8116d53e67d09abb503a151fd689fa63ab3847769df4ada4559b729"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 84504,
+      "sha256": "cabea3a66565b25615b717bda3a4a97ead01e311ec8192408c63c6aa569e192a"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 630208,
+      "sha256": "0140e12cc3e7b2c7f35e4acd045909fd8651ada0198b9775aeba86f73038cf24"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 59422,
+      "sha256": "fa6cfa45b1859c018563f2ccd01472a98b2b538b3e9599fdc132e117d616a436"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 314544,
+      "sha256": "2165ba853c6336dbc45d86561660d196ffb2913d1814128e1726ae3d9f9eda40"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 51664,
+      "sha256": "760f1bd6ea80153214f7a064b87bc73b942451bf4c2ed82d3d7120ef06061db8"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 197848,
+      "sha256": "a95e528fd6ee2115d25aababb9831332dcbccceef90af90710f9e541a3302ee2"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 51688,
+      "sha256": "aec993b3670e3aed9896142e4089d012f21f4a863b1b63ee260636028953f932"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 263680,
+      "sha256": "4486e035d6f3208490f5c4ab9b93b748bf030d504fb1e5d5c5d55a0148a36e16"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 52642,
+      "sha256": "a5834d8b28644d2efc37cb217d4f7cb2fbaed14e80dc56a93a886b8adef8582a"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 573024,
+      "sha256": "c7cdb13405e1ec96a4cb69a4dab727d9cbb871a175a8253fdcaf6860cdb5f0a0"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 31605,
+      "sha256": "b7cac4de5ed0d75ebb2b6555b871279f1849799e8bb26570012b5709094c3e36"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 317016,
+      "sha256": "02c41dd8327c5968ded3ce2b08e5d62ed57254947fb0b8bb97ecf33c4b265af6"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 23029,
+      "sha256": "16acb123babe5ee8119b178aa5b511f881257d66436bc4f7298e9cba5fd4128d"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 178440,
+      "sha256": "85f1aa502b7dbe56b44a53cd2bc33a60649a97d6a71b05329d7ae32de8e46f73"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 35782,
+      "sha256": "f46532d78c003da09365afc3af438711645b556020f98d7ad60eefb46cc374b5"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 370816,
+      "sha256": "81b7d3a699d535f9841220f5af453967d09e67c800fb535364c03bf71bbeb0e8"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 78520,
+      "sha256": "492914b203ca2df40ce9e738ac120a8fd69379e35f05eacfc5abb581e93e3861"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 767360,
+      "sha256": "37577d49c8b11f12b0dca6450c8c5e5591a10baed48aab059a7efd9de1fee530"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 62732,
+      "sha256": "e33ecf361b93c29807719a817cccdada10bee6f601474e9cdf4e98faae6314b7"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 538504,
+      "sha256": "21a3ebe72b84d552ffb653218bec6400da6e928e01c01a939bf0d5561f90b5d4"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 74917,
+      "sha256": "1b1f9c15956cad2f36e885e4d18f8c6f729dcace4ef87abaa67fd1ed0eb846da"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 744256,
+      "sha256": "b53a9c3e6eae4802c84661d0fc51082564e594be18cac1649aaaa6f8a88238e3"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 72882,
+      "sha256": "e7ba62fedf41cf7dd1c15887ab0e96e833360da5b1b5f078481d9d32cfd7e79a"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 673184,
+      "sha256": "125c04ffe1f90741e5954f8b336a9ebaef2621176d6537de79e7a40ef83b27e7"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 8118,
+      "sha256": "9320189151738a2f4c4d83b43f39e44854ad69ba9a98b64350efbfb5ed8df783"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 76728,
+      "sha256": "8537c65e6e10ee1193d4d2ed9904c8138833ae357a35dcb47165c5eb70e98dc2"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 8114,
+      "sha256": "5b82d8aa9cc4b48a32b19ef9554beeb7596b611faa9b1c04a82beec4809a659b"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 53920,
+      "sha256": "35e5490c2a8cbd71ae3c273fb0ad98dad40cc50763c374d597f5ecf151d9c1e2"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 8118,
+      "sha256": "c3e696944464b9a1a1eda4dfed44dd9feedd226e770f8f080d3d1c20dc51a5b9"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 53664,
+      "sha256": "d413bc626ba15d60345ca8fd70f9208a0454e583667b0e3bbfcad0a3d0fb931a"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 8118,
+      "sha256": "315be367a3a23caf0416ddec8dee67794c33744e61c0ff877668f71343fbde99"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 63160,
+      "sha256": "690cb30c27ca627413c8b8d1c1d76c8aeab53a104c4edbf1f9bac92895f9eeef"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Ailk_BjlkC_Cijk_Dijk_fallback.dat",
+      "bytes": 8334,
+      "sha256": "d40fde8f2aa0262649fc6290fb5088f800144afd08bd6030e1b5c04707e30d09"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Ailk_BjlkC_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 78888,
+      "sha256": "3a15fb6eed6f72c15860bf74a4759d5e9ce42b47694ba9280a8e2306a37bd729"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 8330,
+      "sha256": "56fdeab45132d5221a5710a7948825c622bb5bf80eedb8307dd7ea40f18e590d"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 78592,
+      "sha256": "62014d718f7ab48f45c25ccadba7974cda0cd8eb806d2eb7120701bcf48e1185"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 8338,
+      "sha256": "820893bdd4a99ad5ed1fe863fd61826d4272b08062bfeb128b51889f07b74d20"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 78592,
+      "sha256": "a57b3a4d6abf41ab142e5df94c3aecd7a8a6052e466806f090b64076394cd598"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_AlikC_BjlkC_Cijk_Dijk_fallback.dat",
+      "bytes": 8362,
+      "sha256": "a4b850a7cb15b1dd5125064ceddfb4fe2edd43b2cda21e6284735902fb0765e4"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_AlikC_BjlkC_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 78928,
+      "sha256": "03bb26094eab65e6fc1e76ee6544145b717aa654d58e508c50a675055854d97b"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_AlikC_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 8350,
+      "sha256": "dd4c2e855883e5445e3964ed45727ec97514691513d9229d8d58cc182f9d1257"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_AlikC_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 78888,
+      "sha256": "657d7833914eaf42473b856c32e2b93ce036a122e45dc2a48f12754764cb2887"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_AlikC_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 8350,
+      "sha256": "3051c2931ac7cd5fc982ba135c42f90a35d604e6e536f6f5073024c98a418e0c"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_AlikC_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 78632,
+      "sha256": "95af72c6433eb47bf294f759ad451770517558a768f038fc3ade4897e6d8e585"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Alik_BjlkC_Cijk_Dijk_fallback.dat",
+      "bytes": 8350,
+      "sha256": "cd0aa8c9f1b12c815071991f572741e66ad4867ad2f8faed6fcbc2d57ecc6566"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Alik_BjlkC_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 78888,
+      "sha256": "988277956a301fb8a5b298d5405e8e4006eb3bfd2e510c0b95c7e548eb10865f"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat",
+      "bytes": 8338,
+      "sha256": "a9ddeebfa9e8d58c710a8f3f646c3514093f4789d7c691aa6744514b9b128881"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 78592,
+      "sha256": "82290aa4cbec1790c7830151a016836fd3d085b60c6b84f265bb2c6256d9c1e1"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat",
+      "bytes": 8338,
+      "sha256": "73642178a20935910c461d4bc7a3b41fa5012bc67a8cd2d21303711b00300c7e"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx1201.hsaco",
+      "bytes": 78336,
+      "sha256": "ee3f8f2991bfbdba2f2c92aa8c0e18c4c34a15582fa5235141beaa4c3f693795"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileLibrary_lazy_gfx1201.dat",
+      "bytes": 17653,
+      "sha256": "5377fd944fe124928362e6f60909c5bf591c405ac19ff0a51d1c0c2318d6ab44"
+    },
+    {
+      "path": "/usr/lib64/rocblas/library/TensileManifest.txt",
+      "bytes": 408324,
+      "sha256": "544ff82c3d1e995f2a043d645dcc34f44df37704bc38199fbe5f479446e59034"
+    }
+  ],
+  "additional_data": [
+    {
+      "path": "/usr/share/libdrm/amdgpu.ids",
+      "bytes": 25377,
+      "sha256": "ffd2a8f1bfa755f4d90f537b4969fc4676f116e5af051ce2f18ef93a96d8beb6",
+      "purpose": "libdrm AMD PCI identity database, observed required during HIP initialization",
+      "package": "libdrm-2.4.134-1.fc44"
+    }
+  ]
+}

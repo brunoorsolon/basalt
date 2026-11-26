@@ -2,7 +2,9 @@
   "unbiased_strata": {
     "url": "https://github.com/robertkarl/UnbiasedStrata",
     "ref": "refs/heads/main",
-    "commit": "9f75192287c2abf88c77da3b4b6f54ccee01db83"
+    "commit": "9f75192287c2abf88c77da3b4b6f54ccee01db83",
+    "reviewed_through": "9f75192287c2abf88c77da3b4b6f54ccee01db83",
+    "imported_commits": []
   },
   "llama_cpp": {
     "url": "https://github.com/robertkarl/llama.cpp.git",
@@ -13,6 +15,14 @@
     "ref": "refs/heads/main",
     "commit": "e128da05bb493796a51cab0c30aa331ba6648db1",
     "development_base": "a79080535d1b2a71a3419a0d97d8e7dca194b0f1",
+    "reviewed_through": "7908212f1d06536d10a5077049d4cbb212beaee1",
     "imported_commits": []
+  },
+  "rocr_r9700": {
+    "url": "https://github.com/ROCm/ROCR-Runtime",
+    "base": "4e4d7abeb786e903ac2a46815ae2565de331cbd4",
+    "commit": "f999715d0b28afdb4e9c3eb31317ff7789be54c9",
+    "tree": "bf1fdc210d330b2b4aba7178b6472605327629e7",
+    "patch": "releases/patches/rocr-filtered-gpu-memory-policy.patch"
   }
 }
