@@ -177,4 +177,3 @@ void attn_flash_rdna(const uint16_t* q16, int q_ld, const KVT* kc, const KVT* vc
                                                             bias, extent, window, n_split, o_part, ml_part);
     check("attn_flash_rdna");
 }
-
