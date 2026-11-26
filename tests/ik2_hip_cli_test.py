@@ -1,7 +1,10 @@
 """HIP admission refusals must happen before opening a model or initializing a GPU."""
 import os
+from pathlib import Path
+import struct
 import subprocess
 import sys
+import tempfile
 
 binary = sys.argv[1]
 for options, reason in [
@@ -22,4 +25,25 @@ for options, reason in [
     assert result.returncode != 0, options
     assert reason in result.stderr, (options, result.stderr)
     assert "READY" not in result.stdout, options
-print("HIP Mini CLI admission refusals passed (no GPU/model required)")
+for key in ("IK2_CPU", "IK2_KV_MANAGED", "IK2_TIER", "IK2_LAZY_CPU"):
+    env = {k: v for k, v in os.environ.items() if not k.startswith("IK2_")}
+    env.update(ROCR_VISIBLE_DEVICES="", **{key: "1"})
+    result = subprocess.run([binary, "--model", "/nonexistent/model", "--serve"],
+                            env=env, capture_output=True, text=True, timeout=10)
+    assert result.returncode != 0 and key in result.stderr, (key, result.stderr)
+
+# A real, minimal GGUF from the wrong model family must fail before GPU discovery.
+with tempfile.TemporaryDirectory() as directory:
+    def string(value):
+        encoded = value.encode()
+        return struct.pack("<Q", len(encoded)) + encoded
+
+    gguf = struct.pack("<IIQQ", 0x46554747, 3, 0, 1)
+    gguf += string("general.architecture") + struct.pack("<I", 8) + string("llama")
+    model = Path(directory) / "wrong-family.gguf"
+    model.write_bytes(gguf + bytes((-len(gguf)) % 32))
+    result = subprocess.run([binary, "--model", str(model), "--serve"],
+                            env={"PATH": os.environ["PATH"], "ROCR_VISIBLE_DEVICES": ""},
+                            capture_output=True, text=True, timeout=10)
+    assert result.returncode != 0 and "requires inkling2 GGUF" in result.stderr, result.stderr
+print("HIP Mini CLI admission refusals passed (14 cases, no GPU/weights required)")
