@@ -1,4 +1,5 @@
 // src/ik2/ik2_draft.cu - maya-ik2's drafter (the design: ik2_draft.hpp).
+#include "ik2_hip_compat.hpp"
 #include "ik2_draft.hpp"
 #include "ik2_kernels.cuh"
 

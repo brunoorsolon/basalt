@@ -86,7 +86,7 @@ def configure_args(args, build, compilers):
         "CMAKE_SKIP_RPATH": "ON", "STRATA_GGML_DIR": str(ROOT / DEPENDENCY),
         "STRATA_PORTABLE": "ON", "STRATA_NATIVE_EXPERTS": "ON",
         "STRATA_FRONTEND": "OFF", "STRATA_BUILD_TESTS": "OFF",
-        "STRATA_BUILD_DSV41": "OFF", "STRATA_BUILD_IK2": "OFF",
+        "STRATA_BUILD_DSV41": "OFF", "STRATA_BUILD_IK2": "ON" if args.engine == "strata-ik2" else "OFF",
         "STRATA_ENABLE_CUDA": "ON" if args.backend == "cuda" else "OFF",
         "STRATA_ENABLE_HIP": "ON" if args.backend == "hip" else "OFF",
         "STRATA_PREFILL_MMQ": "ON" if args.backend == "hip" else "OFF",
@@ -117,6 +117,8 @@ def build_candidate(args):
             "This bootstrap supports Linux x86-64 build recipes only.")
     require(args.arch in TARGETS[args.backend],
             f"Architecture {args.arch!r} is not a Redrock {args.backend} target; choose {TARGETS[args.backend]}.")
+    require(args.engine != "strata-ik2" or (args.backend, args.arch) == ("hip", "gfx1201"),
+            "strata-ik2 candidates currently require HIP and gfx1201 (one R9700).")
     require(args.jobs > 0, "--jobs must be positive.")
     candidate = args.candidate.expanduser().resolve()
     require(not candidate.is_relative_to(ROOT) and not ROOT.is_relative_to(candidate),
@@ -175,7 +177,7 @@ def main():
     build = commands.add_parser("build", help="configure, compile and package an engine in a new candidate directory")
     build.add_argument("--backend", choices=TARGETS, required=True)
     build.add_argument("--arch", required=True)
-    build.add_argument("--engine", choices=("strata", "strata-poly"), required=True)
+    build.add_argument("--engine", choices=("strata", "strata-poly", "strata-ik2"), required=True)
     build.add_argument("--candidate", type=Path, required=True)
     build.add_argument("--jobs", type=int, default=4)
     build.add_argument("--cc", default="cc")

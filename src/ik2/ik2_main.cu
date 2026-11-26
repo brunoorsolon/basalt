@@ -21,6 +21,7 @@
 // STOP); --serve-ik2 the older @-line one.  --dump: each layer's output (blk.L.out) and the log-probabilities of every
 // prompt position, F32 raw files ([T][C], [T][n_vocab]) - what tools/ik2_compare.py holds against ref/inkling2.py's
 // seams.  Settings (IK2_*): docs/SETTINGS.md.
+#include "ik2_hip_compat.hpp"
 #include "ik2_cpu.hpp"
 #include "ik2_cpu_deep.hpp"
 #include "ik2_draft.hpp"
@@ -4152,7 +4153,11 @@ void embed_row(Model& M, int t, float* raw, float* out) {
 
 int main(int argc, char** argv) {
     std::string model, toks, dump, draft_path, pictures_path;
+#ifdef STRATA_USE_HIP
+    int gen = 16, chunk = 256, ctx = 8192, threads = 8, n_gpu = 1;
+#else
     int gen = 16, chunk = 2048, ctx = 262144, threads = 8, n_gpu = 1;
+#endif
     bool serve = false, serve_maya = true;   // (--serve: Maya's engine protocol; --serve-ik2: the @-line one)
     std::vector<int> eos_ids;                 // --eos a,b: the tokens a request ends at (Maya's protocol)
     double cache_gb = 60;
@@ -4194,6 +4199,16 @@ int main(int argc, char** argv) {
         else if (a == "--pictures") pictures_path = next();
         else die("unknown argument " + a);
     }
+#ifdef STRATA_USE_HIP
+    if (ctx < 1 || ctx > 8192) die("HIP Mini candidate requires --max-context in [1, 8192]");
+    if (chunk < 1 || chunk > 256) die("HIP Mini candidate requires --chunk in [1, 256]");
+    if (gen < 0 || gen > ctx) die("--gen must be within the selected context");
+    if (n_gpu != 1) die("HIP Mini candidate requires --gpus 1 and exactly one isolated R9700");
+    if (!draft_path.empty() || !pictures_path.empty() || !serve_maya)
+        die("HIP Mini candidate is text-only, without drafting, using --serve or --tokens");
+    for (const char* key : {"IK2_CPU", "IK2_KV_MANAGED", "IK2_TIER", "IK2_LAZY_CPU"})
+        if (getenv(key) && std::atoi(getenv(key))) die(std::string(key) + " is outside the HIP resident candidate");
+#endif
     g_prof = getenv("IK2_PROF") && std::atoi(getenv("IK2_PROF"));
     g_flash = !(getenv("IK2_FLASH") && !std::atoi(getenv("IK2_FLASH")));
     g_mv = !getenv("IK2_MV") || std::atoi(getenv("IK2_MV"));
@@ -4224,6 +4239,10 @@ int main(int argc, char** argv) {
     }
     const double t_start = now();
     Shards S(model);
+#ifdef STRATA_USE_HIP
+    const auto* architecture = S.get("general.architecture");
+    if (!architecture || architecture->s != "inkling2") die("HIP Mini candidate requires inkling2 GGUF");
+#endif
     Model M;
     Config& c = M.c;
     const std::string a = "inkling2.";
@@ -4260,6 +4279,11 @@ int main(int argc, char** argv) {
     c.logit_cap = (float) key("final_logit_softcapping");
     // the loop (Inkling-2-Mini): block_count counts the layer visits, the core's layers once a pass
     if (S.get(a + "num_loops")) c.n_pass = (int) key("num_loops");
+#ifdef STRATA_USE_HIP
+    if (c.C != 2304 || c.n_visit != 48 || c.H != 24 || c.KV != 8 || c.D != 128 || c.E != 128 ||
+        c.K != 8 || c.F != 1152 || c.block != 6 || c.n_pass != 3)
+        die("HIP candidate requires Inkling 2 Mini (26B), not Inkling Small or another geometry");
+#endif
     if (c.n_pass > 1) {
         c.core0 = (int) key("loop.core_start"), c.core1 = (int) key("loop.core_end"), c.rank = (int) key("loop.gate_rank");
         if (c.core0 <= 0 || c.core1 <= c.core0 || c.core0 % c.block || (c.core1 - c.core0) % c.block || c.rank <= 0)
@@ -4267,6 +4291,10 @@ int main(int argc, char** argv) {
     }
     const int n_core = c.core1 - c.core0;
     c.n_layer = c.n_visit - (c.n_pass - 1) * n_core;
+#ifdef STRATA_USE_HIP
+    if (c.core0 != 6 || c.core1 != 18 || c.rank != 64 || c.n_layer != 24)
+        die("HIP Mini candidate requires the 24-layer, three-pass Mini loop");
+#endif
     {   // the pattern is a visit's; a layer's is its first visit's (the same in every pass)
         const auto* sp = S.get(a + "attention.sliding_window_pattern");
         if (!sp || (int) sp->items.size() != c.n_visit) die("sliding_window_pattern");
@@ -4324,6 +4352,14 @@ int main(int argc, char** argv) {
         int nd = 0;
         CU(cudaGetDeviceCount(&nd));
         if (n_gpu < 1 || n_gpu > nd) die("--gpus " + std::to_string(n_gpu) + ": " + std::to_string(nd) + " visible");
+#ifdef STRATA_USE_HIP
+        if (nd != 1) die("isolate exactly one R9700 with ROCR_VISIBLE_DEVICES; do not expose helper GPUs");
+        cudaDeviceProp selected{};
+        CU(cudaGetDeviceProperties(&selected, 0));
+        std::string arch = selected.gcnArchName;
+        arch = arch.substr(0, arch.find(':'));
+        if (arch != "gfx1201" || selected.integrated) die("HIP Mini candidate requires a discrete gfx1201 R9700");
+#endif
     }
     g_dev.resize(n_gpu);
     for (int d = 0; d < n_gpu; ++d) {
@@ -4438,6 +4474,9 @@ int main(int argc, char** argv) {
                           exp_b <= (size_t) (cache_gb * 1073741824.0);
         if (fits && !getenv("IK2_DENSE")) g_dense_q8 = true;
         g_fast_want = fits && g_dense_q8 && !(getenv("IK2_FAST") && !std::atoi(getenv("IK2_FAST")));
+#ifdef STRATA_USE_HIP
+        if (!g_fast_want) die("HIP Mini resident weights and context do not fit the selected device/settings; no host-offload fallback");
+#endif
         stage_cold = getenv("IK2_STAGE_COLD") && atoi(getenv("IK2_STAGE_COLD"));
         g_managed_experts = g_fast_want && g_kv_managed && getenv("IK2_TIER") && atoi(getenv("IK2_TIER"));
         std::printf("experts %.1f GiB, dense weights %.1f GiB as blocks, K / V cache %.1f GiB%s, %.1f GiB free: %s\n",
@@ -5231,6 +5270,9 @@ int main(int argc, char** argv) {
         return v;
     };
 
+#ifdef STRATA_USE_HIP
+    if (!g_fast) die("HIP Mini resident path unavailable after allocation; candidate remains unqualified");
+#endif
     if (serve) {
         // --serve: requests on stdin, a line each - "GEN max_new temperature top_p seed stop,stop ids,ids,..." - and
         // the answer on stdout as "@TOK id" lines then "@END reason prompt_tokens cached_tokens prompt_s gen_s".  The
@@ -5404,6 +5446,13 @@ int main(int argc, char** argv) {
                 }
                 continue;
             }
+#ifdef STRATA_USE_HIP
+            if (geni) {
+                std::printf("ERR text_only\n");
+                std::fflush(stdout);
+                continue;
+            }
+#endif
             std::vector<int> stops;
             if (serve_maya) {
                 in >> max_new;
