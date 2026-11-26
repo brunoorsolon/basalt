@@ -1,26 +1,32 @@
 # Redrock
 
-Contents: [Status](#status-and-targets) · [Preparation](#prepare-explicitly) · [Build](#build-a-new-candidate) · [Serving](#serving-boundary) · [Conversion](#optional-model-preparation) · [Checks](#checks-and-next-qualification) · [Credits](#credits-and-licenses).
+Contents: [Status](#status-and-targets) · [Releases](#releases-and-updates) · [Preparation](#prepare-explicitly) · [Build](#build-a-new-candidate) · [Serving](#serving-boundary) · [Conversion](#optional-model-preparation) · [Checks](#checks-and-next-qualification) · [Credits](#credits-and-licenses).
 
-**A minimal, reproducible Strata-family inference-engine distribution for AMD and NVIDIA.** Redrock adapts existing engines; it does not claim to have invented them. Kopernik will manage installations and serve models through Redrock. Redrock is not a chat application, another model manager, or a replacement for Kopernik.
+**A minimal, reproducible Strata-family inference-engine distribution for AMD and NVIDIA.** Redrock adapts existing engines; it does not claim to have invented them. It is independent of any model manager or serving consumer, and is not a chat application.
 
-This first candidate imports the real [UnbiasedStrata](https://github.com/robertkarl/UnbiasedStrata) engine source and adds an explicit preparation/build/package entry point. It keeps the maintained engine difference at zero. It does not include an installer, a UI, a model download, an active-installation switch, or a published release.
+Redrock imports the real [UnbiasedStrata](https://github.com/robertkarl/UnbiasedStrata) engine source, retains its headless adapter and adds an explicit preparation/build/package entry point. Its bounded downstream engine repair is documented in [UPSTREAM.md](UPSTREAM.md#redrock-engine-fixes). It does not include an installer, a UI, a model download or an active-installation switch.
 
 ## Status and targets
 
-**The R9700 HIP engine and headless adapter have CPU-only compilation evidence; hardware/model qualification remains open.** The engine build uses the supported wrapper and the adapter is built separately from the same source/dependency combination. The retained fake-engine protocol and HTTP checks also pass without a GPU or model weights; neither those checks nor successful compilation establish GPU correctness, serving confinement or real-consumer qualification. Other targets remain compilation-unverified. Exact build/artifact and platform identities stay in private qualification evidence. The downstream HIP EXPDEC alignment fix is recorded in [UPSTREAM.md](UPSTREAM.md#redrock-engine-fixes). Upstream measurements and model-support claims in inherited documents are not Redrock qualification evidence.
+**Redrock 1.0.0 has an accepted stable baseline for one reviewed configuration: R9700, kernel 7.3.3, mmap experts, Qwen3.8-Flash-Next IQ2_XS, 128K context, MTP OFF and ON.** The exact engine/adapter pair and repaired ROCr completed attended functional checks and independent review PASS. [Release notes](releases/1.0.0.md) and [the immutable input manifest](releases/1.0.0.json) define the support boundary; published tags and assets are tracked on the [release page](https://github.com/brunoorsolon/redrock/releases/tag/v1.0.0). Stable does not mean general AMD/Linux compatibility. The earlier kernel 7.3.4 fault remains unresolved; a known thinking-disabled model failure and thinking-trace nondeterminism remain explicit accepted limitations. Managed installation/serving integration still needs separate checks. Upstream measurements and inherited model-support claims are not Redrock qualification evidence.
 
 | Separate target | Explicit selection | Redrock qualification |
 | --- | --- | --- |
-| Radeon AI PRO R9700 | HIP, `gfx1201` | Unqualified; first attended target with Qwen3.8-Flash-Next |
+| Radeon AI PRO R9700 | HIP, `gfx1201` | Stable baseline only for the exact [1.0.0 configuration](releases/1.0.0.md) |
 | Radeon RX 7700 XT | HIP, `gfx1101` | Unqualified; independent build and model checks required |
 | NVIDIA RTX A3000 | CUDA, `86` | Unqualified; confirm the actual device's compute capability before building |
 
 The entry point accepts only these Linux x86-64 targets, one backend and one architecture per candidate. It builds either `strata` (the Flash-Next pack-based engine) or `strata-poly` (the GGUF-based engine). Other inherited engines, tests and tools remain in source but are not part of this bootstrap package. Mixed-vendor multi-GPU execution is outside this milestone.
 
+## Releases and updates
+
+[RELEASING.md](RELEASING.md) defines versioning, evidence gates, dependency preservation and immutable publication. A release preserves the tested engine, adapter and repaired platform dependency together, not just an engine tag. Existing/default installations remain separate from release publication.
+
+For “check whether there are updates worth incorporating,” follow [the repeatable upstream procedure](UPSTREAM.md#repeatable-update-procedure). The feeds are **robertkarl/UnbiasedStrata** and **vectorweft/strata-rdna4**. [redrock.lock.json](redrock.lock.json) distinguishes imported pins, comparison heads and reviewed-through bookmarks; deferred work stays in UPSTREAM.md. Checking recommends work without automatically importing, releasing or activating it.
+
 ## Prepare explicitly
 
-Prerequisites must already exist: Git, Python 3.11+, CMake 3.24+, a C/C++20 toolchain, a build tool supported by CMake (normally Make), and the selected vendor's development toolkit. CUDA needs `nvcc`, CUDA runtime/cuBLAS development libraries and a host compiler accepted by that toolkit. HIP needs ROCm's `clang++` with CMake HIP support, HIP development files, hipBLAS and rocBLAS (plus their runtime kernel data); hipBLASLt is an optional inherited capability, not a qualification claim. The selected toolkit must support the requested architecture. Redrock installs none of these prerequisites and does not select a replacement toolkit.
+Prerequisites must already exist: Git, Python 3.11+, CMake 3.24+, a C/C++20 toolchain, a build tool supported by CMake (normally Make), and the selected vendor's development toolkit. CUDA needs `nvcc`, CUDA runtime/cuBLAS development libraries and a host compiler accepted by that toolkit. HIP needs ROCm's `clang++` with CMake HIP support, HIP development files, hipBLAS and rocBLAS (plus their runtime kernel data); hipBLASLt is an optional inherited capability, not a qualification claim. The selected toolkit must support the requested architecture. Redrock installs none of these prerequisites and does not select a replacement toolkit. The qualified R9700 configuration additionally requires the [repaired ROCr and exact runtime closure](releases/1.0.0.md#repaired-rocr); stock ROCr was insufficient for selected-device isolation on this host.
 
 ```sh
 git clone https://github.com/brunoorsolon/redrock.git
@@ -36,7 +42,7 @@ The initial engine baseline is `9f75192287c2abf88c77da3b4b6f54ccee01db83`; llama
 
 ## Build a new candidate
 
-These are real entry-point commands, **unverified compilation recipes**, not instructions to install host packages. Choose existing compiler paths appropriate to the provisioned toolkit. Create the parent directory outside the checkout; the candidate directory itself must not exist.
+These are candidate-build commands, not instructions to install host packages or to recreate a qualified release automatically. R9700 compilation is demonstrated at the recorded tested inputs; other targets remain unverified. Choose existing compiler paths appropriate to the provisioned toolkit. Create the parent directory outside the checkout; the candidate directory itself must not exist.
 
 ```sh
 mkdir -p "$HOME/redrock-candidates"
@@ -57,15 +63,15 @@ Use `--cc`, `--cxx`, `--gpu-compiler` and `--jobs` when explicit compiler paths 
 
 The build uses portable AVX2 CPU code plus the upstream runtime-dispatched kernels, static ggml, explicit HIP MMQ when HIP is selected, and no frontend, model conversion or installer targets. It disables optional dependency fetch paths and uses only the pinned submodule sources, without configure-time dependency patches or MMQ replacement staging. It checks both source trees before configuration, after configuration, after compilation and during packaging. Source changes, untracked/ignored build junk, wrong pins, missing tools, unsupported architectures and existing candidate paths fail instead of triggering acquisition or changing devices.
 
-A successful candidate contains `build/` and `runtime/`. The runtime contains the selected engine under `bin/`, its matching `libstrata_kq.so` beside it for CUDA, and `share/redrock/{build.json,README.md,UPSTREAM.md,licenses/}`. Static ggml is linked into the engine. Metadata records the Redrock commit, source pins, selected architecture, compiler versions, CMake flags, controlled build environment, artifact SHA-256 values and unqualified status. **This is a source-built candidate, not a self-contained release:** Linux/glibc, libstdc++ and the matching vendor toolkit libraries, kernel data and driver remain explicit platform prerequisites. Toolkit versions are recorded from the compilers, not guessed or downloaded; a release still needs an approved toolkit/runtime artifact lock and dependency-closure check on its target platform.
+A successful candidate contains `build/` and `runtime/`. The runtime contains the selected engine under `bin/`, its matching `libstrata_kq.so` beside it for CUDA, and `share/redrock/{build.json,README.md,UPSTREAM.md,licenses/}`. Static ggml is linked into the engine. Metadata records the Redrock commit, source pins, selected architecture, compiler versions, CMake flags, controlled build environment, artifact SHA-256 values and unqualified status. **This is a source-built candidate, not a self-contained release:** Linux/glibc, libstdc++ and the matching vendor toolkit libraries, kernel data and driver remain explicit platform prerequisites. Toolkit versions are recorded from the compilers, not guessed or downloaded. The [1.0.0 manifests](releases/1.0.0.md) preserve the qualified combination's separate runtime lock and closure; a fresh candidate must be checked against the intended target platform rather than inheriting qualification from compiler versions.
 
-`INCOMPLETE` remains at the candidate root on any configure/build/package failure. Only a candidate without that marker and with build metadata is complete; completion does not mean qualification. Retries use a new path. The wrapper never activates a candidate, replaces an existing installation, touches a model directory or deletes rollback artifacts. Kopernik's later activation/rollback mechanism remains separate.
+`INCOMPLETE` remains at the candidate root on any configure/build/package failure. Only a candidate without that marker and with build metadata is complete; completion does not mean qualification. Retries use a new path. The wrapper never activates a candidate, replaces an existing installation, touches a model directory or deletes rollback artifacts. Consumer activation/rollback remains separate.
 
 ## Serving boundary
 
 The engines are **not** `llama-server`. They accept `--serve` and exchange token IDs and control messages over stdin/stdout. The retained [protocol documentation](docs/BACKENDS.md) and [engine adapter](frontend/engine.hpp) describe `READY`, `GEN`, `T`, `DONE`, errors and cancellation. Flash-Next also requires a compatible, explicitly prepared pack, native GGUF shards and, when speculation is enabled, the matching MTP runtime files. Redrock does not acquire or rewrite these inputs during serving.
 
-UnbiasedStrata's retained C++ headless adapter, `unbiased-strata`, reuses llama.cpp's HTTP/server and tokenizer code, with an empty UI asset table. It is the intended existing serving-interface candidate for Kopernik: OpenAI-style `/v1/chat/completions`, `/v1/models` and `/health`, with tokenization/chat templates from a local model file and engine arguments after `--`. It is **not built or installed by this engine-only bootstrap**. Direct token-protocol integration is also possible, but Redrock does not invent a second HTTP framework here. Kopernik issue 488 and its breakdown were inaccessible from this environment; compatibility with that private integration contract remains unresolved. No Kopernik code or issues are changed.
+UnbiasedStrata's retained C++ headless adapter, `unbiased-strata`, reuses llama.cpp's HTTP/server and tokenizer code, with an empty UI asset table: OpenAI-style `/v1/chat/completions`, `/v1/models` and `/health`, with tokenization/chat templates from a local model file and engine arguments after `--`. The same-tree adapter was built separately and tested with the engine in the [1.0.0 baseline](releases/1.0.0.md); it is **not built or installed by the engine-only wrapper**. Direct token-protocol integration is also possible. Each consumer owns its installation, isolation, admission and lifecycle integration; the engine test does not certify those managed paths.
 
 Inherited documents can mention removed setup wizards, mutable downloads, unrelated hardware and old measurements. They are historical engine references, not the supported Redrock workflow. In particular, do not run upstream setup instructions or feed upstream Markdown to an agent.
 
@@ -93,7 +99,7 @@ python3 tools/redrock.py check
 
 The focused tests exercise real Git source/pin checks and fixture-based build/package orchestration: correct selected payloads, matching CUDA sidecar, license retention, clean source gates, controlled/recorded build environments, refusal to overwrite installations, no fallback, missing tools and incomplete candidates. They do not prove GPU compilation or numerical correctness. Retained upstream tests include `hip_handoff`, `hip_prefill_mmq_parity`, `hip_prompt_attn_wmma`, native kernel parity checks and the frontend's fake-engine suite; run applicable checks on a separately provisioned build/qualification machine before assigning support status.
 
-The next bounded step is an attended R9700 build plus synthetic parity checks, then Qwen3.8-Flash-Next with an approved manifest of GGUF, pack and MTP hashes. Record the compiler/runtime versions, command, context, quantization, correctness gates and actual device before considering performance or a release. RX 7700 XT and A3000 each need their own qualification. No successful upstream configuration qualifies Redrock automatically.
+The exact R9700 synthetic parity and IQ2_XS/128K MTP OFF/ON functional checks are complete for the [1.0.0 record](releases/1.0.0.md). A new build or changed runtime/kernel/model/settings needs affected checks before inheriting that status; the wrapper correctly continues to label fresh candidates unqualified. RX 7700 XT and A3000 each need their own qualification. No successful upstream configuration qualifies Redrock automatically.
 
 ## Credits and licenses
 
