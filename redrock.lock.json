@@ -24,5 +24,15 @@
     "commit": "f999715d0b28afdb4e9c3eb31317ff7789be54c9",
     "tree": "bf1fdc210d330b2b4aba7178b6472605327629e7",
     "patch": "releases/patches/rocr-filtered-gpu-memory-policy.patch"
+  },
+  "inkling_hip_slice": {
+    "url": "https://github.com/mw00/project-maya",
+    "commit": "53885cef8faf0d3b3f7e28c0b1537a056c1f3ecf",
+    "adapted_components": [
+      "src/ik2/ik2_kernels.cu: HIP fragment and packed-half helpers",
+      "src/ik2/ik2_rdna.inc: prompt attention only",
+      "include/maya/kernels/rdna_wmma.hpp"
+    ],
+    "scope": "Selective adaptation, not a Maya snapshot update; see docs/INKLING_MINI_HIP.md"
   }
 }

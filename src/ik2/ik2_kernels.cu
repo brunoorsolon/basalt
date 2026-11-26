@@ -926,8 +926,8 @@ constexpr float kLog2e = 1.4426950408889634f;
 // same elements), so every kernel written for them runs as it is: the m16n8k16 product from the A rows and B columns
 // gathered by shuffles (each product of two FP16 is exact in FP32; the sums in a fixed order, the same every run), an
 // ldmatrix from the row addresses of the lanes that give them, a cp.async as a plain copy (the kernels wait for a
-// copy before they read its buffer and never write one that is still read).  The hot paths have RDNA kernels of
-// their own (ik2_rdna.inc); these are what every other path takes.
+// copy before they read its buffer and never write one that is still read). Prompt attention uses the separate
+// RDNA WMMA slice; other CUDA-shaped paths keep these layout-preserving helpers.
 __device__ __forceinline__ void mma16816(float* c, const uint32_t* a, uint32_t b0, uint32_t b1) {
     const int lane = threadIdx.x & 31, g = lane >> 2, t = lane & 3;
 #pragma unroll

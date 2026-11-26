@@ -14,11 +14,17 @@ Redrock owns its downstream changes and eventual releases. Upstream authors own 
 
 The project was named Basalt at import. Import method: merge UnbiasedStrata's unrelated history into Basalt's feature branch, retaining Basalt's initial commit `a0d0f20159d9cc2e551acf3aec792bf954c2cd91`. The import commit is `02d73945c4e8221aced960b119b35ecb546e4a94`; both parents are retained. No `.git` replacement, origin change, history rewrite or RDNA4-tree merge was used. The Basalt license notice was restored alongside the retained Strata notice in the downstream commit. The imported baseline left `src/`, `include/` and the upstream CMake build unchanged; the bounded Redrock engine fixes below are additional downstream changes.
 
-The inherited record below is retained as historical provenance, not silently rewritten as Redrock validation. In particular, its earlier submodule versions describe earlier imports: the actual current dependency is the gitlink/lock above. Vendored components are frozen by the Redrock commit's tree; their upstream origins remain documented below. The selected entry point builds only `strata` or `strata-poly`; it neither builds the other vendored engines nor fetches their prerequisites.
+The inherited record below is retained as historical provenance, not silently rewritten as Redrock validation. In particular, its earlier submodule versions describe earlier imports: the actual current dependency is the gitlink/lock above. Vendored components are frozen by the Redrock commit's tree; their upstream origins remain documented below. The selected entry point builds `strata`, `strata-poly` or the explicitly selected R9700/HIP `strata-ik2` candidate; it neither builds the other vendored engines nor fetches their prerequisites.
 
 ### Redrock engine fixes
 
 - **HIP EXPDEC shared alignment:** in `src/kernels/cuda/iq_kernels.cu`, remove redundant declaration-level `alignas(16)` from the gate/up and down `int4` shared-memory arrays inherited from UnbiasedStrata `9f75192287c2abf88c77da3b4b6f54ccee01db83`. ROCm Clang rejects that attribute placement. CUDA/HIP `int4` already provides the required alignment; a compile-time assertion preserves the 16-byte layout requirement. Array dimensions, staging/reduction code, dispatch, numerical operations and dependency pins are unchanged. This is a local adaptation of the canonical Redrock baseline, not an import from the deferred RDNA4 range. Compilation and hardware parity remain distinct evidence gates.
+
+### Inkling Mini HIP selective adaptation (issue #8)
+
+On 2026-11-26, maintained Project Maya `main` resolved to `53885cef8faf0d3b3f7e28c0b1537a056c1f3ecf`. Redrock adapts only its HIP fragment/packed-half helpers and 24-KiB RDNA prompt-attention/WMMA slice onto the retained Inkling engine. Dense and batched expert products use the existing hipBLAS contract; decode experts default to direct row dots on HIP. The Maya installer, serving stack, newer offload/thread lanes, vision and drafting changes are not imported. `redrock.lock.json` records this bounded source identity; neither engine-feed review bookmark nor llama.cpp pin advances. The existing Project Maya MIT notice remains packaged.
+
+[The candidate record](docs/INKLING_MINI_HIP.md) separates actual compilation/offline checks from pending operator/model/hardware qualification, identifies the deliberately selected immutable model input and changed mainline artifact, and gives reconstruction and attended probes. This candidate is not added to the 1.0.0 stable boundary.
 
 ### Review bookmarks
 

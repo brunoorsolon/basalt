@@ -1,0 +1,38 @@
+{
+  "status": "selected_for_pending_attended_qualification_not_downloaded",
+  "model": {
+    "repository": "unsloth/Inkling-2-Mini-GGUF",
+    "revision": "8078d149286eec7193795413b9e0643da6d11fa1",
+    "filename": "Old_Support/Inkling-2-Mini-UD-Q4_K_XL.gguf_file",
+    "size": 17629759456,
+    "sha256": "e62d463c135ffe283df8d94b279a96ca145ac128b52ce854478613045bf4de15",
+    "license": "Apache-2.0",
+    "selection_reason": "Explicit retained engine-layout artifact, resolved anew from the maintained repository. The mainline root artifact is different; do not substitute it."
+  },
+  "author": {
+    "repository": "thinkingmachines/Inkling-2-Mini",
+    "revision": "c9d028302cd0f035fdf8e7e91f089a4ce94d2195",
+    "license": "Apache-2.0",
+    "architecture": "Inkling2LoopForConditionalGeneration",
+    "model_type": "inkling2_loop"
+  },
+  "tokenizer": {
+    "source": "embedded in the exact model GGUF; covered by its full-file SHA-256"
+  },
+  "chat_template": {
+    "source": "embedded in the exact model GGUF; covered by its full-file SHA-256",
+    "adapter": "frontend/strata_context.cpp and frontend/inkling.hpp at the candidate source revision; compact-JSON Jinja compatibility and tool-argument canonicalization"
+  },
+  "drafter": null,
+  "vision": null,
+  "derived_artifacts": [],
+  "configuration": {
+    "context": 8192,
+    "chunk": 256,
+    "kv": "f16",
+    "gpus": 1,
+    "expert_mma": 0,
+    "model_download_bytes_authorized": 0
+  },
+  "limits": "This is a text-only inference probe, not 96K+ local coding-model qualification or a release support claim."
+}

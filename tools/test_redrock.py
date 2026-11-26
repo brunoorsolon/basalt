@@ -113,6 +113,12 @@ else:
         notice.parent.mkdir(parents=True)
         notice.write_text("Maya HIP slice provenance\n")
         (notice.parent / "LICENSE").write_text("Maya MIT license\n")
+        guide = self.root / "docs/INKLING_MINI_HIP.md"
+        guide.parent.mkdir()
+        guide.write_text("Unqualified Inkling candidate reconstruction\n")
+        inputs = self.root / "docs/qualification/inkling-mini-hip-inputs.json"
+        inputs.parent.mkdir()
+        inputs.write_text('{"status": "pending"}\n')
         self.commit(self.root)
         redrock.build_candidate(self.args)
         runtime = self.args.candidate / "runtime"
@@ -124,6 +130,8 @@ else:
         self.assertIn("-DSTRATA_FRONTEND=OFF", flags)
         metadata = runtime / "share/redrock"
         self.assertEqual((metadata / "licenses/third_party/project-maya/NOTICE.md").read_text(), notice.read_text())
+        self.assertEqual((metadata / "docs/INKLING_MINI_HIP.md").read_text(), guide.read_text())
+        self.assertEqual((metadata / "docs/qualification/inkling-mini-hip-inputs.json").read_text(), inputs.read_text())
         record = json.loads((metadata / "build.json").read_text())
         self.assertEqual(record["engine"], "strata-ik2")
         self.assertEqual(set(record["sha256"]), {"strata-ik2"})

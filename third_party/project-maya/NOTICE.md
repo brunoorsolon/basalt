@@ -19,3 +19,5 @@ and permission notice, in `LICENSE` beside this file.
 The engine in `src/ik2/` and the kernel parity test in `tests/ik2_kernels_test.cu` are adapted from
 [alesha-pro/maya-inkling-mini at e819852f](https://github.com/alesha-pro/maya-inkling-mini/tree/e819852f822479af783638a467bfdfe2ed6882ec).
 The same Project Maya MIT license applies. Strata supplies the CMake target, GGUF shard resolution, and server integration.
+
+Redrock's R9700 HIP candidate selectively adapts Project Maya at `53885cef8faf0d3b3f7e28c0b1537a056c1f3ecf` (https://github.com/mw00/project-maya): the portable CUDA-fragment and packed-half helpers from `src/ik2/ik2_kernels.cu`, prompt attention from `src/ik2/ik2_rdna.inc` into `src/ik2/ik2_rdna_attention.inc`, and `include/maya/kernels/rdna_wmma.hpp` into `src/ik2/ik2_rdna_wmma.hpp`. Namespace/build macros are adapted to Redrock. The same copyright and MIT permission notice apply. Maya's installer, Python server, model manager, offload lane and other engine updates are not imported. Source identity and qualification limits are recorded in `docs/INKLING_MINI_HIP.md` and `redrock.lock.json`.

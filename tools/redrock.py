@@ -151,8 +151,13 @@ def build_candidate(args):
         metadata = package / "share" / "redrock"
         metadata.mkdir(parents=True)
         licenses(metadata / "licenses")
-        for name in ("README.md", "UPSTREAM.md"):
-            shutil.copy2(ROOT / name, metadata / name)
+        documents = ["README.md", "UPSTREAM.md"]
+        if args.engine == "strata-ik2":
+            documents += ["docs/INKLING_MINI_HIP.md", "docs/qualification/inkling-mini-hip-inputs.json"]
+        for name in documents:
+            target = metadata / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(ROOT / name, target)
         require(identity() == provenance, "Source identity changed during packaging.")
         record = dict(provenance, backend=args.backend, architecture=args.arch, engine=args.engine,
                           cmake_version=run([cmake, "--version"], env=environment).splitlines()[0],
