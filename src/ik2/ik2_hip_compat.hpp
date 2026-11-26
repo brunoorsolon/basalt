@@ -4,6 +4,7 @@
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
 #define cudaCpuDeviceId hipCpuDeviceId
+#define cudaOccupancyMaxActiveBlocksPerMultiprocessor hipOccupancyMaxActiveBlocksPerMultiprocessor
 #define cudaMallocManaged hipMallocManaged
 #define cudaMemPrefetchAsync hipMemPrefetchAsync
 #define cudaDevAttrConcurrentManagedAccess hipDeviceAttributeConcurrentManagedAccess
