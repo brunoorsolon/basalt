@@ -1901,6 +1901,15 @@ void test_fp8_kv() {
         }
         expect_true("e4m3fn_to_f16: all 254 finite bytes bit-exact", finite_exact);
         expect_true("e4m3fn_to_f16: 0x7F/0xFF NaN", nan_ok);
+        k::unpack_kv_fp8_to_f16(db, db, 0, 0, 256, 1, 1.0f, 1.0f, dk16, dv16, 0);
+        const auto scalar_k = host(dk16, 256), scalar_v = host(dv16, 256);
+        bool scalar_exact = true;
+        for (int b = 0; b < 256; ++b) {
+            if ((b & 0x7F) == 0x7F) continue;
+            const uint16_t expected = f2h_host(e4m3fn_to_f32_host((uint8_t) b));
+            scalar_exact &= scalar_k[b] == expected && scalar_v[b] == expected;
+        }
+        expect_true("e4m3fn_to_f16 scalar: all finite bytes bit-exact", scalar_exact);
         cudaFree(db), cudaFree(dk16), cudaFree(dv16);
     }
 

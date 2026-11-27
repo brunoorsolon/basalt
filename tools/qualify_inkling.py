@@ -165,6 +165,7 @@ def probe(args):
     env.update(ROCR_VISIBLE_DEVICES=args.device, HIP_VISIBLE_DEVICES="0", CUDA_VISIBLE_DEVICES="",
                LC_ALL="C", IK2_KV="f16", IK2_EXPERT_MMA="0", LD_LIBRARY_PATH=args.runtime_library_path)
     evidence["environment"] = env
+    initial_vram = int((device / "mem_info_vram_used").read_text())
     try:
         refusal = subprocess.run([str(engine), "--model", str(args.model), "--serve", "--max-context", "8192",
                                   "--chunk", "256", "--cache-gb", "1"], env=env, capture_output=True, text=True, timeout=30)
@@ -173,6 +174,11 @@ def probe(args):
         evidence["memory_budget_refusal"] = {"expert_cache_budget_gib": 1, "exit_code": refusal.returncode,
                                               "stderr": refusal.stderr, "scope": "real-model admission refusal, not induced VRAM exhaustion"}
         for iteration in range(2):
+            release_deadline = time.monotonic() + 15
+            while int((device / "mem_info_vram_used").read_text()) > initial_vram + 512 * 1024**2:
+                require(time.monotonic() < release_deadline, "previous engine's device allocations were not released")
+                time.sleep(.1)
+            evidence[f"restart_baseline_vram_{iteration}"] = int((device / "mem_info_vram_used").read_text())
             with socket.socket() as sock:
                 sock.bind(("127.0.0.1", 0))
                 port = sock.getsockname()[1]
@@ -219,6 +225,13 @@ def probe(args):
                     followup, result = completion(url, {**basic, "messages": messages, "max_tokens": 64})
                     require("739281" in (followup.get("content") or ""), "tool-result continuation lost the result")
                     evidence.update(tool_stream=tool_stream, tool_result=result)
+                    near_limit, context_result = completion(url, {**basic,
+                        "messages": [{"role": "user", "content": "Context-boundary padding:" + " x" * 7800 +
+                                      "\nReply with exactly: ready"}]})
+                    require(near_limit.get("content", "").strip() == "ready" and
+                            7800 <= context_result["usage"]["prompt_tokens"] <= 8192 - 32,
+                            "near-limit context did not complete the requested task")
+                    evidence["near_context_limit"] = context_result
                     _, limited = completion(url, {**basic, "max_tokens": 8,
                         "messages": [{"role": "user", "content": "Count from 1 to 100, printing every integer in order."}]})
                     require(limited["usage"]["completion_tokens"] == 8 and limited["choices"][0]["finish_reason"] == "length",
