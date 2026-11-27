@@ -370,5 +370,11 @@
     "device_vram_total_bytes": 32061259776,
     "device_vram_available_at_probe_start_bytes": 30435442688,
     "method": "Kernel sysfs and /proc observations; available memory is an observation, not a reservation."
+  },
+  "reconstruction_verification": {
+    "source_commit": "8d5a5f4e255ab2dfbe331584552c8ad9457f9f43",
+    "engine_sha256": "68fadf0e99e83c09e4e004a1311760cbb951a87df3917aef6af500c03a0d9f10",
+    "result": "A second fresh source-controlled candidate build produced the byte-identical qualified engine and retained the complete qualification documentation; build metadata still starts unqualified.",
+    "record": "inkling-mini-hip/reconstruction-build.json"
   }
 }

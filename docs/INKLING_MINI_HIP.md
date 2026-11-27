@@ -76,7 +76,7 @@ cmake -S . -B /chosen/fresh-adapter-build -DCMAKE_BUILD_TYPE=Release \
 cmake --build /chosen/fresh-adapter-build --parallel 2 --target unbiased-strata
 ```
 
-Its executable is `/chosen/fresh-adapter-build/unbiased-strata`. Preserve its hash alongside the engine/input/runtime records. A rebuild is not promised to be bit-identical; changed artifacts or runtime/settings need affected verification rather than inheriting this result.
+Its executable is `/chosen/fresh-adapter-build/unbiased-strata`. Preserve its hash alongside the engine/input/runtime records. A later fresh build from `8d5a5f4e255ab2dfbe331584552c8ad9457f9f43` produced the byte-identical qualified engine and retained the complete qualification documentation; its [reconstruction metadata](qualification/inkling-mini-hip/reconstruction-build.json) is preserved. Arbitrary rebuilds are not promised to be bit-identical; changed artifacts or runtime/settings need affected verification rather than inheriting this result.
 
 ## Checks and reruns
 
