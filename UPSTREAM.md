@@ -55,7 +55,7 @@ On 2026-11-26, maintained Project Maya `main` resolved to `53885cef8faf0d3b3f7e2
 
 ### Qualification and retained boundaries
 
-The [1.0.0 record](releases/1.0.0.md) supersedes the earlier CPU-only checkpoint: the exact engine/adapter pair and repaired ROCr passed attended synthetic parity and IQ2_XS/128K MTP OFF/ON functional checks, with independent review PASS and explicit accepted limitations. This result applies to kernel 7.3.3 with mmap experts on the selected R9700, not other platforms. The earlier kernel 7.3.4 fault remains unresolved. RX 7700 XT and A3000 still need separate compilation and device/model evidence.
+The [1.0.0 record](releases/1.0.0.md) supersedes the earlier CPU-only checkpoint: the exact engine/adapter pair and repaired ROCr passed attended synthetic parity and IQ2_XS/128K MTP OFF/ON functional checks, with independent review PASS and explicit accepted limitations. This result records kernel 7.3.3 with mmap experts on the selected R9700; it is historical qualification evidence, not a host kernel pin. New work targets and validates the running platform. RX 7700 XT and A3000 still need separate compilation and device/model evidence.
 
 The qualified ROCr adaptation is based on `ROCm/ROCR-Runtime` `4e4d7abeb786e903ac2a46815ae2565de331cbd4` (7.1.1), repaired as `f999715d0b28afdb4e9c3eb31317ff7789be54c9`. The [retained patch and reconstruction recipe](releases/1.0.0.md#repaired-rocr) preserve the source independently of that local commit. Stock ROCr failed selected-device initialization on this host; exposing additional GPUs is not an equivalent fix. This is a platform dependency repair, not an imported strata-rdna4 kernel change.
 
