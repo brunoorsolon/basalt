@@ -2,7 +2,7 @@
 
 ## Current host platform
 
-Target the host's running kernel (currently 7.3.4); adapt and validate Redrock on that platform. The 1.0.0 results on 7.3.3 and its earlier fault report are historical evidence, not a kernel pin, downgrade requirement or standing blocker. Keep those release records intact. Mention the historical fault only when the human asks about it or fresh execution evidence makes it relevant to the current task; routine status and handoff replies should report current results instead. Kernel changes belong to the human.
+Work on the host's running kernel; adapt and validate Redrock there. Kernel rollback requires documented catastrophic, repeatable failures and the human's authorization. Before assessing kernel selection, interpreting historical kernel results or handling a kernel/driver incident, read `docs/KERNEL_POLICY.md` for the accepted rationale, evidence threshold and incident-recording requirements. Historical qualification is not a kernel pin or a recurring status warning.
 
 For an upstream update check or incorporation, read `UPSTREAM.md`, including its update procedure, checkpoints and deferred work. A request to check for updates means assess and recommend, not import or release. For release preparation or publication, read `RELEASING.md` and the selected `releases/<version>.md`/JSON records.
 
