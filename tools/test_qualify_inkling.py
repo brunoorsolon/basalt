@@ -7,6 +7,7 @@ import subprocess
 import sys
 import threading
 import unittest
+from unittest.mock import patch
 
 import qualify_inkling as q
 
@@ -52,7 +53,8 @@ class ProbeTests(unittest.TestCase):
     def test_rates_count_only_uncached_prompt_tokens(self):
         samples = q.rates("task 1: DONE produced=8 prompt=100 prompt_ms=100.0 decode_ms=200.0 finish=length drafts=0/0 reused=90")
         self.assertEqual(samples[0]["prompt_tokens_per_second"], 100)
-        self.assertEqual(samples[0]["generation_tokens_per_second"], 40)
+        self.assertEqual(samples[0]["decoded_tokens"], 7)
+        self.assertEqual(samples[0]["generation_tokens_per_second"], 35)
 
     def test_streamed_text_tool_fragments_and_result_continuation(self):
         bodies = []
@@ -67,14 +69,16 @@ class ProbeTests(unittest.TestCase):
                 self.send_response(200)
                 self.end_headers()
                 if body.get("stream"):
+                    chunks = []
                     for delta in [
                         {"content": "Hello "}, {"content": "world"},
                         {"tool_calls": [{"index": 0, "id": "call-1", "function": {"name": "look", "arguments": '{"key":'}}]},
                         {"tool_calls": [{"index": 0, "function": {"name": "up", "arguments": '"x"}'}}]},
                     ]:
-                        self.wfile.write(b"data: " + json.dumps({"choices": [{"delta": delta}]}).encode() + b"\n\n")
+                        chunks.append(b"data: " + json.dumps({"choices": [{"delta": delta}]}).encode() + b"\n\n")
                     if not body.get("truncate"):
-                        self.wfile.write(b"data: [DONE]\n\n")
+                        chunks.append(b"data: [DONE]\n\n")
+                    self.wfile.write(b"".join(chunks))
                 else:
                     self.wfile.write(json.dumps({"choices": [{"message": {"role": "assistant", "content": "739281"}}]}).encode())
 
@@ -94,6 +98,9 @@ class ProbeTests(unittest.TestCase):
             self.assertEqual(bodies[-1]["messages"], messages)
             with self.assertRaisesRegex(RuntimeError, "without \\[DONE\\]"):
                 q.completion(url, {"truncate": True}, True)
+            with patch.object(q.time, "monotonic", side_effect=[0, 121]):
+                with self.assertRaisesRegex(RuntimeError, "wall-clock limit"):
+                    q.completion(url, {}, True)
         finally:
             server.shutdown()
             server.server_close()

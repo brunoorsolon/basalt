@@ -82,7 +82,7 @@ class MemorySampler:
         self.pid, self.device = pid, device
         self.stop = threading.Event()
         self.error = None
-        self.peak_rss = self.peak_vram = 0
+        self.peak_rss = self.peak_hwm = self.peak_vram = 0
         self.baseline_vram = int((device / "mem_info_vram_used").read_text())
         self.thread = threading.Thread(target=self.sample, daemon=True)
         self.thread.start()
@@ -90,7 +90,7 @@ class MemorySampler:
     def sample(self):
         try:
             while not self.stop.is_set():
-                pending, seen, rss = [self.pid], set(), 0
+                pending, seen, rss, hwm = [self.pid], set(), 0, 0
                 while pending:
                     pid = pending.pop()
                     if pid in seen:
@@ -100,11 +100,13 @@ class MemorySampler:
                     try:
                         status = (proc / "status").read_text().splitlines()
                         rss += sum(int(s.split()[1]) * 1024 for s in status if s.startswith("VmRSS:"))
+                        hwm += sum(int(s.split()[1]) * 1024 for s in status if s.startswith("VmHWM:"))
                         for children in (proc / "task").glob("*/children"):
                             pending.extend(int(p) for p in children.read_text().split())
                     except FileNotFoundError:
                         pass
                 self.peak_rss = max(self.peak_rss, rss)
+                self.peak_hwm = max(self.peak_hwm, hwm)
                 self.peak_vram = max(self.peak_vram, int((self.device / "mem_info_vram_used").read_text()))
                 self.stop.wait(.05)
         except Exception as error:
@@ -114,9 +116,10 @@ class MemorySampler:
         self.stop.set()
         self.thread.join()
         require(self.error is None, f"memory sampling failed: {self.error}")
-        return {"peak_process_tree_rss_bytes": self.peak_rss, "baseline_device_vram_bytes": self.baseline_vram,
+        return {"peak_process_tree_rss_bytes": self.peak_rss, "process_tree_hwm_upper_bound_bytes": self.peak_hwm,
+                "baseline_device_vram_bytes": self.baseline_vram,
                 "peak_device_vram_bytes": self.peak_vram, "sample_interval_seconds": .05,
-                "limits": "RSS can double-count shared mappings; VRAM includes other device users; sampled peaks are lower bounds"}
+                "limits": "RSS can double-count shared mappings; summed per-process HWM is an upper bound on concurrent RSS; VRAM includes other device users; sampled peaks are lower bounds"}
 
 
 def rates(log):
@@ -125,10 +128,11 @@ def rates(log):
     for match in re.finditer(pattern, log):
         produced, prompt, pp_ms, gen_ms, finish, reused = match.groups()
         pp_ms, gen_ms = float(pp_ms), float(gen_ms)
+        decoded = max(0, int(produced) - 1) if finish != "cancel" else None
         samples.append({"prompt_tokens_processed": int(prompt) - int(reused), "generated_tokens": int(produced),
-                        "prompt_ms": pp_ms, "decode_ms": gen_ms, "finish": finish,
+                        "decoded_tokens": decoded, "prompt_ms": pp_ms, "decode_ms": gen_ms, "finish": finish,
                         "prompt_tokens_per_second": (int(prompt) - int(reused)) * 1000 / pp_ms if pp_ms else None,
-                        "generation_tokens_per_second": int(produced) * 1000 / gen_ms if gen_ms else None})
+                        "generation_tokens_per_second": decoded * 1000 / gen_ms if gen_ms and decoded else None})
     return samples
 
 
@@ -162,6 +166,12 @@ def probe(args):
                LC_ALL="C", IK2_KV="f16", IK2_EXPERT_MMA="0", LD_LIBRARY_PATH=args.runtime_library_path)
     evidence["environment"] = env
     try:
+        refusal = subprocess.run([str(engine), "--model", str(args.model), "--serve", "--max-context", "8192",
+                                  "--chunk", "256", "--cache-gb", "1"], env=env, capture_output=True, text=True, timeout=30)
+        require(refusal.returncode != 0 and "no host-offload fallback" in refusal.stderr and "READY" not in refusal.stdout,
+                "one-GiB expert budget was not refused before model readiness")
+        evidence["memory_budget_refusal"] = {"expert_cache_budget_gib": 1, "exit_code": refusal.returncode,
+                                              "stderr": refusal.stderr, "scope": "real-model admission refusal, not induced VRAM exhaustion"}
         for iteration in range(2):
             with socket.socket() as sock:
                 sock.bind(("127.0.0.1", 0))
@@ -193,7 +203,7 @@ def probe(args):
                     basic = {"model": "inkling-mini", "messages": [{"role": "user", "content": "Reply with exactly: ready"}],
                              "reasoning_effort": "none", "temperature": 0, "max_tokens": 32, "cache_prompt": False}
                     message, stream = completion(url, basic, streamed=True)
-                    require(bool(message["content"].strip()), "streamed text was empty")
+                    require(message["content"].strip() == "ready", "streamed text did not follow the exact simple instruction")
                     evidence[f"text_stream_{iteration}"] = stream
                     if iteration:
                         continue
@@ -209,8 +219,10 @@ def probe(args):
                     followup, result = completion(url, {**basic, "messages": messages, "max_tokens": 64})
                     require("739281" in (followup.get("content") or ""), "tool-result continuation lost the result")
                     evidence.update(tool_stream=tool_stream, tool_result=result)
-                    _, limited = completion(url, {**basic, "max_tokens": 8})
-                    require(0 < limited["usage"]["completion_tokens"] <= 8, "output budget was not respected")
+                    _, limited = completion(url, {**basic, "max_tokens": 8,
+                        "messages": [{"role": "user", "content": "Count from 1 to 100, printing every integer in order."}]})
+                    require(limited["usage"]["completion_tokens"] == 8 and limited["choices"][0]["finish_reason"] == "length",
+                            "eight-token output budget did not truncate generation")
                     evidence["output_limit"] = limited
                     try:
                         completion(url, {**basic, "messages": [{"role": "user", "content": " x" * 9000}]})
