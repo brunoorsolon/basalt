@@ -454,6 +454,9 @@ constexpr int kConvTileT = 16;
 // Single-launch channel-mapped conv4 for small T (T <= kConvFusedMaxT): y must not alias x.
 __global__ void conv4_fused_kernel(const float* x, float* hist, const float* w, const float* dyn, int heads, int T,
                                    int C, const float* residual, float* y) {
+#ifdef STRATA_USE_HIP
+#pragma clang fp contract(on)   // Match the fused MoE path without cross-statement FMA contraction.
+#endif
     const int c = blockIdx.x * blockDim.x + threadIdx.x;
     if (c >= C) return;
     float h0 = hist[c], h1 = hist[(size_t) C + c], h2 = hist[(size_t) 2 * C + c];
@@ -1872,6 +1875,9 @@ __global__ void swiglu_cap_f32_kernel(const float* gu, int n, int F, const float
 __global__ void moe_combine_conv_kernel(const float* __restrict__ y, const int* __restrict__ inv,
                                         const float* __restrict__ wt, int K, int C, float* hist,
                                         const float* __restrict__ w, const float* res, float* out) {
+#ifdef STRATA_USE_HIP
+#pragma clang fp contract(on)   // Keep the residual addition separate, as in conv4_res.
+#endif
     const int c = blockIdx.x * blockDim.x + threadIdx.x;
     if (c >= C) return;
     float a = 0.0f;
@@ -3756,17 +3762,25 @@ __global__ void unpack_kv_fp8_to_f16_vec4_kernel(const uint8_t* kc, const uint8_
         const size_t dst_off = (size_t) j * KD;
         if (k_out16) {
             const uint32_t k4 = __ldg((const uint32_t*) (kc + src_off) + d4);
-            const float2 f0 = e4m3fnx2_to_f2((uint16_t) (k4 & 0xFFFFu));
-            const float2 f1 = e4m3fnx2_to_f2((uint16_t) (k4 >> 16));
-            ((uint2*) (k_out16 + dst_off))[d4] = make_uint2(f2_to_u32(f0.x * k_inv_scale, f0.y * k_inv_scale),
-                                                            f2_to_u32(f1.x * k_inv_scale, f1.y * k_inv_scale));
+            if (k_inv_scale == 1.0f) {   // Preserve the encoded signed zero without a floating-point round trip.
+                ((uint2*) (k_out16 + dst_off))[d4] = make_uint2(e4m3fnx2_to_h2_u32((uint16_t) k4),
+                                                                e4m3fnx2_to_h2_u32((uint16_t) (k4 >> 16)));
+            } else {
+                const float2 f0 = e4m3fnx2_to_f2((uint16_t) k4), f1 = e4m3fnx2_to_f2((uint16_t) (k4 >> 16));
+                ((uint2*) (k_out16 + dst_off))[d4] = make_uint2(f2_to_u32(f0.x * k_inv_scale, f0.y * k_inv_scale),
+                                                                f2_to_u32(f1.x * k_inv_scale, f1.y * k_inv_scale));
+            }
         }
         if (v_out16) {
             const uint32_t v4 = __ldg((const uint32_t*) (vc + src_off) + d4);
-            const float2 f0 = e4m3fnx2_to_f2((uint16_t) (v4 & 0xFFFFu));
-            const float2 f1 = e4m3fnx2_to_f2((uint16_t) (v4 >> 16));
-            ((uint2*) (v_out16 + dst_off))[d4] = make_uint2(f2_to_u32(f0.x * v_inv_scale, f0.y * v_inv_scale),
-                                                            f2_to_u32(f1.x * v_inv_scale, f1.y * v_inv_scale));
+            if (v_inv_scale == 1.0f) {
+                ((uint2*) (v_out16 + dst_off))[d4] = make_uint2(e4m3fnx2_to_h2_u32((uint16_t) v4),
+                                                                e4m3fnx2_to_h2_u32((uint16_t) (v4 >> 16)));
+            } else {
+                const float2 f0 = e4m3fnx2_to_f2((uint16_t) v4), f1 = e4m3fnx2_to_f2((uint16_t) (v4 >> 16));
+                ((uint2*) (v_out16 + dst_off))[d4] = make_uint2(f2_to_u32(f0.x * v_inv_scale, f0.y * v_inv_scale),
+                                                                f2_to_u32(f1.x * v_inv_scale, f1.y * v_inv_scale));
+            }
         }
     }
 }
@@ -3781,8 +3795,8 @@ __global__ void unpack_kv_fp8_to_f16_kernel(const uint8_t* kc, const uint8_t* vc
         const int d = (int) (idx % (size_t) KD);
         const int slot = kv_cap > 0 ? (k0 + j) % kv_cap : (k0 + j);
         const size_t src = (size_t) slot * KD + d;
-        if (k_out16) k_out16[idx] = f2h(e4m3fn_to_f32(kc[src]) * k_inv_scale);
-        if (v_out16) v_out16[idx] = f2h(e4m3fn_to_f32(vc[src]) * v_inv_scale);
+        if (k_out16) k_out16[idx] = k_inv_scale == 1.0f ? e4m3fn_to_f16(kc[src]) : f2h(e4m3fn_to_f32(kc[src]) * k_inv_scale);
+        if (v_out16) v_out16[idx] = v_inv_scale == 1.0f ? e4m3fn_to_f16(vc[src]) : f2h(e4m3fn_to_f32(vc[src]) * v_inv_scale);
     }
 }
 
