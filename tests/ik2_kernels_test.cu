@@ -1244,6 +1244,17 @@ void test_token_path() {
         k::conv4_res(tmp, dha, dtw, nullptr, 0, 1, C, dres, oa, 0);
         k::moe_combine_conv(dyk, dinv, dwt, K, C, dhb, dtw, dres, ob, 0);
         const auto a1 = host(oa, C), b1 = host(ob, C), a2 = host(dha, (size_t) 3 * C), b2 = host(dhb, (size_t) 3 * C);
+        for (int part = 0; part < 2; ++part) {
+            const auto& reference = part ? a2 : a1;
+            const auto& fused = part ? b2 : b1;
+            for (size_t i = 0; i < reference.size(); ++i) {
+                if (std::memcmp(&reference[i], &fused[i], sizeof(float))) {
+                    std::printf("moe_combine_conv %s[%zu]: reference=%.9g fused=%.9g\n",
+                                part ? "history" : "output", i, reference[i], fused[i]);
+                    break;
+                }
+            }
+        }
         expect_true("moe_combine_conv: moe_combine_f32 and conv4_res's values to the bit",
                     !std::memcmp(a1.data(), b1.data(), C * 4) && !std::memcmp(a2.data(), b2.data(), a2.size() * 4));
 
@@ -1883,6 +1894,8 @@ void test_fp8_kv() {
                 nan_ok &= ((hk[b] & 0x7FFF) > 0x7C00) && ((hv[b] & 0x7FFF) > 0x7C00);
             } else {
                 const uint16_t want_bits = f2h_host(e4m3fn_to_f32_host((uint8_t) b));
+                if ((hk[b] != want_bits || hv[b] != want_bits) && finite_exact)
+                    std::printf("FP8 byte 0x%02x: K=0x%04x V=0x%04x expected=0x%04x\n", b, hk[b], hv[b], want_bits);
                 finite_exact &= (hk[b] == want_bits) && (hv[b] == want_bits);
             }
         }
