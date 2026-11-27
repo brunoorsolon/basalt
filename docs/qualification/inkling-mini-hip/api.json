@@ -1,0 +1,1593 @@
+{
+  "build": {
+    "redrock_commit": "8789c1d423f73c6ebe13a8582e6952d22baafd90",
+    "sources": {
+      "unbiased_strata": {
+        "url": "https://github.com/robertkarl/UnbiasedStrata",
+        "ref": "refs/heads/main",
+        "commit": "9f75192287c2abf88c77da3b4b6f54ccee01db83",
+        "reviewed_through": "9f75192287c2abf88c77da3b4b6f54ccee01db83",
+        "imported_commits": []
+      },
+      "llama_cpp": {
+        "url": "https://github.com/robertkarl/llama.cpp.git",
+        "commit": "db1f382bb25f9cc481893105dbead09c86a52f01"
+      },
+      "rdna4_comparison": {
+        "url": "https://github.com/vectorweft/strata-rdna4",
+        "ref": "refs/heads/main",
+        "commit": "e128da05bb493796a51cab0c30aa331ba6648db1",
+        "development_base": "a79080535d1b2a71a3419a0d97d8e7dca194b0f1",
+        "reviewed_through": "7908212f1d06536d10a5077049d4cbb212beaee1",
+        "imported_commits": []
+      },
+      "rocr_r9700": {
+        "url": "https://github.com/ROCm/ROCR-Runtime",
+        "base": "4e4d7abeb786e903ac2a46815ae2565de331cbd4",
+        "commit": "f999715d0b28afdb4e9c3eb31317ff7789be54c9",
+        "tree": "bf1fdc210d330b2b4aba7178b6472605327629e7",
+        "patch": "releases/patches/rocr-filtered-gpu-memory-policy.patch"
+      },
+      "inkling_hip_slice": {
+        "url": "https://github.com/mw00/project-maya",
+        "commit": "53885cef8faf0d3b3f7e28c0b1537a056c1f3ecf",
+        "adapted_components": [
+          "src/ik2/ik2_kernels.cu: HIP fragment and packed-half helpers",
+          "src/ik2/ik2_rdna.inc: prompt attention only",
+          "include/maya/kernels/rdna_wmma.hpp"
+        ],
+        "scope": "Selective adaptation, not a Maya snapshot update; see docs/INKLING_MINI_HIP.md"
+      }
+    },
+    "backend": "hip",
+    "architecture": "gfx1201",
+    "engine": "strata-ik2",
+    "cmake_version": "cmake version 4.3.0",
+    "compiler_versions": {
+      "cc": "gcc (GCC) 16.2.1 20261029 (Red Hat 16.2.1-3)\nCopyright (C) 2026 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "cxx": "c++ (GCC) 16.2.1 20261029 (Red Hat 16.2.1-3)\nCopyright (C) 2026 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "gpu": "clang version 20.0.0.rocm\nTarget: x86_64-redhat-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib64/rocm/llvm/bin\n"
+    },
+    "cmake_flags": [
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DCMAKE_C_COMPILER=/usr/bin/gcc",
+      "-DCMAKE_CXX_COMPILER=/usr/bin/c++",
+      "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/mnt/storage/ai/redrock-issue8/builds/candidate-3/build/bin",
+      "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/mnt/storage/ai/redrock-issue8/builds/candidate-3/build/bin",
+      "-DCMAKE_SKIP_RPATH=ON",
+      "-DSTRATA_GGML_DIR=/home/bruno/git-repos/brunoorsolon/redrock/third_party/llama.cpp",
+      "-DSTRATA_PORTABLE=ON",
+      "-DSTRATA_NATIVE_EXPERTS=ON",
+      "-DSTRATA_FRONTEND=OFF",
+      "-DSTRATA_BUILD_TESTS=OFF",
+      "-DSTRATA_BUILD_DSV41=OFF",
+      "-DSTRATA_BUILD_IK2=ON",
+      "-DSTRATA_ENABLE_CUDA=OFF",
+      "-DSTRATA_ENABLE_HIP=ON",
+      "-DSTRATA_PREFILL_MMQ=ON",
+      "-DSTRATA_MMQ_KQUANTS=ON",
+      "-DSTRATA_Q6K_EXPERTS=ON",
+      "-DGGML_CPU_KLEIDIAI=OFF",
+      "-DGGML_OPENMP_FETCH=OFF",
+      "-DGGML_CCACHE=OFF",
+      "-DFETCHCONTENT_FULLY_DISCONNECTED=ON",
+      "-DFETCHCONTENT_UPDATES_DISCONNECTED=ON",
+      "-DCMAKE_HIP_ARCHITECTURES=gfx1201",
+      "-DCMAKE_HIP_COMPILER=/usr/lib64/rocm/llvm/bin/clang-20"
+    ],
+    "build_environment": {
+      "HOME": "/home/bruno",
+      "PATH": "/usr/bin:/bin",
+      "LC_ALL": "C"
+    },
+    "hardware_qualification": "unqualified",
+    "runtime_prerequisites": "Linux/glibc, libstdc++, and the matching CUDA or ROCm toolkit and driver; see README.md",
+    "sha256": {
+      "strata-ik2": "68fadf0e99e83c09e4e004a1311760cbb951a87df3917aef6af500c03a0d9f10"
+    }
+  },
+  "inputs": {
+    "status": "selected_for_pending_attended_qualification_not_downloaded",
+    "model": {
+      "repository": "unsloth/Inkling-2-Mini-GGUF",
+      "revision": "8078d149286eec7193795413b9e0643da6d11fa1",
+      "filename": "Old_Support/Inkling-2-Mini-UD-Q4_K_XL.gguf_file",
+      "size": 17629759456,
+      "sha256": "e62d463c135ffe283df8d94b279a96ca145ac128b52ce854478613045bf4de15",
+      "license": "Apache-2.0",
+      "selection_reason": "Explicit retained engine-layout artifact, resolved anew from the maintained repository. The mainline root artifact is different; do not substitute it."
+    },
+    "author": {
+      "repository": "thinkingmachines/Inkling-2-Mini",
+      "revision": "c9d028302cd0f035fdf8e7e91f089a4ce94d2195",
+      "license": "Apache-2.0",
+      "architecture": "Inkling2LoopForConditionalGeneration",
+      "model_type": "inkling2_loop"
+    },
+    "tokenizer": {
+      "source": "embedded in the exact model GGUF; covered by its full-file SHA-256"
+    },
+    "chat_template": {
+      "source": "embedded in the exact model GGUF; covered by its full-file SHA-256",
+      "adapter": "frontend/strata_context.cpp and frontend/inkling.hpp at the candidate source revision; compact-JSON Jinja compatibility and tool-argument canonicalization"
+    },
+    "drafter": null,
+    "vision": null,
+    "derived_artifacts": [],
+    "configuration": {
+      "context": 8192,
+      "chunk": 256,
+      "kv": "f16",
+      "gpus": 1,
+      "expert_mma": 0,
+      "model_download_bytes_authorized": 0
+    },
+    "limits": "This is a text-only inference probe, not 96K+ local coding-model qualification or a release support claim."
+  },
+  "adapter_sha256": "63e3506b5e10c3f226b0bdbde5703b0f936b93257619ac7ed21387b2c98b855a",
+  "model_sha256": "e62d463c135ffe283df8d94b279a96ca145ac128b52ce854478613045bf4de15",
+  "status": "functional_probe_passed_not_numerically_qualified",
+  "pci": "0000:03:00.0",
+  "rocr_device": "GPU-26508202313fa2ac",
+  "kernel": "7.3.4-200.fc44.x86_64",
+  "runtime_library_path": "/usr/lib64",
+  "configuration": {
+    "context": 8192,
+    "chunk": 256,
+    "kv": "f16",
+    "drafting": false
+  },
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "HOME": "/tmp",
+    "ROCR_VISIBLE_DEVICES": "GPU-26508202313fa2ac",
+    "HIP_VISIBLE_DEVICES": "0",
+    "CUDA_VISIBLE_DEVICES": "",
+    "LC_ALL": "C",
+    "IK2_KV": "f16",
+    "IK2_EXPERT_MMA": "0",
+    "LD_LIBRARY_PATH": "/usr/lib64"
+  },
+  "memory_budget_refusal": {
+    "expert_cache_budget_gib": 1,
+    "exit_code": 1,
+    "stderr": "HIP device pci=0000:03:00.0 arch=gfx1201 name=AMD Radeon AI PRO R9700\nstrata-ik2: HIP Mini resident weights and context do not fit the selected device/settings; no host-offload fallback\n",
+    "scope": "real-model admission refusal, not induced VRAM exhaustion"
+  },
+  "restart_baseline_vram_0": 1659531264,
+  "startup_seconds_0": 1.6098808699989604,
+  "text_stream_0": [
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "role": "assistant",
+            "content": null
+          }
+        }
+      ],
+      "created": 1795805849,
+      "id": "chatcmpl-0GsY50VmH0gQwFkGNSmRIDWpjlm2rX7j",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "content": "ready"
+          }
+        }
+      ],
+      "created": 1795805849,
+      "id": "chatcmpl-0GsY50VmH0gQwFkGNSmRIDWpjlm2rX7j",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "index": 0,
+          "delta": {}
+        }
+      ],
+      "created": 1795805849,
+      "id": "chatcmpl-0GsY50VmH0gQwFkGNSmRIDWpjlm2rX7j",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [],
+      "created": 1795805849,
+      "id": "chatcmpl-0GsY50VmH0gQwFkGNSmRIDWpjlm2rX7j",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk",
+      "usage": {
+        "completion_tokens": 3,
+        "prompt_tokens": 20,
+        "total_tokens": 23,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 20,
+        "prompt_ms": 113.628,
+        "prompt_per_token_ms": 5.6814,
+        "prompt_per_second": 176.01295455345513,
+        "predicted_n": 3,
+        "predicted_ms": 27.07,
+        "predicted_per_token_ms": 13.535,
+        "predicted_per_second": 73.88252678241595
+      }
+    }
+  ],
+  "tool_stream": [
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "role": "assistant",
+            "content": null
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": "The"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " user"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " asks"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " to"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " call"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " lookup"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " with"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " key"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " re"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": "dro"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": "ck"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": "-"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": "check"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": "."
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " Need"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " use"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " tool"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": "."
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " We"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " have"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " lookup"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " tool"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": "."
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " Need"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " call"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " it"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": "."
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " Then"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " report"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " result"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": ","
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " not"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " invent"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": "."
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " Let"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": "'"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": "s"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": " call"
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "reasoning_content": "."
+          }
+        }
+      ],
+      "created": 1795805850,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "tool_calls": [
+              {
+                "index": 0,
+                "id": "0JhSDHc0L86D5oLWaJMdfnQ4sWRqA76A",
+                "type": "function",
+                "function": {
+                  "name": "lookup",
+                  "arguments": "{"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "created": 1795805851,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "tool_calls": [
+              {
+                "index": 0,
+                "function": {
+                  "arguments": "\""
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "created": 1795805851,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "tool_calls": [
+              {
+                "index": 0,
+                "function": {
+                  "arguments": "key"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "created": 1795805851,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "tool_calls": [
+              {
+                "index": 0,
+                "function": {
+                  "arguments": "\""
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "created": 1795805851,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "tool_calls": [
+              {
+                "index": 0,
+                "function": {
+                  "arguments": ":"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "created": 1795805851,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "tool_calls": [
+              {
+                "index": 0,
+                "function": {
+                  "arguments": "\""
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "created": 1795805851,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "tool_calls": [
+              {
+                "index": 0,
+                "function": {
+                  "arguments": "re"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "created": 1795805851,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "tool_calls": [
+              {
+                "index": 0,
+                "function": {
+                  "arguments": "dro"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "created": 1795805851,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "tool_calls": [
+              {
+                "index": 0,
+                "function": {
+                  "arguments": "ck"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "created": 1795805851,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "tool_calls": [
+              {
+                "index": 0,
+                "function": {
+                  "arguments": "-"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "created": 1795805851,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "tool_calls": [
+              {
+                "index": 0,
+                "function": {
+                  "arguments": "check"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "created": 1795805851,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "tool_calls": [
+              {
+                "index": 0,
+                "function": {
+                  "arguments": "\""
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "created": 1795805851,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "tool_calls": [
+              {
+                "index": 0,
+                "function": {
+                  "arguments": "}"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "created": 1795805851,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": "tool_calls",
+          "index": 0,
+          "delta": {}
+        }
+      ],
+      "created": 1795805851,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [],
+      "created": 1795805851,
+      "id": "chatcmpl-YXTsEO1VDmjgICSgl4rTcvV1IRuOHv6e",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk",
+      "usage": {
+        "completion_tokens": 74,
+        "prompt_tokens": 110,
+        "total_tokens": 184,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 110,
+        "prompt_ms": 880.032,
+        "prompt_per_token_ms": 8.000290909090909,
+        "prompt_per_second": 124.9954547107378,
+        "predicted_n": 74,
+        "predicted_ms": 935.344,
+        "predicted_per_token_ms": 12.812931506849315,
+        "predicted_per_second": 78.04615200396859
+      }
+    }
+  ],
+  "tool_result": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "739281"
+        }
+      }
+    ],
+    "created": 1795805852,
+    "model": "inkling-mini",
+    "system_fingerprint": "b11072-db1f382bb",
+    "object": "chat.completion",
+    "usage": {
+      "completion_tokens": 4,
+      "prompt_tokens": 86,
+      "total_tokens": 90,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "id": "chatcmpl-x3PivTYhaP6asn4OKQhqxWXwYzuiM1Mt",
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 86,
+      "prompt_ms": 818.568,
+      "prompt_per_token_ms": 9.518232558139534,
+      "prompt_per_second": 105.06152207269281,
+      "predicted_n": 4,
+      "predicted_ms": 37.489,
+      "predicted_per_token_ms": 12.496333333333332,
+      "predicted_per_second": 80.023473552242
+    }
+  },
+  "near_context_limit": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "ready"
+        }
+      }
+    ],
+    "created": 1795805865,
+    "model": "inkling-mini",
+    "system_fingerprint": "b11072-db1f382bb",
+    "object": "chat.completion",
+    "usage": {
+      "completion_tokens": 3,
+      "prompt_tokens": 7826,
+      "total_tokens": 7829,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "id": "chatcmpl-oXPdKmp6j3j34tI6pUnatT4mSJjQrDVT",
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 7826,
+      "prompt_ms": 13008.315,
+      "prompt_per_token_ms": 1.6621920521339126,
+      "prompt_per_second": 601.6151976639558,
+      "predicted_n": 3,
+      "predicted_ms": 28.861,
+      "predicted_per_token_ms": 14.4305,
+      "predicted_per_second": 69.29766813346731
+    }
+  },
+  "generation_benchmark": {
+    "choices": [
+      {
+        "finish_reason": "length",
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35\n36\n37\n38\n39\n40\n41\n42\n43\n44\n45\n46\n47\n48\n49\n50\n51\n52\n53\n54\n55\n56\n57\n58\n59\n60\n61\n62\n63\n64\n65\n66\n67\n68\n69\n70\n71\n72\n73\n74\n75\n76\n77\n78\n79\n80\n81\n82\n83\n84\n85\n86\n87\n88\n89\n90\n91\n92\n93\n94\n95\n96\n97\n98\n99\n100\n101\n102\n103\n104\n105\n106\n107\n108\n109\n110\n111\n112\n113\n114\n115\n116\n117\n118\n119\n120\n121\n122\n123\n124\n125\n126\n127\n128\n"
+        }
+      }
+    ],
+    "created": 1795805868,
+    "model": "inkling-mini",
+    "system_fingerprint": "b11072-db1f382bb",
+    "object": "chat.completion",
+    "usage": {
+      "completion_tokens": 256,
+      "prompt_tokens": 30,
+      "total_tokens": 286,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "id": "chatcmpl-yq6XvP1U5xRrOTtYSnLLH4NyDt0fBFdt",
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 30,
+      "prompt_ms": 127.588,
+      "prompt_per_token_ms": 4.252933333333333,
+      "prompt_per_second": 235.13183057967834,
+      "predicted_n": 256,
+      "predicted_ms": 3262.347,
+      "predicted_per_token_ms": 12.793517647058824,
+      "predicted_per_second": 78.16458518974223
+    }
+  },
+  "output_limit": {
+    "choices": [
+      {
+        "finish_reason": "length",
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "1, 2, 3,"
+        }
+      }
+    ],
+    "created": 1795805868,
+    "model": "inkling-mini",
+    "system_fingerprint": "b11072-db1f382bb",
+    "object": "chat.completion",
+    "usage": {
+      "completion_tokens": 8,
+      "prompt_tokens": 29,
+      "total_tokens": 37,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "id": "chatcmpl-c1mB1G4Bo7PVfgnoizeCsvZXOHqUnahI",
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 29,
+      "prompt_ms": 126.217,
+      "prompt_per_token_ms": 4.352310344827586,
+      "prompt_per_second": 229.76302716749723,
+      "predicted_n": 8,
+      "predicted_ms": 87.966,
+      "predicted_per_token_ms": 12.566571428571427,
+      "predicted_per_second": 79.57619989541415
+    }
+  },
+  "context_refusal": {
+    "status": 400,
+    "body": "{\"error\":{\"code\":400,\"message\":\"the request exceeds the available context size: 9015 prompt tokens, context 8192 (8 kept back)\",\"type\":\"exceed_context_size_error\",\"n_prompt_tokens\":9015,\"n_ctx\":8192}}"
+  },
+  "after_cancellation": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "ready"
+        }
+      }
+    ],
+    "created": 1795805869,
+    "model": "inkling-mini",
+    "system_fingerprint": "b11072-db1f382bb",
+    "object": "chat.completion",
+    "usage": {
+      "completion_tokens": 3,
+      "prompt_tokens": 20,
+      "total_tokens": 23,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "id": "chatcmpl-djsXRcBwivx4HbvSxlMTR5g2B06DHKce",
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 20,
+      "prompt_ms": 107.905,
+      "prompt_per_token_ms": 5.39525,
+      "prompt_per_second": 185.34822297391224,
+      "predicted_n": 3,
+      "predicted_ms": 24.752,
+      "predicted_per_token_ms": 12.376,
+      "predicted_per_second": 80.80155138978668
+    }
+  },
+  "rates_0": [
+    {
+      "prompt_tokens_processed": 20,
+      "generated_tokens": 3,
+      "decoded_tokens": 2,
+      "prompt_ms": 113.5,
+      "decode_ms": 27.2,
+      "finish": "stop",
+      "prompt_tokens_per_second": 176.21145374449338,
+      "generation_tokens_per_second": 73.52941176470588
+    },
+    {
+      "prompt_tokens_processed": 110,
+      "generated_tokens": 74,
+      "decoded_tokens": 73,
+      "prompt_ms": 879.5,
+      "decode_ms": 935.4,
+      "finish": "stop",
+      "prompt_tokens_per_second": 125.07106310403638,
+      "generation_tokens_per_second": 78.04147958092794
+    },
+    {
+      "prompt_tokens_processed": 86,
+      "generated_tokens": 4,
+      "decoded_tokens": 3,
+      "prompt_ms": 818.0,
+      "decode_ms": 37.6,
+      "finish": "stop",
+      "prompt_tokens_per_second": 105.13447432762837,
+      "generation_tokens_per_second": 79.7872340425532
+    },
+    {
+      "prompt_tokens_processed": 7826,
+      "generated_tokens": 3,
+      "decoded_tokens": 2,
+      "prompt_ms": 13007.5,
+      "decode_ms": 29.0,
+      "finish": "stop",
+      "prompt_tokens_per_second": 601.6528925619834,
+      "generation_tokens_per_second": 68.96551724137932
+    },
+    {
+      "prompt_tokens_processed": 30,
+      "generated_tokens": 256,
+      "decoded_tokens": 255,
+      "prompt_ms": 127.1,
+      "decode_ms": 3262.4,
+      "finish": "length",
+      "prompt_tokens_per_second": 236.03461841070023,
+      "generation_tokens_per_second": 78.16331535066209
+    },
+    {
+      "prompt_tokens_processed": 29,
+      "generated_tokens": 8,
+      "decoded_tokens": 7,
+      "prompt_ms": 125.7,
+      "decode_ms": 88.1,
+      "finish": "length",
+      "prompt_tokens_per_second": 230.70803500397773,
+      "generation_tokens_per_second": 79.45516458569807
+    },
+    {
+      "prompt_tokens_processed": 28,
+      "generated_tokens": 2,
+      "decoded_tokens": null,
+      "prompt_ms": 123.2,
+      "decode_ms": 25.5,
+      "finish": "cancel",
+      "prompt_tokens_per_second": 227.27272727272728,
+      "generation_tokens_per_second": null
+    },
+    {
+      "prompt_tokens_processed": 20,
+      "generated_tokens": 3,
+      "decoded_tokens": 2,
+      "prompt_ms": 107.5,
+      "decode_ms": 24.8,
+      "finish": "stop",
+      "prompt_tokens_per_second": 186.04651162790697,
+      "generation_tokens_per_second": 80.64516129032258
+    }
+  ],
+  "memory_0": {
+    "peak_process_tree_rss_bytes": 19011674112,
+    "process_tree_hwm_upper_bound_bytes": 19011674112,
+    "baseline_device_vram_bytes": 1659531264,
+    "peak_device_vram_bytes": 20448362496,
+    "sample_interval_seconds": 0.05,
+    "limits": "RSS can double-count shared mappings; summed per-process HWM is an upper bound on concurrent RSS; VRAM includes other device users; sampled peaks are lower bounds"
+  },
+  "restart_baseline_vram_1": 1625817088,
+  "startup_seconds_1": 1.6076216840010602,
+  "text_stream_1": [
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "role": "assistant",
+            "content": null
+          }
+        }
+      ],
+      "created": 1795805871,
+      "id": "chatcmpl-8SswPb8vlNk20ZvjNxEJsdXeCdMd19oJ",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": null,
+          "index": 0,
+          "delta": {
+            "content": "ready"
+          }
+        }
+      ],
+      "created": 1795805871,
+      "id": "chatcmpl-8SswPb8vlNk20ZvjNxEJsdXeCdMd19oJ",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "index": 0,
+          "delta": {}
+        }
+      ],
+      "created": 1795805871,
+      "id": "chatcmpl-8SswPb8vlNk20ZvjNxEJsdXeCdMd19oJ",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk"
+    },
+    {
+      "choices": [],
+      "created": 1795805871,
+      "id": "chatcmpl-8SswPb8vlNk20ZvjNxEJsdXeCdMd19oJ",
+      "model": "inkling-mini",
+      "system_fingerprint": "b11072-db1f382bb",
+      "object": "chat.completion.chunk",
+      "usage": {
+        "completion_tokens": 3,
+        "prompt_tokens": 20,
+        "total_tokens": 23,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 20,
+        "prompt_ms": 114.104,
+        "prompt_per_token_ms": 5.7052,
+        "prompt_per_second": 175.27869312206408,
+        "predicted_n": 3,
+        "predicted_ms": 26.957,
+        "predicted_per_token_ms": 13.4785,
+        "predicted_per_second": 74.19223207330192
+      }
+    }
+  ],
+  "rates_1": [
+    {
+      "prompt_tokens_processed": 20,
+      "generated_tokens": 3,
+      "decoded_tokens": 2,
+      "prompt_ms": 114.0,
+      "decode_ms": 27.1,
+      "finish": "stop",
+      "prompt_tokens_per_second": 175.43859649122808,
+      "generation_tokens_per_second": 73.80073800738008
+    }
+  ],
+  "memory_1": {
+    "peak_process_tree_rss_bytes": 18922778624,
+    "process_tree_hwm_upper_bound_bytes": 18922778624,
+    "baseline_device_vram_bytes": 1625817088,
+    "peak_device_vram_bytes": 20447961088,
+    "sample_interval_seconds": 0.05,
+    "limits": "RSS can double-count shared mappings; summed per-process HWM is an upper bound on concurrent RSS; VRAM includes other device users; sampled peaks are lower bounds"
+  }
+}

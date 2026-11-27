@@ -14,11 +14,19 @@ Redrock owns its downstream changes and eventual releases. Upstream authors own 
 
 The project was named Basalt at import. Import method: merge UnbiasedStrata's unrelated history into Basalt's feature branch, retaining Basalt's initial commit `a0d0f20159d9cc2e551acf3aec792bf954c2cd91`. The import commit is `02d73945c4e8221aced960b119b35ecb546e4a94`; both parents are retained. No `.git` replacement, origin change, history rewrite or RDNA4-tree merge was used. The Basalt license notice was restored alongside the retained Strata notice in the downstream commit. The imported baseline left `src/`, `include/` and the upstream CMake build unchanged; the bounded Redrock engine fixes below are additional downstream changes.
 
-The inherited record below is retained as historical provenance, not silently rewritten as Redrock validation. In particular, its earlier submodule versions describe earlier imports: the actual current dependency is the gitlink/lock above. Vendored components are frozen by the Redrock commit's tree; their upstream origins remain documented below. The selected entry point builds only `strata` or `strata-poly`; it neither builds the other vendored engines nor fetches their prerequisites.
+The inherited record below is retained as historical provenance, not silently rewritten as Redrock validation. In particular, its earlier submodule versions describe earlier imports: the actual current dependency is the gitlink/lock above. Vendored components are frozen by the Redrock commit's tree; their upstream origins remain documented below. The selected entry point builds `strata`, `strata-poly` or the explicitly selected R9700/HIP `strata-ik2` candidate; it neither builds the other vendored engines nor fetches their prerequisites.
 
 ### Redrock engine fixes
 
 - **HIP EXPDEC shared alignment:** in `src/kernels/cuda/iq_kernels.cu`, remove redundant declaration-level `alignas(16)` from the gate/up and down `int4` shared-memory arrays inherited from UnbiasedStrata `9f75192287c2abf88c77da3b4b6f54ccee01db83`. ROCm Clang rejects that attribute placement. CUDA/HIP `int4` already provides the required alignment; a compile-time assertion preserves the 16-byte layout requirement. Array dimensions, staging/reduction code, dispatch, numerical operations and dependency pins are unchanged. This is a local adaptation of the canonical Redrock baseline, not an import from the deferred RDNA4 range. Compilation and hardware parity remain distinct evidence gates.
+
+### Inkling Mini HIP selective adaptation (issue #8)
+
+On 2026-11-26, maintained Project Maya `main` resolved to `53885cef8faf0d3b3f7e28c0b1537a056c1f3ecf`. Redrock adapts only its HIP fragment/packed-half helpers and 24-KiB RDNA prompt-attention/WMMA slice onto the retained Inkling engine. Dense and batched expert products use the existing hipBLAS contract; decode experts default to direct row dots on HIP. The Maya installer, serving stack, newer offload/thread lanes, vision and drafting changes are not imported. `redrock.lock.json` records this bounded source identity; neither engine-feed review bookmark nor llama.cpp pin advances. The existing Project Maya MIT notice remains packaged.
+
+[The Inkling qualification record](docs/INKLING_MINI_HIP.md) now preserves completed selected-device operator and real-model API evidence on 2026-11-27, the deliberately selected immutable model input, reconstruction and measured resource/performance limits. The exact R9700/HIP pair passed 347 native checks, independent FP32/FP16-input BLAS comparisons and streamed text/tool-result, limit, cancellation and clean-restart checks at 8192 context. This result does not alter the 1.0.0 stable release boundary.
+
+Real-device downstream corrections preserve unit-scale FP8 signed zeros and restrict HIP fused-MoE convolution contraction to statement-local FMA, keeping original exactness assertions intact. The advertised hipBLAS pedantic compute enum returned status 7; Inkling's local shim now uses supported full FP32/default math, independently checked against CPU double sums (not XF32). No shared Qwen HIP shim, dependency pin or host runtime was changed.
 
 ### Review bookmarks
 
@@ -49,7 +57,7 @@ The inherited record below is retained as historical provenance, not silently re
 
 ### Qualification and retained boundaries
 
-The [1.0.0 record](releases/1.0.0.md) supersedes the earlier CPU-only checkpoint: the exact engine/adapter pair and repaired ROCr passed attended synthetic parity and IQ2_XS/128K MTP OFF/ON functional checks, with independent review PASS and explicit accepted limitations. This result applies to kernel 7.3.3 with mmap experts on the selected R9700, not other platforms. The earlier kernel 7.3.4 fault remains unresolved. RX 7700 XT and A3000 still need separate compilation and device/model evidence.
+The [1.0.0 record](releases/1.0.0.md) supersedes the earlier CPU-only checkpoint: the exact engine/adapter pair and repaired ROCr passed attended synthetic parity and IQ2_XS/128K MTP OFF/ON functional checks, with independent review PASS and explicit accepted limitations. This result records kernel 7.3.3 with mmap experts on the selected R9700; it is historical qualification evidence, not a host kernel pin. New work targets and validates the running platform. RX 7700 XT and A3000 still need separate compilation and device/model evidence.
 
 The qualified ROCr adaptation is based on `ROCm/ROCR-Runtime` `4e4d7abeb786e903ac2a46815ae2565de331cbd4` (7.1.1), repaired as `f999715d0b28afdb4e9c3eb31317ff7789be54c9`. The [retained patch and reconstruction recipe](releases/1.0.0.md#repaired-rocr) preserve the source independently of that local commit. Stock ROCr failed selected-device initialization on this host; exposing additional GPUs is not an equivalent fix. This is a platform dependency repair, not an imported strata-rdna4 kernel change.
 

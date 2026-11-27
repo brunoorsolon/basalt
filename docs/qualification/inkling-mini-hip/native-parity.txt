@@ -1,0 +1,355 @@
+Running as unit: redrock-issue8-native-parity-4.service
+ik2_kernels_test on AMD Radeon AI PRO R9700 (sm_120)
+ok   rms (no weight)                    23040 values, worst 0.01 of the tolerance
+ok   rms (weight)                       23040 values, worst 0.01 of the tolerance
+ok   rms (rows of 128)                  23040 values, worst 0.01 of the tolerance
+ok   l2clip G48 D128 scaled tau (288 clipped) 43008 values, worst 0.01 of the tolerance
+ok   l2clip G8 D128 (48 clipped)        7168 values, worst 0.01 of the tolerance
+ok   l2clip G48 D16 scaled (251 clipped) 5376 values, worst 0.01 of the tolerance
+ok   conv4 static, one call             41984 values, worst 0.07 of the tolerance
+ok   conv4 static, in pieces            41984 values, worst 0.07 of the tolerance
+ok   conv4 static, split at 16          41984 values, worst 0.07 of the tolerance
+ok   conv4 static, split at 17          41984 values, worst 0.07 of the tolerance
+ok   conv4 dynamic, one call            41984 values, worst 0.17 of the tolerance
+ok   conv4 dynamic, in pieces           41984 values, worst 0.17 of the tolerance
+ok   conv4 dyn, split at 16             41984 values, worst 0.17 of the tolerance
+ok   conv4 dyn, split at 17             41984 values, worst 0.17 of the tolerance
+ok   attn_res 1 states, 1 queries       41472 values, worst 0.00 of the tolerance
+ok   attn_res 1 states, 3 queries       124416 values, worst 0.00 of the tolerance
+ok   attn_res 2 states, 1 queries       41472 values, worst 0.13 of the tolerance
+ok   attn_res 2 states, 3 queries       124416 values, worst 0.37 of the tolerance
+ok   attn_res 9 states, 1 queries       41472 values, worst 0.45 of the tolerance
+ok   attn_res 9 states, 3 queries       124416 values, worst 0.39 of the tolerance
+ok   attn_probs full, from 0            1369 values, worst 0.01 of the tolerance
+ok   attn_probs full, a chunk           3000 values, worst 0.01 of the tolerance
+ok   attn_probs sliding window 32       2970 values, worst 0.01 of the tolerance
+ok   attn_probs one token               300 values, worst 0.00 of the tolerance
+ok   attn_probs sliding 1024            10500 values, worst 0.01 of the tolerance
+ok   attn_probs full, from 0 (f16)      65712 values, worst 0.22 of the tolerance
+ok   attn_probs full, from 0 (f16, bias table) 65712 values, worst 0.22 of the tolerance
+ok   attn_probs full, a chunk (f16)     144000 values, worst 0.22 of the tolerance
+ok   attn_probs full, a chunk (f16, bias table) 144000 values, worst 0.22 of the tolerance
+ok   attn_probs sliding window 32 (f16) 142560 values, worst 0.21 of the tolerance
+ok   attn_probs sliding window 32 (f16, bias table) 142560 values, worst 0.21 of the tolerance
+ok   attn_probs one token (f16)         14400 values, worst 0.19 of the tolerance
+ok   attn_probs one token (f16, bias table) 14400 values, worst 0.19 of the tolerance
+ok   attn_probs sliding 1024 (f16)      504000 values, worst 0.21 of the tolerance
+ok   attn_probs sliding 1024 (f16, bias table) 504000 values, worst 0.21 of the tolerance
+ok   route: the picks
+ok   route: the weights                 2400 values, worst 0.01 of the tolerance
+ok   route_token: route and route_gather's values to the bit (40 tokens, ties among them)
+ok   gather_f16: FP16 of the rows
+ok   swiglu_cap (FP16 out)              85248 values, worst 0.81 of the tolerance
+ok   moe_combine (add)                  50688 values, worst 0.14 of the tolerance
+ok   moe_combine (overwrite)            50688 values, worst 0.16 of the tolerance
+ok   softcap                            50000 values, worst 0.01 of the tolerance
+ok   gate_mul                           4096 values, worst 0.01 of the tolerance
+ok   decode NVFP4: device F32 = host, bit for bit
+ok   decode NVFP4: FP16 = the value rounded (exact)
+ok   decode NVFP4: the format's definition
+ok   decode Q8_0: device F32 = host, bit for bit
+ok   decode Q8_0: FP16 = the value rounded
+ok   decode Q5_K: device F32 = host, bit for bit
+ok   decode Q5_K: FP16 = the value rounded
+ok   decode Q6_K: device F32 = host, bit for bit
+ok   decode Q6_K: FP16 = the value rounded
+ok   decode IQ3_XXS: device F32 = host, bit for bit
+ok   decode IQ3_XXS: FP16 = the value rounded
+ok   decode IQ4_XS: device F32 = host, bit for bit
+ok   decode IQ4_XS: FP16 = the value rounded
+ok   decode_host IQ3_XXS = ggml         85248 values, worst 0.00 of the tolerance
+ok   decode_host IQ4_XS = ggml          85248 values, worst 0.00 of the tolerance
+ok   experts_gate_up NVFP4              2560 values, worst 0.22 of the tolerance
+ok   experts_down NVFP4                 2560 values, worst 0.03 of the tolerance
+ok   experts_gate_up S=1 NVFP4          512 values, worst 0.07 of the tolerance
+ok   experts_down S=1 NVFP4             512 values, worst 0.03 of the tolerance
+ok   experts_gate_up Q5_K / Q6_K        2560 values, worst 0.22 of the tolerance
+ok   experts_down Q5_K / Q6_K           2560 values, worst 0.09 of the tolerance
+ok   experts_gate_up S=1 Q5_K / Q6_K    512 values, worst 0.14 of the tolerance
+ok   experts_down S=1 Q5_K / Q6_K       512 values, worst 0.09 of the tolerance
+ok   experts_gate_up mixed              2560 values, worst 0.09 of the tolerance
+ok   experts_down mixed                 2560 values, worst 0.12 of the tolerance
+ok   experts_gate_up S=1 mixed          512 values, worst 0.04 of the tolerance
+ok   experts_down S=1 mixed             512 values, worst 0.03 of the tolerance
+ok   experts_gate_up IQ3_XXS / NVFP4    2560 values, worst 0.11 of the tolerance
+ok   experts_down IQ3_XXS / NVFP4       2560 values, worst 0.03 of the tolerance
+ok   experts_gate_up S=1 IQ3_XXS / NVFP4 512 values, worst 0.06 of the tolerance
+ok   experts_down S=1 IQ3_XXS / NVFP4   512 values, worst 0.02 of the tolerance
+ok   experts_gate_up IQ4_XS / Q6_K      2560 values, worst 0.24 of the tolerance
+ok   experts_down IQ4_XS / Q6_K         2560 values, worst 0.06 of the tolerance
+ok   experts_gate_up S=1 IQ4_XS / Q6_K  512 values, worst 0.24 of the tolerance
+ok   experts_down S=1 IQ4_XS / Q6_K     512 values, worst 0.02 of the tolerance
+ok   attn_decode first token            6144 values, worst 0.00 of the tolerance
+ok   attn_decode full, 2500 keys        6144 values, worst 0.10 of the tolerance
+ok   attn_decode sliding 1024           6144 values, worst 0.12 of the tolerance
+ok   attn_decode full, 200 keys (one run) 6144 values, worst 0.12 of the tolerance
+ok   attn_decode full, 2999 keys, extent 64 6144 values, worst 0.06 of the tolerance
+ok   mv_blocks Q8_0 N=384               384 values, worst 0.02 of the tolerance
+ok   mv_blocks Q8_0 N=1031              1031 values, worst 0.02 of the tolerance
+ok   mv_blocks Q8_0 N=2307              2307 values, worst 0.03 of the tolerance
+ok   mv_blocks Q8_0 odd nb              33 values, worst 0.00 of the tolerance
+ok   mv_blocks NVFP4 N=1031             1031 values, worst 0.04 of the tolerance
+ok   mv_blocks Q6_K N=1031              1031 values, worst 0.12 of the tolerance
+ok   mv_blocks Q5_K N=513               513 values, worst 0.13 of the tolerance
+ok   mv_blocks IQ3_XXS N=1031           1031 values, worst 0.02 of the tolerance
+ok   mv_blocks IQ4_XS N=513             513 values, worst 0.12 of the tolerance
+ok   experts_gate_up_g (5 groups) NVFP4 9728 values, worst 0.10 of the tolerance
+ok   experts_down_g NVFP4               9728 values, worst 0.04 of the tolerance
+ok   experts_gate_up_g (5 groups) Q5_K/Q6_K 9728 values, worst 0.29 of the tolerance
+ok   experts_down_g Q5_K/Q6_K           9728 values, worst 0.13 of the tolerance
+ok   experts_gate_up_g (5 groups) Q8_0  9728 values, worst 0.03 of the tolerance
+ok   experts_down_g Q8_0                9728 values, worst 0.02 of the tolerance
+ok   experts_gate_up_g (5 groups) Q8_0/NVFP4/Q6_K 9728 values, worst 0.06 of the tolerance
+ok   experts_down_g Q8_0/NVFP4/Q6_K     9728 values, worst 0.18 of the tolerance
+ok   experts_gate_up_g (5 groups) IQ3_XXS/NVFP4 9728 values, worst 0.04 of the tolerance
+ok   experts_down_g IQ3_XXS/NVFP4       9728 values, worst 0.05 of the tolerance
+ok   experts_gate_up_g (5 groups) IQ4_XS/Q6_K 9728 values, worst 0.24 of the tolerance
+ok   experts_down_g IQ4_XS/Q6_K         9728 values, worst 0.19 of the tolerance
+ok   attn_multi full, 8 queries at 3000 49152 values, worst 0.00 of the tolerance
+ok   attn_multi sliding 1024            49152 values, worst 0.06 of the tolerance
+ok   attn_multi from position 0         49152 values, worst 0.02 of the tolerance
+ok   attn_multi at 100 (one run)        49152 values, worst 0.03 of the tolerance
+ok   argmax_sum (a+b+c, tie)
+ok   argmax_sum (a only, multi)
+ok   argmax_sum (unaligned)
+ok   argmax_sum (single block)
+ok   argmax_rows (8 x 200058, tie)
+ok   argmax_rows (1 x 500)
+ok   argmax_gemv_f16 (200058)
+ok   argmax_gemv_f16 (no base/bias, tail)
+ok   argmax_gemv_f16 (unaligned, single)
+ok   attn_decode_f16 linear 2500        6144 values, worst 0.08 of the tolerance
+ok   attn_decode_f16 ring 1056          6144 values, worst 0.07 of the tolerance
+ok   attn_multi_f16 ring 1056           49152 values, worst 0.05 of the tolerance
+ok   rms_f16 w y16+y32 (f32)            23040 values, worst 0.01 of the tolerance
+ok   rms_f16 w y16+y32 (f16)            23040 values, worst 0.23 of the tolerance
+ok   rms_f16 no-w y16-only (f16)        23040 values, worst 0.23 of the tolerance
+ok   rms_f16 w y32-only (f32)           640 values, worst 0.01 of the tolerance
+ok   rms_f16 unaligned tail (f32)       520 values, worst 0.00 of the tolerance
+ok   rms_f16 unaligned tail (f16)       520 values, worst 0.22 of the tolerance
+ok   gate_mul_f16 f16-only              4096 values, worst 0.23 of the tolerance
+ok   gate_mul_f16 f32 untouched         4096 values, worst 0.00 of the tolerance
+ok   gate_mul_f16 tail f16+f32          4099 values, worst 0.23 of the tolerance
+ok   gate_mul_f16 f32 updated           4099 values, worst 0.01 of the tolerance
+ok   gate_mul_f16 n=3                   3 values, worst 0.12 of the tolerance
+ok   gate_mul_f16 f32 updated           3 values, worst 0.00 of the tolerance
+ok   gate_mul_f16 unaligned o16         1031 values, worst 0.22 of the tolerance
+ok   gate_mul_f16 f32 untouched         1031 values, worst 0.00 of the tolerance
+ok   prep_qkv_r_f16 ring q              30720 values, worst 0.01 of the tolerance
+ok   prep_qkv_r_f16 ring r              3840 values, worst 0.01 of the tolerance
+ok   prep_qkv_r_f16 ring k              5120 values, worst 0.23 of the tolerance
+ok   prep_qkv_r_f16 ring v              5120 values, worst 0.23 of the tolerance
+ok   prep_qkv_r_f16 full q              30720 values, worst 0.01 of the tolerance
+ok   prep_qkv_r_f16 full r              3840 values, worst 0.01 of the tolerance
+ok   prep_qkv_r_f16 full k              5120 values, worst 0.23 of the tolerance
+ok   prep_qkv_r_f16 full v              5120 values, worst 0.23 of the tolerance
+ok   experts_gu_swiglu S=1 NVFP4 scaled 256 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu S=5 NVFP4 scaled 1280 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu S=1 Q5_K scaled  256 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu S=5 Q5_K scaled  1280 values, worst 0.32 of the tolerance
+ok   experts_gu_swiglu S=1 Q6_K unscaled 256 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu S=5 Q6_K unscaled 1280 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu S=1 Q8_0 aligned 256 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu S=5 Q8_0 aligned 1280 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu S=1 Q8_0 unaligned 256 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu S=5 Q8_0 unaligned 1280 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu S=1 Q8_0/NVFP4 mixed 256 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu S=5 Q8_0/NVFP4 mixed 1280 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu S=1 IQ3_XXS scaled 256 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu S=5 IQ3_XXS scaled 1280 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu S=1 IQ4_XS unscaled 256 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu S=5 IQ4_XS unscaled 1280 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu_g NVFP4 (no scale) 4864 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu_g NVFP4          4864 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu_g Q5_K (no scale) 4864 values, worst 0.13 of the tolerance
+ok   experts_gu_swiglu_g Q5_K           4864 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu_g Q6_K (no scale) 4864 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu_g Q6_K           4864 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu_g Q8_0 (no scale) 4864 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu_g Q8_0           4864 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu_g Q8_0/NVFP4 (no scale) 4864 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu_g Q8_0/NVFP4     4864 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu_g IQ3_XXS (no scale) 4864 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu_g IQ3_XXS        4864 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu_g IQ4_XS (no scale) 4864 values, worst 0.00 of the tolerance
+ok   experts_gu_swiglu_g IQ4_XS         4864 values, worst 0.00 of the tolerance
+ok   e4m3fn_to_f16: all 254 finite bytes bit-exact
+ok   e4m3fn_to_f16: 0x7F/0xFF NaN
+ok   e4m3fn_to_f16 scalar: all finite bytes bit-exact
+ok   prep_qkv_r_fp8 ring no NaN
+ok   prep_qkv_r_fp8 ring q              30720 values, worst 0.01 of the tolerance
+ok   prep_qkv_r_fp8 ring r              3840 values, worst 0.01 of the tolerance
+ok   prep_qkv_r_fp8 ring k (e4m3)       5120 values, worst 0.88 of the tolerance
+ok   prep_qkv_r_fp8 ring v (e4m3)       5120 values, worst 0.88 of the tolerance
+ok   unpack_kv_fp8 ring k               5120 values, worst 0.00 of the tolerance
+ok   unpack_kv_fp8 ring v               5120 values, worst 0.00 of the tolerance
+ok   prep_qkv_r_fp8 full no NaN
+ok   prep_qkv_r_fp8 full q              30720 values, worst 0.01 of the tolerance
+ok   prep_qkv_r_fp8 full r              3840 values, worst 0.01 of the tolerance
+ok   prep_qkv_r_fp8 full k (e4m3)       5120 values, worst 0.89 of the tolerance
+ok   prep_qkv_r_fp8 full v (e4m3)       5120 values, worst 0.88 of the tolerance
+ok   unpack_kv_fp8 full k               5120 values, worst 0.00 of the tolerance
+ok   unpack_kv_fp8 full v               5120 values, worst 0.00 of the tolerance
+ok   unpack_kv_fp8 scalar k             70 values, worst 0.00 of the tolerance
+ok   unpack_kv_fp8 scalar v             70 values, worst 0.00 of the tolerance
+ok   attn_decode_fp8 linear 2500        6144 values, worst 0.16 of the tolerance
+ok   attn_decode_fp8 ring 1056          6144 values, worst 0.12 of the tolerance
+ok   attn_multi_fp8 ring 1056           49152 values, worst 0.13 of the tolerance
+ok   attn_decode_fp8 P=128 raw (nk=16640) 6144 values, worst 0.62 of the tolerance
+ok   attn_decode_fp8 P=128 unit (nk=16640) 6144 values, worst 0.23 of the tolerance
+ok   attn_res_rms_f16 C=4608 nq=1 qi=0 y16 32256 values, worst 0.24 of the tolerance
+ok   attn_res_rms_f16 C=4608 nq=1 qi=0 y32 32256 values, worst 0.14 of the tolerance
+ok   attn_res_rms_f16 C=4608 nq=3 qi=0 y16 32256 values, worst 0.23 of the tolerance
+ok   attn_res_rms_f16 C=4608 nq=3 qi=0 y32 32256 values, worst 0.07 of the tolerance
+ok   attn_res_rms_f16 C=4608 nq=3 qi=1 y16 32256 values, worst 0.23 of the tolerance
+ok   attn_res_rms_f16 C=4608 nq=3 qi=1 y32 32256 values, worst 0.09 of the tolerance
+ok   attn_res_rms_f16 C=4608 nq=3 qi=2 y16 32256 values, worst 0.24 of the tolerance
+ok   attn_res_rms_f16 C=517 nq=1 qi=0 y16 3619 values, worst 0.24 of the tolerance
+ok   attn_res_rms_f16 C=517 nq=1 qi=0 y32 3619 values, worst 0.11 of the tolerance
+ok   attn_res_rms_f16 C=517 nq=3 qi=0 y16 3619 values, worst 0.23 of the tolerance
+ok   attn_res_rms_f16 C=517 nq=3 qi=0 y32 3619 values, worst 0.06 of the tolerance
+ok   attn_res_rms_f16 C=517 nq=3 qi=1 y16 3619 values, worst 0.23 of the tolerance
+ok   attn_res_rms_f16 C=517 nq=3 qi=1 y32 3619 values, worst 0.07 of the tolerance
+ok   attn_res_rms_f16 C=517 nq=3 qi=2 y16 3619 values, worst 0.23 of the tolerance
+ok   conv4_res T=1 static no-res        1024 values, worst 0.00 of the tolerance
+ok   conv4_res T=1 static +res          1024 values, worst 0.01 of the tolerance
+ok   conv4_res T=1 dyn no-res           1024 values, worst 0.04 of the tolerance
+ok   conv4_res T=1 dyn +res             1024 values, worst 0.05 of the tolerance
+ok   conv4_res T=41 static no-res       41984 values, worst 0.08 of the tolerance
+ok   conv4_res T=41 static +res         41984 values, worst 0.13 of the tolerance
+ok   conv4_res T=41 dyn no-res          41984 values, worst 0.20 of the tolerance
+ok   conv4_res T=41 dyn +res            41984 values, worst 0.15 of the tolerance
+ok   attn_decode_f32 nk=10              6144 values, worst 0.09 of the tolerance
+ok   attn_decode_f16 nk=10              6144 values, worst 0.13 of the tolerance
+ok   attn_decode_fp8 nk=10              6144 values, worst 0.15 of the tolerance
+ok   attn_decode_f32 nk=64              6144 values, worst 0.11 of the tolerance
+ok   attn_decode_f16 nk=64              6144 values, worst 0.23 of the tolerance
+ok   attn_decode_fp8 nk=64              6144 values, worst 0.12 of the tolerance
+ok   attn_decode_f32 nk=65              6144 values, worst 0.15 of the tolerance
+ok   attn_decode_f16 nk=65              6144 values, worst 0.10 of the tolerance
+ok   attn_decode_fp8 nk=65              6144 values, worst 0.25 of the tolerance
+ok   attn_decode_f32 nk=200             6144 values, worst 0.16 of the tolerance
+ok   attn_decode_f16 nk=200             6144 values, worst 0.09 of the tolerance
+ok   attn_decode_fp8 nk=200             6144 values, worst 0.14 of the tolerance
+ok   attn_decode_f32 nk=1056            6144 values, worst 0.13 of the tolerance
+ok   attn_decode_f16 nk=1056            6144 values, worst 0.13 of the tolerance
+ok   attn_decode_fp8 nk=1056            6144 values, worst 0.13 of the tolerance
+ok   attn_decode_f32 nk=2500            6144 values, worst 0.07 of the tolerance
+ok   attn_decode_f16 nk=2500            6144 values, worst 0.08 of the tolerance
+ok   attn_decode_fp8 nk=2500            6144 values, worst 0.20 of the tolerance
+ok   attn_decode_f32 nk=16640           6144 values, worst 0.06 of the tolerance
+ok   attn_decode_f16 nk=16640           6144 values, worst 0.04 of the tolerance
+ok   attn_decode_fp8 nk=16640           6144 values, worst 0.08 of the tolerance
+ok   attn_multi_f32 nk=64               24576 values, worst 0.00 of the tolerance
+ok   attn_multi_f16 nk=64               24576 values, worst 0.00 of the tolerance
+ok   attn_multi_fp8 nk=64               24576 values, worst 0.00 of the tolerance
+ok   attn_multi_f32 nk=65               24576 values, worst 0.07 of the tolerance
+ok   attn_multi_f16 nk=65               24576 values, worst 0.07 of the tolerance
+ok   attn_multi_fp8 nk=65               24576 values, worst 0.05 of the tolerance
+ok   attn_multi_f32 nk=1056             24576 values, worst 0.06 of the tolerance
+ok   attn_multi_f16 nk=1056             24576 values, worst 0.05 of the tolerance
+ok   attn_multi_fp8 nk=1056             24576 values, worst 0.06 of the tolerance
+ok   attn_multi_f32 nk=2500             24576 values, worst 0.00 of the tolerance
+ok   attn_multi_f16 nk=2500             24576 values, worst 0.00 of the tolerance
+ok   attn_multi_fp8 nk=2500             24576 values, worst 0.00 of the tolerance
+ok   route ties E=384 picks
+ok   route ties E=384 weights           512 values, worst 0.01 of the tolerance
+ok   route ties E=600 picks
+ok   route ties E=600 weights           512 values, worst 0.01 of the tolerance
+ok   r6 experts_gu_swiglu S=1 NVFP4     256 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=1 NVFP4    513 values, worst 0.03 of the tolerance
+ok   r6 experts_gu_swiglu S=3 NVFP4     768 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=3 NVFP4    1539 values, worst 0.04 of the tolerance
+ok   r6 experts_gu_swiglu S=5 NVFP4     1280 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=5 NVFP4    2565 values, worst 0.04 of the tolerance
+ok   r6 experts_gu_swiglu S=8 NVFP4     2048 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=8 NVFP4    4104 values, worst 0.04 of the tolerance
+ok   r6 experts_gu_swiglu S=1 Q8_0      256 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=1 Q8_0     513 values, worst 0.01 of the tolerance
+ok   r6 experts_gu_swiglu S=3 Q8_0      768 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=3 Q8_0     1539 values, worst 0.01 of the tolerance
+ok   r6 experts_gu_swiglu S=5 Q8_0      1280 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=5 Q8_0     2565 values, worst 0.01 of the tolerance
+ok   r6 experts_gu_swiglu S=8 Q8_0      2048 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=8 Q8_0     4104 values, worst 0.01 of the tolerance
+ok   r6 experts_gu_swiglu S=1 Q5_K      256 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=1 Q5_K     513 values, worst 0.14 of the tolerance
+ok   r6 experts_gu_swiglu S=3 Q5_K      768 values, worst 0.09 of the tolerance
+ok   r6 experts_down C=513 S=3 Q5_K     1539 values, worst 0.14 of the tolerance
+ok   r6 experts_gu_swiglu S=5 Q5_K      1280 values, worst 0.09 of the tolerance
+ok   r6 experts_down C=513 S=5 Q5_K     2565 values, worst 0.14 of the tolerance
+ok   r6 experts_gu_swiglu S=8 Q5_K      2048 values, worst 0.31 of the tolerance
+ok   r6 experts_down C=513 S=8 Q5_K     4104 values, worst 0.14 of the tolerance
+ok   r6 experts_gu_swiglu S=1 Q6_K      256 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=1 Q6_K     513 values, worst 0.06 of the tolerance
+ok   r6 experts_gu_swiglu S=3 Q6_K      768 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=3 Q6_K     1539 values, worst 0.06 of the tolerance
+ok   r6 experts_gu_swiglu S=5 Q6_K      1280 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=5 Q6_K     2565 values, worst 0.11 of the tolerance
+ok   r6 experts_gu_swiglu S=8 Q6_K      2048 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=8 Q6_K     4104 values, worst 0.11 of the tolerance
+ok   r6 experts_gu_swiglu S=1 IQ3_XXS/NVFP4 256 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=1 IQ3_XXS/NVFP4 513 values, worst 0.02 of the tolerance
+ok   r6 experts_gu_swiglu S=3 IQ3_XXS/NVFP4 768 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=3 IQ3_XXS/NVFP4 1539 values, worst 0.02 of the tolerance
+ok   r6 experts_gu_swiglu S=5 IQ3_XXS/NVFP4 1280 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=5 IQ3_XXS/NVFP4 2565 values, worst 0.03 of the tolerance
+ok   r6 experts_gu_swiglu S=8 IQ3_XXS/NVFP4 2048 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=8 IQ3_XXS/NVFP4 4104 values, worst 0.03 of the tolerance
+ok   r6 experts_gu_swiglu S=1 IQ4_XS/Q6_K 256 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=1 IQ4_XS/Q6_K 513 values, worst 0.05 of the tolerance
+ok   r6 experts_gu_swiglu S=3 IQ4_XS/Q6_K 768 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=3 IQ4_XS/Q6_K 1539 values, worst 0.05 of the tolerance
+ok   r6 experts_gu_swiglu S=5 IQ4_XS/Q6_K 1280 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=5 IQ4_XS/Q6_K 2565 values, worst 0.16 of the tolerance
+ok   r6 experts_gu_swiglu S=8 IQ4_XS/Q6_K 2048 values, worst 0.00 of the tolerance
+ok   r6 experts_down C=513 S=8 IQ4_XS/Q6_K 4104 values, worst 0.30 of the tolerance
+ok   attn_flash from 0                  199680 values, worst 0.05 of the tolerance
+ok   attn_flash at 300, 3 splits        153600 values, worst 0.03 of the tolerance
+ok   attn_flash at 1500, 7 splits       118272 values, worst 0.01 of the tolerance
+ok   attn_flash ring 400, window 256    107520 values, worst 0.03 of the tolerance
+ok   attn_flash 9 queries, empty splits 13824 values, worst 0.04 of the tolerance
+ok   mma f16 first token                1536 values, worst 0.00 of the tolerance
+ok   mma f16 10 keys, 3 blocks          1536 values, worst 0.07 of the tolerance
+ok   mma f16 2500 keys, 3 heads a K/V head 3072 values, worst 0.03 of the tolerance
+ok   mma f16 1001 keys, 8 heads a K/V head 1024 values, worst 0.03 of the tolerance
+ok   mma f16 334 keys, 1 head a K/V head 512 values, worst 0.04 of the tolerance
+ok   mma f16 ring 400, window 256, 6 heads 1536 values, worst 0.02 of the tolerance
+ok   mma f16 ring 1056, window 1024, 5 heads 1280 values, worst 0.02 of the tolerance
+ok   mma fp8 first token                1536 values, worst 0.00 of the tolerance
+ok   mma fp8 10 keys, 3 blocks          1536 values, worst 0.02 of the tolerance
+ok   mma fp8 2500 keys, 3 heads a K/V head 3072 values, worst 0.03 of the tolerance
+ok   mma fp8 1001 keys, 8 heads a K/V head 1024 values, worst 0.02 of the tolerance
+ok   mma fp8 334 keys, 1 head a K/V head 512 values, worst 0.03 of the tolerance
+ok   mma fp8 ring 400, window 256, 6 heads 1536 values, worst 0.02 of the tolerance
+ok   mma fp8 ring 1056, window 1024, 5 heads 1280 values, worst 0.02 of the tolerance
+ok   cand_topk: the 1000 largest of 200058 are among its 1013 (spread)
+ok   cand_topk: the 1000 largest of 200058 are among its 2381 (ties)
+ok   cand_topk: a flat row reports more values than the buffer holds
+ok   mv_q8p                             300 values, worst 0.01 of the tolerance
+ok   mv_q8p_conv: convs and other inputs 420 values, worst 0.00 of the tolerance
+ok   mv_f16                             40 values, worst 0.01 of the tolerance
+ok   prep_qkv_r_f16_at: the sinks are mv_f16's to the bit
+ok   rms_multi: rms's values to the bit
+ok   moe_combine_conv: moe_combine_f32 and conv4_res's values to the bit
+ok   attn_res_jobs: two attn_res's values to the bit
+ok   loop_gates (a token's kernels)     6912 values, worst 0.01 of the tolerance
+ok   loop_gate_mix, loop_gate_blend (a chunk's) 6912 values, worst 0.00 of the tolerance
+ok   NVFP4 limb SwiGLU                  384 values, worst 0.22 of the tolerance
+ok   NVFP4 limb down                    768 values, worst 0.47 of the tolerance
+ok   NVFP4 grouped FP16 input           384 values, worst 0.00 of the tolerance
+ok   Q8 limb SwiGLU                     384 values, worst 0.24 of the tolerance
+ok   Q8 limb down                       768 values, worst 0.22 of the tolerance
+ok   Q8 grouped FP16 input              384 values, worst 0.00 of the tolerance
+ok   experts_gate_up_swiglu_mma         640 values, worst 0.00 of the tolerance
+ok   experts_down_mma                   1280 values, worst 0.21 of the tolerance
+ok   experts_mma_fits
+ok   short Q8 tensor-core tile          78 values, worst 0.00 of the tolerance
+ok   short Q8 tensor-core tile          312 values, worst 0.00 of the tolerance
+ok   short Q8 tensor-core tile          507 values, worst 0.00 of the tolerance
+all passed
+          Finished with result: success
+Main processes terminated with: code=exited, status=0/SUCCESS
+               Service runtime: 14.504s
+             CPU time consumed: 14.459s
+                   Memory peak: 337M (swap: 0B)

@@ -107,6 +107,53 @@ else:
         self.assertIn("-DFETCHCONTENT_FULLY_DISCONNECTED=ON", flags)
         self.assertIn("-DGGML_CPU_KLEIDIAI=OFF", flags)
 
+    def test_inkling_candidate_selects_hip_engine_and_retains_maya_license(self):
+        self.args.engine = "strata-ik2"
+        notice = self.root / "third_party/project-maya/NOTICE.md"
+        notice.parent.mkdir(parents=True)
+        notice.write_text("Maya HIP slice provenance\n")
+        (notice.parent / "LICENSE").write_text("Maya MIT license\n")
+        guide = self.root / "docs/INKLING_MINI_HIP.md"
+        guide.parent.mkdir()
+        guide.write_text("Unqualified Inkling candidate reconstruction\n")
+        inputs = self.root / "docs/qualification/inkling-mini-hip-inputs.json"
+        inputs.parent.mkdir()
+        inputs.write_text('{"status": "pending"}\n')
+        (guide.parent / "KERNEL_POLICY.md").write_text("Target the running platform\n")
+        qualification = inputs.parent / "inkling-mini-hip-qualification.json"
+        qualification.write_text('{"status": "fixture historical proof"}\n')
+        raw = inputs.parent / "inkling-mini-hip/api.json"
+        raw.parent.mkdir()
+        raw.write_text('{"fixture": true}\n')
+        self.commit(self.root)
+        redrock.build_candidate(self.args)
+        runtime = self.args.candidate / "runtime"
+        self.assertEqual({p.name for p in (runtime / "bin").iterdir()}, {"strata-ik2"})
+        flags = json.loads((self.args.candidate / "build/flags.json").read_text())
+        self.assertIn("-DSTRATA_BUILD_IK2=ON", flags)
+        self.assertIn("-DSTRATA_ENABLE_CUDA=OFF", flags)
+        self.assertIn("-DCMAKE_HIP_ARCHITECTURES=gfx1201", flags)
+        self.assertIn("-DSTRATA_FRONTEND=OFF", flags)
+        metadata = runtime / "share/redrock"
+        self.assertEqual((metadata / "licenses/third_party/project-maya/NOTICE.md").read_text(), notice.read_text())
+        self.assertEqual((metadata / "docs/INKLING_MINI_HIP.md").read_text(), guide.read_text())
+        self.assertEqual((metadata / "docs/qualification/inkling-mini-hip-inputs.json").read_text(), inputs.read_text())
+        self.assertEqual((metadata / "docs/qualification/inkling-mini-hip-qualification.json").read_text(), qualification.read_text())
+        self.assertEqual((metadata / "docs/qualification/inkling-mini-hip/api.json").read_text(), raw.read_text())
+        record = json.loads((metadata / "build.json").read_text())
+        self.assertEqual(record["engine"], "strata-ik2")
+        self.assertEqual(set(record["sha256"]), {"strata-ik2"})
+        self.assertEqual(record["hardware_qualification"], "unqualified")
+
+    def test_inkling_rejects_other_backend_or_architecture_before_creating_candidate(self):
+        self.args.engine = "strata-ik2"
+        for backend, arch in (("cuda", "86"), ("hip", "gfx1101")):
+            with self.subTest(backend=backend, arch=arch):
+                self.args.backend, self.args.arch = backend, arch
+                with self.assertRaisesRegex(RuntimeError, "one R9700"):
+                    redrock.build_candidate(self.args)
+                self.assertFalse(self.args.candidate.exists())
+
     def test_build_environment_is_controlled_and_recorded(self):
         overrides = (
             "CMAKE_TOOLCHAIN_FILE", "CFLAGS", "CXXFLAGS", "CUDAFLAGS", "HIPFLAGS", "LDFLAGS", "CPPFLAGS",

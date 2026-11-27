@@ -1,0 +1,8 @@
+Running as unit: redrock-issue8-blas-parity-1.service
+PASS BLAS FP32 n=1024 columns=480 k=16 max_abs_error=1.56211773e-06
+PASS BLAS FP16 n=64 columns=8 k=2304 max_abs_error=6.14268356e-06
+          Finished with result: success
+Main processes terminated with: code=exited, status=0/SUCCESS
+               Service runtime: 229ms
+             CPU time consumed: 214ms
+                   Memory peak: 114.2M (swap: 0B)

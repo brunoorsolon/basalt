@@ -1,0 +1,20 @@
+[
+  {
+    "file": "model-author-README.md",
+    "url": "https://huggingface.co/thinkingmachines/Inkling-2-Mini/raw/c9d028302cd0f035fdf8e7e91f089a4ce94d2195/README.md",
+    "bytes": 54898,
+    "sha256": "ab4fbc79a26f57a4160eae83ff33f7ec5442f4a6cae21478fdda36b4a0c13592"
+  },
+  {
+    "file": "model-distributor-README.md",
+    "url": "https://huggingface.co/unsloth/Inkling-2-Mini-GGUF/raw/8078d149286eec7193795413b9e0643da6d11fa1/README.md",
+    "bytes": 56469,
+    "sha256": "f3ef315925ac98f55e512193b08929c77c890b6be2cc1e222063b745cff973ce"
+  },
+  {
+    "file": "LICENSE.Apache-2.0.txt",
+    "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+    "bytes": 11358,
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  }
+]
