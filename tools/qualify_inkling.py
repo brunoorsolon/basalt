@@ -232,6 +232,12 @@ def probe(args):
                             7800 <= context_result["usage"]["prompt_tokens"] <= 8192 - 32,
                             "near-limit context did not complete the requested task")
                     evidence["near_context_limit"] = context_result
+                    _, generation_benchmark = completion(url, {**basic, "max_tokens": 256,
+                        "messages": [{"role": "user", "content": "Count from 1 to 1000, printing every integer in order."}]})
+                    require(generation_benchmark["usage"]["completion_tokens"] == 256 and
+                            generation_benchmark["choices"][0]["finish_reason"] == "length",
+                            "generation benchmark ended before its declared 256-token budget")
+                    evidence["generation_benchmark"] = generation_benchmark
                     _, limited = completion(url, {**basic, "max_tokens": 8,
                         "messages": [{"role": "user", "content": "Count from 1 to 100, printing every integer in order."}]})
                     require(limited["usage"]["completion_tokens"] == 8 and limited["choices"][0]["finish_reason"] == "length",
