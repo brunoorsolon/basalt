@@ -1,6 +1,5 @@
 // Inkling's relative-bias FP32 and dense FP16 products against CPU double sums.
 #include "ik2_hip_compat.hpp"
-#include <hip/hip_fp16.h>
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
@@ -16,17 +15,13 @@ void compare(cublasHandle_t blas, int n, int columns, int k, bool half) {
     std::vector<double> w(weights.size()), x(inputs.size());
     for (size_t i = 0; i < w.size(); ++i) {
         const float value = std::sin((float) i * .137f) * .7f;
-        if constexpr (sizeof(T) == 2) {
-            weights[i] = __half_as_ushort(__float2half_rn(value));
-            w[i] = __half2float(__ushort_as_half(weights[i]));
-        } else weights[i] = value, w[i] = value;
+        weights[i] = static_cast<T>(value);
+        w[i] = static_cast<double>(weights[i]);
     }
     for (size_t i = 0; i < x.size(); ++i) {
         const float value = std::cos((float) i * .219f) * .8f;
-        if constexpr (sizeof(T) == 2) {
-            inputs[i] = __half_as_ushort(__float2half_rn(value));
-            x[i] = __half2float(__ushort_as_half(inputs[i]));
-        } else inputs[i] = value, x[i] = value;
+        inputs[i] = static_cast<T>(value);
+        x[i] = static_cast<double>(inputs[i]);
     }
     T *dw = nullptr, *dx = nullptr;
     float* dy = nullptr;
@@ -67,6 +62,6 @@ int main() {
     CHECK(cublasCreate(&blas));
     CHECK(cublasSetMathMode(blas, CUBLAS_DEFAULT_MATH));
     compare<float>(blas, 1024, 24 * 20, 16, false);
-    compare<unsigned short>(blas, 64, 8, 2304, true);
+    compare<_Float16>(blas, 64, 8, 2304, true);
     CHECK(hipblasDestroy(blas));
 }
