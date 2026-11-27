@@ -1,0 +1,21 @@
+HIP device pci=0000:03:00.0 arch=gfx1201 name=AMD Radeon AI PRO R9700
+0.00.069.250 E llama_model_load: error loading model: unknown model architecture: 'inkling2'
+0.00.069.254 E llama_model_load_from_file_impl: failed to load model
+0.00.069.256 W vocabulary load failed; retrying with general.architecture overridden to "llama" (vocabulary only)
+0.00.303.827 W load: special_eos_id is not in special_eog_ids - the tokenizer config may be incorrect
+0.00.336.876 I literals: 60 control-token texts are text inside a message
+0.00.342.701 I chat template, example_format: '<|message_system|><|content_text|>You are a helpful assistant<|end_message|><|message_system|><|content_text|>Thinking effort level: 0.9<|end_message|><|message_user|><|content_text|>Hello<|end_message|><|message_model|><|content_text|>Hi there<|end_message|><|content_model_end_sampling|><|message_user|><|content_text|>How are you?<|end_message|>'
+0.00.346.087 I chat template, thinking = 1
+0.00.346.094 I waiting for the engine (/mnt/storage/ai/redrock-issue8/builds/candidate-3/runtime/bin/strata-ik2) to load
+0.01.527.411 I engine info: ctx=8192
+0.01.527.414 I engine info: engine=ik2
+0.01.527.414 I engine info: engine_kind=ik2
+0.01.527.414 I engine info: gpus=1
+0.01.527.415 I engine info: kv=f16
+0.01.527.415 I engine info: model=Inkling-2
+0.01.527.415 I engine info: resident=1
+0.01.527.416 I engine ready: context 8192 tokens, model inkling-mini
+0.01.527.418 I srv          main: listening on http://127.0.0.1:60441, context 8192 tokens
+0.01.610.732 I srv        launch: task 0: GEN 32 prompt=20 n_predict=32
+0.01.751.806 I srv       on_done: task 0: DONE produced=3 prompt=20 prompt_ms=114.0 decode_ms=27.1 finish=stop drafts=0/0 reused=0
+0.01.927.707 I srv    operator(): cleaning up before exit...

@@ -153,7 +153,10 @@ def build_candidate(args):
         licenses(metadata / "licenses")
         documents = ["README.md", "UPSTREAM.md"]
         if args.engine == "strata-ik2":
-            documents += ["docs/INKLING_MINI_HIP.md", "docs/qualification/inkling-mini-hip-inputs.json"]
+            documents += ["docs/INKLING_MINI_HIP.md", "docs/KERNEL_POLICY.md",
+                          "docs/qualification/inkling-mini-hip-inputs.json",
+                          "docs/qualification/inkling-mini-hip-qualification.json"]
+            documents += [str(path.relative_to(ROOT)) for path in sorted((ROOT / "docs/qualification/inkling-mini-hip").iterdir())]
         for name in documents:
             target = metadata / name
             target.parent.mkdir(parents=True, exist_ok=True)

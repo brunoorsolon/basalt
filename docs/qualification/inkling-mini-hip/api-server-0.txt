@@ -1,0 +1,40 @@
+HIP device pci=0000:03:00.0 arch=gfx1201 name=AMD Radeon AI PRO R9700
+0.00.069.255 E llama_model_load: error loading model: unknown model architecture: 'inkling2'
+0.00.069.259 E llama_model_load_from_file_impl: failed to load model
+0.00.069.261 W vocabulary load failed; retrying with general.architecture overridden to "llama" (vocabulary only)
+0.00.295.632 W load: special_eos_id is not in special_eog_ids - the tokenizer config may be incorrect
+0.00.328.044 I literals: 60 control-token texts are text inside a message
+0.00.333.816 I chat template, example_format: '<|message_system|><|content_text|>You are a helpful assistant<|end_message|><|message_system|><|content_text|>Thinking effort level: 0.9<|end_message|><|message_user|><|content_text|>Hello<|end_message|><|message_model|><|content_text|>Hi there<|end_message|><|content_model_end_sampling|><|message_user|><|content_text|>How are you?<|end_message|>'
+0.00.337.214 I chat template, thinking = 1
+0.00.337.220 I waiting for the engine (/mnt/storage/ai/redrock-issue8/builds/candidate-3/runtime/bin/strata-ik2) to load
+0.01.522.827 I engine info: ctx=8192
+0.01.522.829 I engine info: engine=ik2
+0.01.522.829 I engine info: engine_kind=ik2
+0.01.522.830 I engine info: gpus=1
+0.01.522.830 I engine info: kv=f16
+0.01.522.830 I engine info: model=Inkling-2
+0.01.522.831 I engine info: resident=1
+0.01.522.832 I engine ready: context 8192 tokens, model inkling-mini
+0.01.522.834 I srv          main: listening on http://127.0.0.1:45037, context 8192 tokens
+0.01.612.858 I srv        launch: task 0: GEN 32 prompt=20 n_predict=32
+0.01.753.568 I srv       on_done: task 0: DONE produced=3 prompt=20 prompt_ms=113.5 decode_ms=27.2 finish=stop drafts=0/0 reused=0
+0.01.758.965 W srv        launch: task 9: a grammar was requested (1092 chars); this engine does not constrain sampling, parsing only
+0.01.758.971 I srv        launch: task 9: GEN 256 prompt=110 n_predict=256
+0.03.574.360 I srv       on_done: task 9: DONE produced=74 prompt=110 prompt_ms=879.5 decode_ms=935.4 finish=stop drafts=0/0 reused=0
+0.03.579.645 I srv        launch: task 101: GEN 64 prompt=86 n_predict=64
+0.04.435.714 I srv       on_done: task 101: DONE produced=4 prompt=86 prompt_ms=818.0 decode_ms=37.6 finish=stop drafts=0/0 reused=0
+0.04.446.751 I srv        launch: task 145: GEN 32 prompt=7826 n_predict=32
+0.17.483.936 I srv       on_done: task 145: DONE produced=3 prompt=7826 prompt_ms=13007.5 decode_ms=29.0 finish=stop drafts=0/0 reused=0
+0.17.488.455 I srv        launch: task 797: GEN 256 prompt=30 n_predict=256
+0.20.878.406 I srv       on_done: task 797: DONE produced=256 prompt=30 prompt_ms=127.1 decode_ms=3262.4 finish=length drafts=0/0 reused=0
+0.20.882.836 I srv        launch: task 968: GEN 8 prompt=29 n_predict=8
+0.21.097.034 I srv       on_done: task 968: DONE produced=8 prompt=29 prompt_ms=125.7 decode_ms=88.1 finish=length drafts=0/0 reused=0
+0.21.108.117 E srv    send_error: task id = 980, error: the request exceeds the available context size: 9015 prompt tokens, context 8192 (8 kept back)
+0.21.108.128 W srv          stop: cancel task, id_task = 980
+0.21.112.407 I srv        launch: task 982: GEN 7000 prompt=28 n_predict=7000
+0.21.248.876 W srv          stop: cancel task, id_task = 982
+0.21.252.850 I srv  cancel_curre: task 982: cancelled by the client, stopping the engine's request
+0.21.261.547 I srv       on_done: task 982: DONE produced=2 prompt=28 prompt_ms=123.2 decode_ms=25.5 finish=cancel drafts=0/0 reused=0
+0.21.340.642 I srv        launch: task 992: GEN 32 prompt=20 n_predict=32
+0.21.473.306 I srv       on_done: task 992: DONE produced=3 prompt=20 prompt_ms=107.5 decode_ms=24.8 finish=stop drafts=0/0 reused=0
+0.21.633.443 I srv    operator(): cleaning up before exit...

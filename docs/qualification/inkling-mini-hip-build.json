@@ -1,5 +1,6 @@
 {
-  "status": "unqualified_issue_8_incomplete",
+  "status": "historical_unqualified_build_superseded_by_completed_qualification",
+  "superseded_by": "inkling-mini-hip-qualification.json",
   "build": {
     "redrock_commit": "3c572df4bd6dbc8ba946b65e7707f546d29fa61c",
     "sources": {
@@ -146,7 +147,7 @@
     "observed_at_utc": "2026-11-26T22:51:53Z",
     "method": "read-only sysfs and /proc observations, not a reservation or model allocation test"
   },
-  "remaining_gates": [
+  "remaining_gates_at_that_build": [
     "Explicit acquisition authorization for the exact selected model and its notices",
     "Explicit attended selected-device/runtime/resource envelope on the running host kernel",
     "HIP operators versus retained CPU/double references",

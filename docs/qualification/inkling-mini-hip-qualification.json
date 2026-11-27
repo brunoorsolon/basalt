@@ -1,0 +1,374 @@
+{
+  "status": "qualified_single_request_text_only_exact_configuration",
+  "date": "2026-11-27",
+  "issue": "https://github.com/brunoorsolon/redrock/issues/8",
+  "scope": {
+    "model": "Inkling 2 Mini (26B), selected retained-layout UD-Q4_K_XL",
+    "backend": "HIP",
+    "architecture": "gfx1201",
+    "device": "Radeon AI PRO R9700",
+    "pci": "0000:03:00.0",
+    "rocr_uuid": "GPU-26508202313fa2ac",
+    "kernel": "7.3.4-200.fc44.x86_64",
+    "context": 8192,
+    "prompt_chunk": 256,
+    "kv": "f16",
+    "gpus": 1,
+    "resident_experts": true,
+    "drafting": false,
+    "vision": false,
+    "headless_adapter": "unbiased-strata",
+    "simultaneous_requests": 1,
+    "temperature": 0,
+    "reasoning_effort": "none",
+    "expert_decode": "direct row dots (IK2_EXPERT_MMA=0)"
+  },
+  "authorization": {
+    "source": "Human explicitly approved the exact 17.63-GB input and bounded R9700 qualification, then approved pausing idle comfyui.service and restoring it after clean teardown.",
+    "durable_root": "/mnt/storage/ai/redrock-issue8",
+    "limits": {
+      "unit_seconds": 900,
+      "process_group_ram_bytes": 34359738368,
+      "whole_device_vram_bytes": 30064771072,
+      "host_available_ram_floor_bytes": 8589934592
+    },
+    "host_changes": "No kernel, installed runtime, active engine installation or model configuration changed. Existing repaired ROCr was bound read-only inside each private GPU namespace."
+  },
+  "engine_build": {
+    "redrock_commit": "8789c1d423f73c6ebe13a8582e6952d22baafd90",
+    "sources": {
+      "unbiased_strata": {
+        "url": "https://github.com/robertkarl/UnbiasedStrata",
+        "ref": "refs/heads/main",
+        "commit": "9f75192287c2abf88c77da3b4b6f54ccee01db83",
+        "reviewed_through": "9f75192287c2abf88c77da3b4b6f54ccee01db83",
+        "imported_commits": []
+      },
+      "llama_cpp": {
+        "url": "https://github.com/robertkarl/llama.cpp.git",
+        "commit": "db1f382bb25f9cc481893105dbead09c86a52f01"
+      },
+      "rdna4_comparison": {
+        "url": "https://github.com/vectorweft/strata-rdna4",
+        "ref": "refs/heads/main",
+        "commit": "e128da05bb493796a51cab0c30aa331ba6648db1",
+        "development_base": "a79080535d1b2a71a3419a0d97d8e7dca194b0f1",
+        "reviewed_through": "7908212f1d06536d10a5077049d4cbb212beaee1",
+        "imported_commits": []
+      },
+      "rocr_r9700": {
+        "url": "https://github.com/ROCm/ROCR-Runtime",
+        "base": "4e4d7abeb786e903ac2a46815ae2565de331cbd4",
+        "commit": "f999715d0b28afdb4e9c3eb31317ff7789be54c9",
+        "tree": "bf1fdc210d330b2b4aba7178b6472605327629e7",
+        "patch": "releases/patches/rocr-filtered-gpu-memory-policy.patch"
+      },
+      "inkling_hip_slice": {
+        "url": "https://github.com/mw00/project-maya",
+        "commit": "53885cef8faf0d3b3f7e28c0b1537a056c1f3ecf",
+        "adapted_components": [
+          "src/ik2/ik2_kernels.cu: HIP fragment and packed-half helpers",
+          "src/ik2/ik2_rdna.inc: prompt attention only",
+          "include/maya/kernels/rdna_wmma.hpp"
+        ],
+        "scope": "Selective adaptation, not a Maya snapshot update; see docs/INKLING_MINI_HIP.md"
+      }
+    },
+    "backend": "hip",
+    "architecture": "gfx1201",
+    "engine": "strata-ik2",
+    "cmake_version": "cmake version 4.3.0",
+    "compiler_versions": {
+      "cc": "gcc (GCC) 16.2.1 20261029 (Red Hat 16.2.1-3)\nCopyright (C) 2026 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "cxx": "c++ (GCC) 16.2.1 20261029 (Red Hat 16.2.1-3)\nCopyright (C) 2026 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "gpu": "clang version 20.0.0.rocm\nTarget: x86_64-redhat-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib64/rocm/llvm/bin\n"
+    },
+    "cmake_flags": [
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DCMAKE_C_COMPILER=/usr/bin/gcc",
+      "-DCMAKE_CXX_COMPILER=/usr/bin/c++",
+      "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/mnt/storage/ai/redrock-issue8/builds/candidate-3/build/bin",
+      "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/mnt/storage/ai/redrock-issue8/builds/candidate-3/build/bin",
+      "-DCMAKE_SKIP_RPATH=ON",
+      "-DSTRATA_GGML_DIR=/home/bruno/git-repos/brunoorsolon/redrock/third_party/llama.cpp",
+      "-DSTRATA_PORTABLE=ON",
+      "-DSTRATA_NATIVE_EXPERTS=ON",
+      "-DSTRATA_FRONTEND=OFF",
+      "-DSTRATA_BUILD_TESTS=OFF",
+      "-DSTRATA_BUILD_DSV41=OFF",
+      "-DSTRATA_BUILD_IK2=ON",
+      "-DSTRATA_ENABLE_CUDA=OFF",
+      "-DSTRATA_ENABLE_HIP=ON",
+      "-DSTRATA_PREFILL_MMQ=ON",
+      "-DSTRATA_MMQ_KQUANTS=ON",
+      "-DSTRATA_Q6K_EXPERTS=ON",
+      "-DGGML_CPU_KLEIDIAI=OFF",
+      "-DGGML_OPENMP_FETCH=OFF",
+      "-DGGML_CCACHE=OFF",
+      "-DFETCHCONTENT_FULLY_DISCONNECTED=ON",
+      "-DFETCHCONTENT_UPDATES_DISCONNECTED=ON",
+      "-DCMAKE_HIP_ARCHITECTURES=gfx1201",
+      "-DCMAKE_HIP_COMPILER=/usr/lib64/rocm/llvm/bin/clang-20"
+    ],
+    "build_environment": {
+      "HOME": "/home/bruno",
+      "PATH": "/usr/bin:/bin",
+      "LC_ALL": "C"
+    },
+    "hardware_qualification": "unqualified",
+    "runtime_prerequisites": "Linux/glibc, libstdc++, and the matching CUDA or ROCm toolkit and driver; see README.md",
+    "sha256": {
+      "strata-ik2": "68fadf0e99e83c09e4e004a1311760cbb951a87df3917aef6af500c03a0d9f10"
+    }
+  },
+  "adapter": {
+    "sha256": "63e3506b5e10c3f226b0bdbde5703b0f936b93257619ac7ed21387b2c98b855a",
+    "source": "Same checkout and pinned llama.cpp; frontend source unchanged from 39f8ea516be1. Independently built CPU-only unbiased-strata, not substituted with Maya's server."
+  },
+  "inputs": {
+    "manifest": "inkling-mini-hip-inputs.json",
+    "model_sha256": "e62d463c135ffe283df8d94b279a96ca145ac128b52ce854478613045bf4de15",
+    "model_bytes": 17629759456,
+    "model_notices": "inkling-mini-hip/model-notices.json",
+    "tokenizer_template_identity": "Embedded in the full-file-hashed model, with unchanged frontend compatibility transformations; no drafter, projector or derived pack."
+  },
+  "numerical": {
+    "native_checks_passed": 347,
+    "reference": "Retained CPU/double references and exact fused/unfused assertions, with original tolerances unchanged; scalar and vector FP8 finite-byte checks include negative zero.",
+    "native_binary_sha256": "eac605588a8dd0327cee6311915f5aee716470ec59082d71ae659c4f584ee1de",
+    "blas_binary_sha256": "8e1a8b9b29a3b0e58d00421568312dc6f56ce8072690682a5af881328a5bea03",
+    "fp32_blas": {
+      "shape": {
+        "n": 1024,
+        "columns": 480,
+        "k": 16
+      },
+      "max_absolute_error": 0.00000156211773
+    },
+    "fp16_blas": {
+      "shape": {
+        "n": 64,
+        "columns": 8,
+        "k": 2304
+      },
+      "max_absolute_error": 0.00000614268356
+    },
+    "blas_reference": "Independent CPU double sums over the actual float/half inputs; tolerance 2e-4 + 2e-5 * abs(reference). Full FP32 default math, no XF32 request."
+  },
+  "functional": {
+    "streamed_instruction": "ready",
+    "streamed_tool_call": {
+      "name": "lookup",
+      "arguments": {
+        "key": "redrock-check"
+      }
+    },
+    "tool_result_continuation": "739281",
+    "near_context_limit": {
+      "prompt_tokens": 7826,
+      "answer": "ready"
+    },
+    "output_limit": {
+      "completion_tokens": 8,
+      "finish_reason": "length"
+    },
+    "oversized_context": {
+      "prompt_tokens": 9015,
+      "http_status": 400
+    },
+    "memory_budget_refusal": {
+      "expert_cache_budget_gib": 1,
+      "exit_code": 1,
+      "stderr": "HIP device pci=0000:03:00.0 arch=gfx1201 name=AMD Radeon AI PRO R9700\nstrata-ik2: HIP Mini resident weights and context do not fit the selected device/settings; no host-offload fallback\n",
+      "scope": "real-model admission refusal, not induced VRAM exhaustion"
+    },
+    "cancellation": "Engine DONE finish=cancel observed, followed by a clean successful request.",
+    "restart": "Two distinct server processes answered correctly; owned VRAM was allowed to return near baseline before the second start.",
+    "scope_note": "Admission under a one-GiB expert budget was refused; actual VRAM exhaustion was not induced."
+  },
+  "measurements": {
+    "startup_seconds": [
+      1.6098808699989604,
+      1.6076216840010602
+    ],
+    "startup_conditions": "After input SHA-256 verification; OS page cache warm, not a cold-disk startup benchmark.",
+    "prompt_processing": {
+      "tokens": 7826,
+      "milliseconds": 13008.315,
+      "tokens_per_second": 601.6151976639558
+    },
+    "generation": {
+      "generated_tokens": 256,
+      "decode_steps": 255,
+      "milliseconds": 3262.347,
+      "tokens_per_second": 78.16458518974223,
+      "first_token": "Produced during prefill and excluded from decode-step rate."
+    },
+    "memory": [
+      {
+        "peak_process_tree_rss_bytes": 19011674112,
+        "process_tree_hwm_upper_bound_bytes": 19011674112,
+        "baseline_device_vram_bytes": 1659531264,
+        "peak_device_vram_bytes": 20448362496,
+        "sample_interval_seconds": 0.05,
+        "limits": "RSS can double-count shared mappings; summed per-process HWM is an upper bound on concurrent RSS; VRAM includes other device users; sampled peaks are lower bounds"
+      },
+      {
+        "peak_process_tree_rss_bytes": 18922778624,
+        "process_tree_hwm_upper_bound_bytes": 18922778624,
+        "baseline_device_vram_bytes": 1625817088,
+        "peak_device_vram_bytes": 20447961088,
+        "sample_interval_seconds": 0.05,
+        "limits": "RSS can double-count shared mappings; summed per-process HWM is an upper bound on concurrent RSS; VRAM includes other device users; sampled peaks are lower bounds"
+      }
+    ],
+    "all_request_rates": [
+      {
+        "prompt_tokens_processed": 20,
+        "generated_tokens": 3,
+        "decoded_tokens": 2,
+        "prompt_ms": 113.5,
+        "decode_ms": 27.2,
+        "finish": "stop",
+        "prompt_tokens_per_second": 176.21145374449338,
+        "generation_tokens_per_second": 73.52941176470588
+      },
+      {
+        "prompt_tokens_processed": 110,
+        "generated_tokens": 74,
+        "decoded_tokens": 73,
+        "prompt_ms": 879.5,
+        "decode_ms": 935.4,
+        "finish": "stop",
+        "prompt_tokens_per_second": 125.07106310403638,
+        "generation_tokens_per_second": 78.04147958092794
+      },
+      {
+        "prompt_tokens_processed": 86,
+        "generated_tokens": 4,
+        "decoded_tokens": 3,
+        "prompt_ms": 818,
+        "decode_ms": 37.6,
+        "finish": "stop",
+        "prompt_tokens_per_second": 105.13447432762837,
+        "generation_tokens_per_second": 79.7872340425532
+      },
+      {
+        "prompt_tokens_processed": 7826,
+        "generated_tokens": 3,
+        "decoded_tokens": 2,
+        "prompt_ms": 13007.5,
+        "decode_ms": 29,
+        "finish": "stop",
+        "prompt_tokens_per_second": 601.6528925619834,
+        "generation_tokens_per_second": 68.96551724137932
+      },
+      {
+        "prompt_tokens_processed": 30,
+        "generated_tokens": 256,
+        "decoded_tokens": 255,
+        "prompt_ms": 127.1,
+        "decode_ms": 3262.4,
+        "finish": "length",
+        "prompt_tokens_per_second": 236.03461841070023,
+        "generation_tokens_per_second": 78.16331535066209
+      },
+      {
+        "prompt_tokens_processed": 29,
+        "generated_tokens": 8,
+        "decoded_tokens": 7,
+        "prompt_ms": 125.7,
+        "decode_ms": 88.1,
+        "finish": "length",
+        "prompt_tokens_per_second": 230.70803500397773,
+        "generation_tokens_per_second": 79.45516458569807
+      },
+      {
+        "prompt_tokens_processed": 28,
+        "generated_tokens": 2,
+        "decoded_tokens": null,
+        "prompt_ms": 123.2,
+        "decode_ms": 25.5,
+        "finish": "cancel",
+        "prompt_tokens_per_second": 227.27272727272728,
+        "generation_tokens_per_second": null
+      },
+      {
+        "prompt_tokens_processed": 20,
+        "generated_tokens": 3,
+        "decoded_tokens": 2,
+        "prompt_ms": 107.5,
+        "decode_ms": 24.8,
+        "finish": "stop",
+        "prompt_tokens_per_second": 186.04651162790697,
+        "generation_tokens_per_second": 80.64516129032258
+      }
+    ]
+  },
+  "safety": {
+    "completed_envelopes": [
+      "native-parity-4",
+      "blas-parity-1",
+      "api-6"
+    ],
+    "new_kernel_log_events": 0,
+    "desktop_preserved": true,
+    "owned_compute_released": true,
+    "comfyui_restored": true,
+    "confinement": "Only selected renderD128 and KFD exposed; repaired ROCr mapped read-only; private PID/network namespaces; loopback-only API; exclusive existing runtime coordination lease."
+  },
+  "corrections": [
+    {
+      "observed": "Initial native run failed exact FP8 negative-zero preservation and fused MoE/conv rounding by one float ULP.",
+      "fix": "Direct unit-scale FP8 bit conversion and HIP statement-local FMA contraction; original parity assertions retained and scalar coverage added."
+    },
+    {
+      "observed": "First real-model request hit hipBLAS status 7 on HIPBLAS_COMPUTE_32F_PEDANTIC; that run reached the 15-minute envelope timeout.",
+      "fix": "Use supported full-FP32 default math, independently verified against double products; add per-completion wall-clock limits."
+    },
+    {
+      "observed": "One later envelope stopped in preflight while restored ComfyUI's HTTP service was still starting; no model payload launched.",
+      "fix": "Bounded readiness wait before checking its idle queue; no kernel incident was inferred."
+    }
+  ],
+  "existing_support": {
+    "package_tests": 11,
+    "probe_helper_tests": 4,
+    "cli_admission_cases": 14,
+    "adapter_protocol_cases": 7,
+    "adapter_http_fake_engine": "passed",
+    "unchanged": "Existing release records, Qwen engine/shared HIP shim, frontend and llama.cpp gitlink; no affected shared inference behavior changed."
+  },
+  "limits": [
+    "Exact selected model/runtime/device/configuration only; fresh candidates retain unqualified build metadata until their evidence is accepted.",
+    "Not a release publication, general AMD qualification, vision/drafting/multi-GPU support or 96K+ coding-model qualification.",
+    "No whole-model logit/KL equivalence or broad quality benchmark; useful task outcomes and operator references are separate evidence.",
+    "Tools were naturally generated and parsed successfully; this engine does not enforce a JSON grammar or guarantee arbitrary tool_choice constraints.",
+    "Host RSS may double-count shared mappings, summed HWM is an upper bound, device VRAM includes desktop allocations, and 50-ms sampled device peaks can miss transients."
+  ],
+  "evidence": {
+    "api": "inkling-mini-hip/api.json",
+    "api_logs": [
+      "inkling-mini-hip/api-server-0.txt",
+      "inkling-mini-hip/api-server-1.txt"
+    ],
+    "native": "inkling-mini-hip/native-parity.txt",
+    "blas": "inkling-mini-hip/blas-parity.txt",
+    "envelopes": [
+      "inkling-mini-hip/native-envelope.json",
+      "inkling-mini-hip/blas-envelope.json",
+      "inkling-mini-hip/api-envelope.json"
+    ],
+    "runtime": "inkling-mini-hip/runtime-inputs.json",
+    "host_supervisor": "inkling-mini-hip/host-supervisor.py",
+    "local_evidence_root": "/mnt/storage/ai/redrock-issue8/evidence"
+  },
+  "hardware_capacity": {
+    "host_ram_total_bytes": 64667525120,
+    "host_ram_available_at_probe_start_bytes": 52256280576,
+    "minimum_available_host_ram_during_probe_bytes": 50509062144,
+    "device_vram_total_bytes": 32061259776,
+    "device_vram_available_at_probe_start_bytes": 30435442688,
+    "method": "Kernel sysfs and /proc observations; available memory is an observation, not a reservation."
+  }
+}

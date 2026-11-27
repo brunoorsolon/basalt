@@ -1,5 +1,6 @@
 {
-  "status": "selected_for_pending_attended_qualification_not_downloaded",
+  "status": "qualified_for_the_exact_declared_single_request_configuration",
+  "qualification_record": "inkling-mini-hip-qualification.json",
   "model": {
     "repository": "unsloth/Inkling-2-Mini-GGUF",
     "revision": "8078d149286eec7193795413b9e0643da6d11fa1",
@@ -32,7 +33,9 @@
     "kv": "f16",
     "gpus": 1,
     "expert_mma": 0,
-    "model_download_bytes_authorized": 0
+    "temperature": 0,
+    "reasoning_effort": "none",
+    "model_download_bytes_authorized": 17629759456
   },
   "limits": "This is a text-only inference probe, not 96K+ local coding-model qualification or a release support claim."
 }

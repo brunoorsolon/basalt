@@ -119,6 +119,12 @@ else:
         inputs = self.root / "docs/qualification/inkling-mini-hip-inputs.json"
         inputs.parent.mkdir()
         inputs.write_text('{"status": "pending"}\n')
+        (guide.parent / "KERNEL_POLICY.md").write_text("Target the running platform\n")
+        qualification = inputs.parent / "inkling-mini-hip-qualification.json"
+        qualification.write_text('{"status": "fixture historical proof"}\n')
+        raw = inputs.parent / "inkling-mini-hip/api.json"
+        raw.parent.mkdir()
+        raw.write_text('{"fixture": true}\n')
         self.commit(self.root)
         redrock.build_candidate(self.args)
         runtime = self.args.candidate / "runtime"
@@ -132,6 +138,8 @@ else:
         self.assertEqual((metadata / "licenses/third_party/project-maya/NOTICE.md").read_text(), notice.read_text())
         self.assertEqual((metadata / "docs/INKLING_MINI_HIP.md").read_text(), guide.read_text())
         self.assertEqual((metadata / "docs/qualification/inkling-mini-hip-inputs.json").read_text(), inputs.read_text())
+        self.assertEqual((metadata / "docs/qualification/inkling-mini-hip-qualification.json").read_text(), qualification.read_text())
+        self.assertEqual((metadata / "docs/qualification/inkling-mini-hip/api.json").read_text(), raw.read_text())
         record = json.loads((metadata / "build.json").read_text())
         self.assertEqual(record["engine"], "strata-ik2")
         self.assertEqual(set(record["sha256"]), {"strata-ik2"})

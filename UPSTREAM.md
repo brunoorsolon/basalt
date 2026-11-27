@@ -24,7 +24,9 @@ The inherited record below is retained as historical provenance, not silently re
 
 On 2026-11-26, maintained Project Maya `main` resolved to `53885cef8faf0d3b3f7e28c0b1537a056c1f3ecf`. Redrock adapts only its HIP fragment/packed-half helpers and 24-KiB RDNA prompt-attention/WMMA slice onto the retained Inkling engine. Dense and batched expert products use the existing hipBLAS contract; decode experts default to direct row dots on HIP. The Maya installer, serving stack, newer offload/thread lanes, vision and drafting changes are not imported. `redrock.lock.json` records this bounded source identity; neither engine-feed review bookmark nor llama.cpp pin advances. The existing Project Maya MIT notice remains packaged.
 
-[The candidate record](docs/INKLING_MINI_HIP.md) separates actual compilation/offline checks from pending operator/model/hardware qualification, identifies the deliberately selected immutable model input and changed mainline artifact, and gives reconstruction and attended probes. This candidate is not added to the 1.0.0 stable boundary.
+[The Inkling qualification record](docs/INKLING_MINI_HIP.md) now preserves completed selected-device operator and real-model API evidence on 2026-11-27, the deliberately selected immutable model input, reconstruction and measured resource/performance limits. The exact R9700/HIP pair passed 347 native checks, independent FP32/FP16-input BLAS comparisons and streamed text/tool-result, limit, cancellation and clean-restart checks at 8192 context. This result does not alter the 1.0.0 stable release boundary.
+
+Real-device downstream corrections preserve unit-scale FP8 signed zeros and restrict HIP fused-MoE convolution contraction to statement-local FMA, keeping original exactness assertions intact. The advertised hipBLAS pedantic compute enum returned status 7; Inkling's local shim now uses supported full FP32/default math, independently checked against CPU double sums (not XF32). No shared Qwen HIP shim, dependency pin or host runtime was changed.
 
 ### Review bookmarks
 
