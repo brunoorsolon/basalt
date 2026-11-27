@@ -44,12 +44,14 @@ def request(url, body=None, timeout=120):
 
 
 def completion(url, body, streamed=False):
+    deadline = time.monotonic() + 120
     with request(url + "/v1/chat/completions", {**body, "stream": streamed}) as response:
         if not streamed:
             result = json.load(response)
             return result["choices"][0]["message"], result
         text, calls, events, finished = [], {}, [], False
         for line in response:
+            require(time.monotonic() < deadline, "completion exceeded its 120-second wall-clock limit")
             if not line.startswith(b"data: "):
                 continue
             if line.strip() == b"data: [DONE]":

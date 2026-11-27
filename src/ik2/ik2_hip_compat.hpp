@@ -20,6 +20,7 @@
 #define CUBLAS_COMPUTE_32F_PEDANTIC rocblas_datatype_f32_r
 #else
 #define cublasSgemv hipblasSgemv
-#define CUBLAS_COMPUTE_32F_PEDANTIC HIPBLAS_COMPUTE_32F_PEDANTIC
+// hipBLAS exposes but rejects PEDANTIC; default math with COMPUTE_32F uses full FP32, not XF32.
+#define CUBLAS_COMPUTE_32F_PEDANTIC HIPBLAS_COMPUTE_32F
 #endif
 #endif
